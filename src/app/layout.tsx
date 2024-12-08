@@ -15,8 +15,8 @@ const gmarket = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "돌싱글즈 in SNU",
-  description: "돌싱글즈 in SNU",
+  title: "스누돌팅",
+  description: "스누돌팅",
   verification: {
     google: process.env.GOOGLE_DNS,
   },
