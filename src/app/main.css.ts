@@ -1,4 +1,13 @@
-import { style } from "@vanilla-extract/css";
+import { style, keyframes } from "@vanilla-extract/css";
+
+const zoomIn = keyframes({
+  from: {
+    transform: "scale(1.1)",
+  },
+  to: {
+    transform: "scale(1)",
+  },
+});
 
 export const container = style({
   display: "flex",
@@ -7,11 +16,35 @@ export const container = style({
   alignItems: "center",
   height: "100svh",
   padding: "0 80px",
+  position: "relative",
+  overflow: "hidden",
+});
+
+export const background = style({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
   backgroundImage:
-    'linear-gradient(rgba(0, 0, 255, 0.5), rgba(255, 255, 0, 0.5)), url("https://img.freepik.com/premium-photo/3d-rendering-soft-pink-blue-pastel-abstract-background-with-floating-pastel-balls_1209158-19071.jpg")',
+    'linear-gradient(rgba(0, 0, 255, 0.5), rgba(255, 255, 0, 0.5)), url("/main_background.avif")',
   backgroundSize: "cover",
   backgroundPosition: "top center",
   backgroundRepeat: "no-repeat",
+  animation: `${zoomIn} 1.5s ease-out`,
+  zIndex: 0,
+});
+
+export const gradientOverlay = style({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  background:
+    "linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1) 80%)",
+  pointerEvents: "none",
+  zIndex: 1,
 });
 
 export const logo = style({
@@ -56,16 +89,4 @@ export const loginButtonText = style({
   color: "white",
   fontWeight: 500,
   fontSize: "15px",
-});
-
-export const gradientOverlay = style({
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  background:
-    "linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1) 80%)",
-  pointerEvents: "none",
-  zIndex: 1,
 });
