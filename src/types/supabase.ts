@@ -29,8 +29,8 @@ export type Database = {
       };
       users: {
         Row: {
-          age: number | null;
           appearance_description: string | null;
+          birth_year: number | null;
           created_at: string;
           dating_style: string | null;
           daughter_count: number | null;
@@ -55,8 +55,8 @@ export type Database = {
           weight: number | null;
         };
         Insert: {
-          age?: number | null;
           appearance_description?: string | null;
+          birth_year?: number | null;
           created_at?: string;
           dating_style?: string | null;
           daughter_count?: number | null;
@@ -81,8 +81,8 @@ export type Database = {
           weight?: number | null;
         };
         Update: {
-          age?: number | null;
           appearance_description?: string | null;
+          birth_year?: number | null;
           created_at?: string;
           dating_style?: string | null;
           daughter_count?: number | null;
