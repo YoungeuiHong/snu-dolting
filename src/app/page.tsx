@@ -33,7 +33,7 @@ export default function Home() {
     <div>
       <main className={container}>
         <div className={background}></div>
-        <p className={logo}>{`스누돌팅`}</p>
+        <p className={logo}>스누돌팅</p>
         <button className={loginButton} onClick={handleLogin}>
           <span className={loginButtonText}>구글로 시작하기</span>
         </button>

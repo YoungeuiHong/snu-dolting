@@ -50,7 +50,7 @@ export async function GET(request: Request) {
     if (data?.length && data[0].is_profile_complete) {
       return NextResponse.redirect(`${origin}/main`);
     } else {
-      return NextResponse.redirect(`${origin}/signup`);
+      return NextResponse.redirect(`${origin}/signup/nickname`);
     }
   }
 
