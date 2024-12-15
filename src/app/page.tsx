@@ -15,7 +15,7 @@ export default function Home() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "http://localhost:3000/auth/callback",
+        redirectTo: `${window.location.origin}/auth/callback`,
         scopes: "https://www.googleapis.com/auth/userinfo.email",
         queryParams: {
           access_type: "offline",
