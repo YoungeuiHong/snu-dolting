@@ -12,10 +12,15 @@ import { createClient } from "@/utils/supabase/client";
 export default function Home() {
   const handleLogin = async () => {
     const supabase = createClient();
+    const redirectUrl =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/auth/callback"
+        : "https://www.snu-dolting.com/auth/callback";
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: redirectUrl,
         scopes: "https://www.googleapis.com/auth/userinfo.email",
         queryParams: {
           access_type: "offline",
