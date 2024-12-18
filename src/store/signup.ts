@@ -16,7 +16,7 @@ export const useSignupStore = create<SignupState>((set, get) => ({
     { id: 1, path: "/signup/nickname" },
     { id: 2, path: "/signup/birthdayGender" },
     { id: 3, path: "/signup/religion" },
-    { id: 4, path: "/signup/job" },
+    { id: 4, path: "/signup/jobGraduate" },
   ],
   setStep: (step) => set({ step }),
   handlePrev: () => {
