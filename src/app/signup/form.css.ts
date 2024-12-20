@@ -62,7 +62,7 @@ export const title = style({
 
 export const textField = style({
   fontFamily: "Pretendard",
-  fontSize: "15px",
+  fontSize: "16px",
   lineHeight: "18px",
   color: "#424242",
   borderRadius: "8px",
@@ -110,7 +110,7 @@ export const nextButton = style({
   height: "48px",
   background: "#242729",
   color: "white",
-  fontSize: "15px",
+  fontSize: "16px",
   fontWeight: 700,
   borderRadius: "24px",
   padding: "14px 24px",
@@ -128,7 +128,7 @@ export const binaryChoiceLabel = style({
   alignItems: "center",
   width: "50%",
   height: "44px",
-  fontSize: "15px",
+  fontSize: "16px",
   fontWeight: 500,
   color: "#333",
   backgroundColor: "#f9f9f9",
