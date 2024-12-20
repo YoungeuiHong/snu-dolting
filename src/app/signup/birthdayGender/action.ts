@@ -1,18 +1,21 @@
 import { z } from "zod";
 import { SignUpActionResponse, updateUser } from "@/app/signup/actions";
+import { moveToNextStepPath, Step } from "@/app/signup/utils/steps";
 
 const birthYearSchema = z
-  .number()
+  .number({ required_error: "출생년도를 입력해주세요." })
   .refine((value) => value >= 1000 && value <= 9999, {
     message: "출생년도는 4자리 숫자여야 합니다.",
   });
 
 export async function updateBirthdayGender(
-  prevState: Awaited<SignUpActionResponse>,
+  prevState: Awaited<SignUpActionResponse | undefined>,
   formData: FormData,
-): Promise<SignUpActionResponse> {
+): Promise<SignUpActionResponse | undefined> {
   const gender = formData.get("gender");
-  const birthYear = Number(formData.get("birth_year"));
+  const birthYear = formData.get("birth_year")
+    ? Number(formData.get("birth_year"))
+    : undefined;
 
   const errors: Record<string, string> = {};
 
@@ -26,8 +29,14 @@ export async function updateBirthdayGender(
   }
 
   if (Object.keys(errors).length > 0) {
-    return { errors, success: false };
+    return {
+      user: { gender: gender?.toString(), birth_year: birthYear },
+      errors,
+      success: false,
+    };
   }
 
-  return updateUser(["birth_year", "gender"], formData);
+  await updateUser(["birth_year", "gender"], formData);
+
+  moveToNextStepPath(Step.BirthdayGender);
 }

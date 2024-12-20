@@ -1,17 +1,15 @@
 "use client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { content, header } from "@/app/signup/form.css";
 import { transparentButton } from "@/app/shared.css";
-import { useSignupStore } from "@/store/signup";
+import { moveToPrevUrl } from "@/app/signup/utils/steps";
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const { handlePrev } = useSignupStore();
+  const pathname = usePathname();
 
   const handleClickPrev = () => {
-    const prevPath = handlePrev();
-    router.push(prevPath);
+    moveToPrevUrl(pathname);
   };
 
   return (

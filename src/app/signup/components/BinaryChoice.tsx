@@ -1,4 +1,3 @@
-import React from "react";
 import {
   binaryChoiceContainer,
   binaryChoiceLabel,
@@ -9,14 +8,20 @@ import {
   textFieldError,
 } from "@/app/signup/form.css";
 
+interface Option {
+  value: string;
+  label: string;
+}
+
 interface Props {
   name: string;
   label: string;
-  options: { value: string; label: string }[];
+  options: Option[];
+  value: string | null | undefined;
   error?: string;
 }
 
-export const BinaryChoice = ({ name, label, options, error }: Props) => {
+export const BinaryChoice = ({ name, label, options, value, error }: Props) => {
   return (
     <div className={formWrapper}>
       <label htmlFor={name} className={formLabel}>
@@ -31,6 +36,7 @@ export const BinaryChoice = ({ name, label, options, error }: Props) => {
               type="radio"
               name={name}
               value={option.value}
+              defaultChecked={option.value === value}
               className={hiddenInput}
             />
             <span>{option.label}</span>

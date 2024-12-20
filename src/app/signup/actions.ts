@@ -1,7 +1,9 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
+import { User } from "@/types/user";
 
 export interface SignUpActionResponse {
+  user?: Partial<User>;
   errors?: Record<string, string>;
   success?: boolean;
 }
@@ -27,7 +29,7 @@ export async function updateUser(fields: string[], formData: FormData) {
     throw new Error("업데이트할 데이터가 없습니다.");
   }
 
-  const { error } = await supabase
+  const { data: updatedUser, error } = await supabase
     .from("users")
     .update(updateData)
     .eq("email", user.email);
@@ -36,5 +38,5 @@ export async function updateUser(fields: string[], formData: FormData) {
     throw new Error(`업데이트 중 오류 발생: ${error.message}`);
   }
 
-  return { success: true };
+  return { success: true, user: updatedUser };
 }
