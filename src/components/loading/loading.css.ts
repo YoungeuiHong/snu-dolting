@@ -28,3 +28,11 @@ export const dot = style({
     },
   },
 });
+
+export const pageContainer = style({
+  width: "100%",
+  height: "100dvh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});

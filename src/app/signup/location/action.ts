@@ -1,22 +1,23 @@
 import { SignUpActionResponse, updateUser } from "@/app/signup/actions";
 import { moveToNextStepPath, Step } from "@/app/signup/utils/steps";
 
-export async function updateReligion(
+export async function updateLocation(
   prevState: Awaited<SignUpActionResponse | undefined>,
   formData: FormData,
 ): Promise<SignUpActionResponse | undefined> {
-  const religion = formData.get("religion");
-  if (!religion) {
+  const location = formData.get("location")?.toString().trim();
+
+  if (!location) {
     return {
-      user: { religion },
+      user: { location },
       errors: {
-        religion: "종교 정보를 알려주세요.",
+        location: "거주지를 알려주세요",
       },
       success: false,
     };
   }
 
-  updateUser(["religion"], formData);
+  await updateUser(["location"], formData);
 
-  moveToNextStepPath(Step.Religion);
+  moveToNextStepPath(Step.Location);
 }

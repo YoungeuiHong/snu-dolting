@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
-import { errorMessage, formLabel, formWrapper } from "@/app/signup/form.css";
 import { StylesConfig } from "react-select";
+import { errorMessage, formLabel, formWrapper } from "@/app/signup/form.css";
 
 import { Props as ReactSelectProps } from "react-select";
 
@@ -50,10 +50,18 @@ interface Props {
   label: string;
   placeholder: string;
   options: { value: string; label: string }[];
+  defaultValue: { value: string; label: string } | undefined;
   error?: string;
 }
 
-export const Select = ({ name, label, placeholder, options, error }: Props) => {
+export const Select = ({
+  name,
+  label,
+  placeholder,
+  options,
+  defaultValue,
+  error,
+}: Props) => {
   return (
     <div className={formWrapper}>
       <label htmlFor={name} className={formLabel}>
@@ -64,6 +72,7 @@ export const Select = ({ name, label, placeholder, options, error }: Props) => {
         name={name}
         styles={customStyles}
         placeholder={placeholder}
+        defaultValue={defaultValue}
       />
       {error && <p className={errorMessage}>{error}</p>}
     </div>

@@ -11,10 +11,17 @@ interface Props {
   name: string;
   label: string;
   placeholder: string;
+  value: string | null | undefined;
   error?: string;
 }
 
-export const TextField = ({ name, label, placeholder, error }: Props) => {
+export const TextField = ({
+  name,
+  label,
+  placeholder,
+  value,
+  error,
+}: Props) => {
   return (
     <div className={formWrapper}>
       <label htmlFor={name} className={formLabel}>
@@ -24,6 +31,7 @@ export const TextField = ({ name, label, placeholder, error }: Props) => {
         id={name}
         name={name}
         placeholder={placeholder}
+        defaultValue={value || undefined}
         className={`${textField} ${error ? textFieldError : ""}`}
       />
       {error && <p className={errorMessage}>{error}</p>}
