@@ -5,10 +5,8 @@ import { redirect } from "next/navigation";
  * - 닉네임
  * - 출생년도 / 성별
  * - 종교
- * - 직업
- * - 타대 여부
+ * - 직업 / 타대 여부
  * - 사는 지역
- *
  *
  * 외향적 특징
  * - 키 / 몸무게
@@ -16,15 +14,14 @@ import { redirect } from "next/navigation";
  *
  * 내면 설명
  * - mbti
- * -
+ * - 내 성격에 대한 설명
  *
  * 연애관
  * - 내가 원하는 연애 스타일
- * - 재혼 희망 여부
  * - 나의 이상형
  *
- *
  * 부가 정보
+ * - 재혼 희망 여부
  * - 자녀 유뮤 / 딸, 아들 몇 명
  * - 사진 교환 희망 여부
  */
@@ -36,6 +33,15 @@ export enum Step {
   Religion = "Religion",
   JobGraduate = "JobGraduate",
   Location = "Location",
+  Body = "Body",
+  Appearance = "Appearance",
+  MBTI = "MBTI",
+  Personality = "Personality",
+  Dating = "Dating",
+  IdealType = "IdealType",
+  Remarriage = "Remarriage",
+  Children = "Children",
+  Photo = "Photo",
 }
 
 const STEP_PATHS: Record<Step, string> = {
@@ -45,6 +51,15 @@ const STEP_PATHS: Record<Step, string> = {
   [Step.Religion]: "/signup/religion",
   [Step.JobGraduate]: "/signup/jobGraduate",
   [Step.Location]: "/signup/location",
+  [Step.Body]: "/signup/body",
+  [Step.Appearance]: "/signup/appearance",
+  [Step.MBTI]: "/signup/mbti",
+  [Step.Personality]: "/signup/personality",
+  [Step.Dating]: "/signup/dating-style",
+  [Step.IdealType]: "/signup/ideal-type",
+  [Step.Remarriage]: "/signup/remarriage",
+  [Step.Children]: "/signup/children",
+  [Step.Photo]: "/signup/photo",
 };
 
 function getAdjacentStepPath(
