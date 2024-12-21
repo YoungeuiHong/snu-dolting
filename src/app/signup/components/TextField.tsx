@@ -38,7 +38,7 @@ export const TextField = ({
           id={name}
           name={name}
           placeholder={placeholder}
-          defaultValue={value || undefined}
+          defaultValue={value === null ? undefined : value}
           className={`${textField} ${error ? textFieldError : ""}`}
           type={type}
         />

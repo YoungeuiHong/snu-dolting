@@ -9,24 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      user: {
-        Row: {
-          created_at: string;
-          email: string;
-          id: string;
-        };
-        Insert: {
-          created_at?: string;
-          email: string;
-          id?: string;
-        };
-        Update: {
-          created_at?: string;
-          email?: string;
-          id?: string;
-        };
-        Relationships: [];
-      };
       users: {
         Row: {
           appearance_description: string | null;
@@ -37,6 +19,7 @@ export type Database = {
           email: string;
           gender: string | null;
           has_children: boolean | null;
+          has_custody: boolean | null;
           height: number | null;
           id: string;
           ideal_type: string | null;
@@ -63,6 +46,7 @@ export type Database = {
           email: string;
           gender?: string | null;
           has_children?: boolean | null;
+          has_custody?: boolean | null;
           height?: number | null;
           id?: string;
           ideal_type?: string | null;
@@ -89,6 +73,7 @@ export type Database = {
           email?: string;
           gender?: string | null;
           has_children?: boolean | null;
+          has_custody?: boolean | null;
           height?: number | null;
           id?: string;
           ideal_type?: string | null;

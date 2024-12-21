@@ -19,9 +19,23 @@ interface Props {
   options: Option[];
   value: string | null | undefined;
   error?: string;
+  onChange?: (value: string) => void;
 }
 
-export const BinaryChoice = ({ name, label, options, value, error }: Props) => {
+export const BinaryChoice = ({
+  name,
+  label,
+  options,
+  value,
+  error,
+  onChange,
+}: Props) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(event.target.value);
+    }
+  };
+
   return (
     <div className={formWrapper}>
       <label htmlFor={name} className={formLabel}>
@@ -37,6 +51,7 @@ export const BinaryChoice = ({ name, label, options, value, error }: Props) => {
               name={name}
               value={option.value}
               defaultChecked={option.value === value}
+              onChange={handleChange}
               className={hiddenInput}
             />
             <span>{option.label}</span>

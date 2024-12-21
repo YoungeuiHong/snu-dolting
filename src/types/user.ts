@@ -7,6 +7,7 @@ export interface User {
   email: string;
   gender: string | null;
   has_children: boolean | null;
+  has_custody: boolean | null;
   height: number | null;
   id: string;
   ideal_type: string | null;
