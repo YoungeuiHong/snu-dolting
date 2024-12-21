@@ -106,6 +106,7 @@ export const textArea = style([
     padding: "16px",
     resize: "none",
     height: "auto",
+    lineHeight: "24px",
   },
 ]);
 export const textAreaWrapper = style({
