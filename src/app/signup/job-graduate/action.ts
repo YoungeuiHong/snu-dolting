@@ -1,4 +1,8 @@
-import { SignUpActionResponse, updateUser } from "@/app/signup/actions";
+import {
+  SignUpActionResponse,
+  SignUpError,
+  updateUser,
+} from "@/app/signup/actions";
 import { moveToNextStepPath, Step } from "@/app/signup/utils/steps";
 
 export async function updateJobAndGraduate(
@@ -8,14 +12,14 @@ export async function updateJobAndGraduate(
   const job = formData.get("job")?.toString();
   const graduate = formData.get("is_snu_graduate");
 
-  const errors: Record<string, string> = {};
+  const errors: SignUpError = {};
 
   if (!job) {
     errors.job = "직업 정보를 알려주세요.";
   }
 
   if (graduate === null || graduate === undefined) {
-    errors.isSnuGraduate = "본교 졸업 여부를 알려주세요";
+    errors.is_snu_graduate = "본교 졸업 여부를 알려주세요";
   }
 
   if (Object.keys(errors).length > 0) {

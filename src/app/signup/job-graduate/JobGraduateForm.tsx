@@ -37,7 +37,7 @@ export default function JobGraduateForm({
           { value: "true", label: "자대" },
         ]}
         value={graduateValue}
-        error={state?.errors?.isSnuGraduate}
+        error={state?.errors?.is_snu_graduate}
       />
       <TextField
         name="job"

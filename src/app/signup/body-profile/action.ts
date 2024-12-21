@@ -1,4 +1,8 @@
-import { SignUpActionResponse, updateUser } from "@/app/signup/actions";
+import {
+  SignUpActionResponse,
+  SignUpError,
+  updateUser,
+} from "@/app/signup/actions";
 import { moveToNextStepPath, Step } from "@/app/signup/utils/steps";
 
 export async function updateBodyProfile(
@@ -8,7 +12,7 @@ export async function updateBodyProfile(
   const height = formData.get("height");
   const weight = formData.get("weight");
 
-  const errors: Record<string, string> = {};
+  const errors: SignUpError = {};
 
   if (!height) {
     errors.height = "키를 알려주세요.";

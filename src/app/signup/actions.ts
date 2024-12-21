@@ -2,9 +2,11 @@
 import { createClient } from "@/utils/supabase/server";
 import { User } from "@/types/user";
 
+export type SignUpError = Partial<Record<keyof User, string>>;
+
 export interface SignUpActionResponse {
   user?: Partial<User>;
-  errors?: Record<string, string>;
+  errors?: SignUpError;
   success?: boolean;
 }
 

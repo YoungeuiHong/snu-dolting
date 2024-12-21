@@ -38,7 +38,7 @@ export default function BirthdayGenderForm({
         label="출생년도"
         placeholder="출생년도 4자리를 작성해주세요 (예: 1990)"
         value={numToString(state?.user?.birth_year)}
-        error={state?.errors?.birthYear}
+        error={state?.errors?.birth_year}
       />
       <SubmitButton pending={pending} />
     </form>

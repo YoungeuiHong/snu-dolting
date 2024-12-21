@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { SignUpActionResponse, updateUser } from "@/app/signup/actions";
+import {
+  SignUpActionResponse,
+  SignUpError,
+  updateUser,
+} from "@/app/signup/actions";
 import { moveToNextStepPath, Step } from "@/app/signup/utils/steps";
 
 const birthYearSchema = z
@@ -17,7 +21,7 @@ export async function updateBirthdayGender(
     ? Number(formData.get("birth_year"))
     : undefined;
 
-  const errors: Record<string, string> = {};
+  const errors: SignUpError = {};
 
   if (!gender) {
     errors.gender = "성별 정보를 알려주세요.";
@@ -25,7 +29,9 @@ export async function updateBirthdayGender(
   const validateBirthyear = birthYearSchema.safeParse(birthYear);
 
   if (!validateBirthyear.success) {
-    errors.birthYear = validateBirthyear.error.flatten().formErrors.join(" / ");
+    errors.birth_year = validateBirthyear.error
+      .flatten()
+      .formErrors.join(" / ");
   }
 
   if (Object.keys(errors).length > 0) {
