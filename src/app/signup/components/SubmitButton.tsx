@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { actionBar, nextButton } from "@/app/signup/form.css";
 import { LoadingDots } from "@/components/loading/LoadingDots";
 
@@ -7,35 +7,33 @@ interface Props {
 }
 
 export const SubmitButton = ({ pending }: Props) => {
-  const [bottomOffset, setBottomOffset] = useState(0);
+  const actionBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let animationFrame: number;
-
-    const handleResize = () => {
-      animationFrame = requestAnimationFrame(() => {
+    const updateBottomPosition = () => {
+      if (actionBarRef.current) {
         const viewportHeight =
           window.visualViewport?.height || window.innerHeight;
         const totalHeight = window.innerHeight;
         const offset = totalHeight - viewportHeight;
-        if (Math.abs(bottomOffset - offset) > 1) {
-          setBottomOffset(offset > 0 ? offset : 0);
-        }
-      });
+        actionBarRef.current.style.bottom = `${offset > 0 ? offset : 0}px`;
+      }
     };
 
-    window.visualViewport?.addEventListener("resize", handleResize);
+    updateBottomPosition();
 
-    handleResize();
+    window.visualViewport?.addEventListener("resize", updateBottomPosition);
 
     return () => {
-      window.visualViewport?.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrame);
+      window.visualViewport?.removeEventListener(
+        "resize",
+        updateBottomPosition,
+      );
     };
-  }, [bottomOffset]);
+  }, []);
 
   return (
-    <div className={actionBar} style={{ bottom: `${bottomOffset}px` }}>
+    <div ref={actionBarRef} className={actionBar}>
       <button className={nextButton} type="submit" disabled={pending}>
         {pending ? <LoadingDots loading={pending} /> : "다음"}
       </button>
