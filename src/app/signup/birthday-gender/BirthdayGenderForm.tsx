@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { container, title } from "@/app/signup/form.css";
+import { container, title, titleWrapper } from "@/app/signup/form.css";
 import { updateBirthdayGender } from "@/app/signup/birthday-gender/action";
 import { BinaryChoice, SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
@@ -22,7 +22,9 @@ export default function BirthdayGenderForm({
 
   return (
     <form action={formAction} className={container}>
-      <p className={title}>성별과 출생년도를 입력해주세요</p>
+      <div className={titleWrapper}>
+        <p className={title}>성별과 출생년도를 입력해주세요</p>
+      </div>
       <BinaryChoice
         name="gender"
         label="성별"

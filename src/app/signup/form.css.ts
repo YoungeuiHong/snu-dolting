@@ -19,6 +19,7 @@ export const header = style({
   height: "52px",
   padding: "0 12px",
   boxSizing: "border-box",
+  background: "white",
 });
 
 export const content = style({
@@ -50,13 +51,25 @@ export const formLabel = style({
   margin: "0 0 4px 8px",
 });
 
+export const titleWrapper = style({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  padding: "8px 0 24px 8px",
+  gap: "5px",
+});
+
 export const title = style({
   fontSize: "22px",
   lineHeight: "29px",
   color: "#292b2b",
   fontWeight: 700,
-  paddingLeft: "8px",
-  margin: "12px 0 24px 0",
+});
+
+export const subtitle = style({
+  fontSize: "14px",
+  color: "#828A8F",
+  fontWeight: 400,
 });
 
 export const textField = style({
@@ -84,6 +97,29 @@ export const textFieldError = style({
     outline: "none",
     borderColor: "#ef4444",
   },
+});
+
+export const textArea = style([
+  textField,
+  {
+    minHeight: "55dvh",
+    padding: "16px",
+    resize: "none",
+    height: "auto",
+  },
+]);
+export const textAreaWrapper = style({
+  width: "100%",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+});
+
+export const textAreaCounter = style({
+  fontSize: "13px",
+  color: "#828A8F",
+  textAlign: "right",
+  margin: "4px 8px 0 0",
 });
 
 export const errorMessage = style({

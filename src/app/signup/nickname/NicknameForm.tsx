@@ -1,6 +1,6 @@
 "use client";
 import { updateNickname } from "@/app/signup/nickname/action";
-import { container, title } from "@/app/signup/form.css";
+import { container, title, titleWrapper } from "@/app/signup/form.css";
 import { SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
 
@@ -17,7 +17,9 @@ export default function NicknameForm({
 
   return (
     <form action={formAction} className={container}>
-      <p className={title}>닉네임을 입력해주세요</p>
+      <div className={titleWrapper}>
+        <p className={title}>닉네임을 입력해주세요</p>
+      </div>
       <TextField
         name="nickname"
         label="닉네임"

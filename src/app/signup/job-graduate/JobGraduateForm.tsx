@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { container, title } from "@/app/signup/form.css";
+import { container, title, titleWrapper } from "@/app/signup/form.css";
 import { updateJobAndGraduate } from "@/app/signup/job-graduate/action";
 import { BinaryChoice, SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
@@ -28,7 +28,9 @@ export default function JobGraduateForm({
 
   return (
     <form action={formAction} className={container}>
-      <p className={title}>본교 졸업 여부와 직업을 알려주세요</p>
+      <div className={titleWrapper}>
+        <p className={title}>본교 졸업 여부와 직업을 알려주세요</p>
+      </div>
       <BinaryChoice
         name="is_snu_graduate"
         label="본교 졸업 여부"

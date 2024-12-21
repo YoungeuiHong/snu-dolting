@@ -2,7 +2,7 @@
 import { SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
 import { updateLocation } from "@/app/signup/location/action";
-import { container, title } from "@/app/signup/form.css";
+import { container, title, titleWrapper } from "@/app/signup/form.css";
 
 interface Props {
   initialLocation: string | null;
@@ -15,7 +15,9 @@ export default function LocationForm({ initialLocation }: Props) {
 
   return (
     <form action={formAction} className={container}>
-      <p className={title}>현재 거주지를 알려주세요</p>
+      <div className={titleWrapper}>
+        <p className={title}>현재 거주지를 알려주세요</p>
+      </div>
       <TextField
         name="location"
         label="거주지"

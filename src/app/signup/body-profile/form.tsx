@@ -1,5 +1,5 @@
 "use client";
-import { container, title } from "@/app/signup/form.css";
+import { container, title, titleWrapper } from "@/app/signup/form.css";
 import { SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
 import { updateBodyProfile } from "@/app/signup/body-profile/action";
@@ -22,7 +22,9 @@ export default function Form({
 
   return (
     <form action={formAction} className={container}>
-      <p className={title}>신체 정보를 알려주세요</p>
+      <div className={titleWrapper}>
+        <p className={title}>신체 정보를 알려주세요</p>
+      </div>
       <TextField
         name="height"
         label="키"
