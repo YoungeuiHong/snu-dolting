@@ -103,6 +103,7 @@ export const actionBar = style({
   maxWidth: "900px",
   padding: "12px",
   boxSizing: "border-box",
+  transition: "bottom 0.2s ease-in-out",
 });
 
 export const nextButton = style({

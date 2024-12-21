@@ -10,12 +10,18 @@ export const SubmitButton = ({ pending }: Props) => {
   const [bottomOffset, setBottomOffset] = useState(0);
 
   useEffect(() => {
+    let animationFrame: number;
+
     const handleResize = () => {
-      const viewportHeight =
-        window.visualViewport?.height || window.innerHeight;
-      const totalHeight = window.innerHeight;
-      const offset = totalHeight - viewportHeight;
-      setBottomOffset(offset > 0 ? offset : 0);
+      animationFrame = requestAnimationFrame(() => {
+        const viewportHeight =
+          window.visualViewport?.height || window.innerHeight;
+        const totalHeight = window.innerHeight;
+        const offset = totalHeight - viewportHeight;
+        if (Math.abs(bottomOffset - offset) > 1) {
+          setBottomOffset(offset > 0 ? offset : 0);
+        }
+      });
     };
 
     window.visualViewport?.addEventListener("resize", handleResize);
@@ -24,8 +30,9 @@ export const SubmitButton = ({ pending }: Props) => {
 
     return () => {
       window.visualViewport?.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationFrame);
     };
-  }, []);
+  }, [bottomOffset]);
 
   return (
     <div className={actionBar} style={{ bottom: `${bottomOffset}px` }}>
