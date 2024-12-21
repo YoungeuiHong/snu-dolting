@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { container, title } from "@/app/signup/form.css";
-import { updateBirthdayGender } from "@/app/signup/birthdayGender/action";
+import { updateBirthdayGender } from "@/app/signup/birthday-gender/action";
 import { BinaryChoice, SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
 import { numToString } from "@/utils/type/numToString";

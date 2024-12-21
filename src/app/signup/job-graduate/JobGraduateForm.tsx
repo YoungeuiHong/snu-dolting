@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { container, title } from "@/app/signup/form.css";
-import { updateJobAndGraduate } from "@/app/signup/jobGraduate/action";
+import { updateJobAndGraduate } from "@/app/signup/job-graduate/action";
 import { BinaryChoice, SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
 
