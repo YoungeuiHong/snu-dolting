@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { actionBar, nextButton } from "@/app/signup/form.css";
 import { LoadingDots } from "@/components/loading/LoadingDots";
 
@@ -16,17 +16,19 @@ export const SubmitButton = ({ pending }: Props) => {
           window.visualViewport?.height || window.innerHeight;
         const totalHeight = window.innerHeight;
         const offset = totalHeight - viewportHeight;
-        actionBarRef.current.style.transform = `translateY(-${offset > 0 ? offset : 0}px)`;
+        actionBarRef.current.style.bottom = `${offset > 0 ? offset : 0}px`;
       }
     };
 
     updateBottomPosition();
 
-    const viewport = window.visualViewport;
-    viewport?.addEventListener("resize", updateBottomPosition);
+    window.visualViewport?.addEventListener("resize", updateBottomPosition);
 
     return () => {
-      viewport?.removeEventListener("resize", updateBottomPosition);
+      window.visualViewport?.removeEventListener(
+        "resize",
+        updateBottomPosition,
+      );
     };
   }, []);
 
