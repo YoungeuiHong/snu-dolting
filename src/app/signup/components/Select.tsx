@@ -41,7 +41,6 @@ const customStyles: StylesConfig = {
     color: state.isSelected ? "#dc2626" : "#424242",
     cursor: "pointer",
     padding: "10px 16px",
-    fontFamily: "Pretendard",
   }),
 };
 

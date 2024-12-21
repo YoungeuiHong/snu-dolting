@@ -53,7 +53,6 @@ export const formLabel = style({
 export const title = style({
   fontSize: "22px",
   lineHeight: "29px",
-  fontFamily: "Pretendard",
   color: "#292b2b",
   fontWeight: 700,
   paddingLeft: "8px",
@@ -61,7 +60,6 @@ export const title = style({
 });
 
 export const textField = style({
-  fontFamily: "Pretendard",
   fontSize: "16px",
   lineHeight: "18px",
   color: "#424242",

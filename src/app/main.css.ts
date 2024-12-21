@@ -72,7 +72,6 @@ export const loginButton = style({
   border: "1px solid white",
   borderRadius: "50px",
   padding: "10px 20px",
-  fontFamily: "Pretendard",
   display: "inline-block",
   textAlign: "center",
   color: "white",
@@ -82,7 +81,6 @@ export const loginButton = style({
 });
 
 export const loginButtonText = style({
-  fontFamily: "Pretendard",
   display: "inline-block",
   width: "100%",
   textAlign: "center",
