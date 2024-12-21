@@ -8,7 +8,7 @@ export interface SignUpActionResponse {
   success?: boolean;
 }
 
-export async function updateUser(fields: string[], formData: FormData) {
+export async function updateUser(fields: (keyof User)[], formData: FormData) {
   const supabase = await createClient();
 
   const {

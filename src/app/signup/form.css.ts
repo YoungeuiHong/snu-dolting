@@ -167,3 +167,18 @@ globalStyle("input[type='radio']:checked + span", {
 globalStyle(`.${binaryChoiceContainer}.${textFieldError}`, {
   borderColor: "#ef4444",
 });
+
+export const inputWrapperWithUnit = style({
+  position: "relative",
+  width: "100%",
+  display: "flex",
+  alignItems: "center",
+});
+
+export const unitLabel = style({
+  position: "absolute",
+  right: "16px",
+  fontSize: "14px",
+  color: "#828A8F",
+  pointerEvents: "none",
+});
