@@ -10,10 +10,7 @@ interface Props {
   initialGraduate: boolean | null;
 }
 
-export default function JobGraduateForm({
-  initialJob,
-  initialGraduate,
-}: Props) {
+export default function Form({ initialJob, initialGraduate }: Props) {
   const { state, formAction, pending } = useSignupForm(updateJobAndGraduate, {
     job: initialJob,
     is_snu_graduate: initialGraduate,

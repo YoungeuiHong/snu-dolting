@@ -4,7 +4,7 @@ import { container, title, titleWrapper } from "@/app/signup/form.css";
 import { SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
 
-export default function NicknameForm({
+export default function Form({
   initialNickname,
 }: {
   initialNickname: string | null;

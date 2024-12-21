@@ -17,7 +17,7 @@ interface Props {
   initialReligion: string | null;
 }
 
-export default function ReligionForm({ initialReligion }: Props) {
+export default function Form({ initialReligion }: Props) {
   const { state, formAction, pending } = useSignupForm(updateReligion, {
     religion: initialReligion,
   });

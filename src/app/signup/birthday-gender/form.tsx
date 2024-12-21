@@ -11,10 +11,7 @@ interface Props {
   initialBirthYear: number | null;
 }
 
-export default function BirthdayGenderForm({
-  initialGender,
-  initialBirthYear,
-}: Props) {
+export default function Form({ initialGender, initialBirthYear }: Props) {
   const { state, formAction, pending } = useSignupForm(updateBirthdayGender, {
     gender: initialGender,
     birth_year: initialBirthYear,

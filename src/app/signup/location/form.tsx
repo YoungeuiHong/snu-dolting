@@ -8,7 +8,7 @@ interface Props {
   initialLocation: string | null;
 }
 
-export default function LocationForm({ initialLocation }: Props) {
+export default function Form({ initialLocation }: Props) {
   const { state, formAction, pending } = useSignupForm(updateLocation, {
     location: initialLocation,
   });

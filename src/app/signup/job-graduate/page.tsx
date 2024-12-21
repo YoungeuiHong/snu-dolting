@@ -1,5 +1,5 @@
 import React from "react";
-import JobGraduateForm from "@/app/signup/job-graduate/JobGraduateForm";
+import Form from "@/app/signup/job-graduate/form";
 import { getUserInfo } from "@/utils/user";
 
 export default async function JobAndGraduate() {
@@ -8,5 +8,5 @@ export default async function JobAndGraduate() {
     "is_snu_graduate",
   ]);
 
-  return <JobGraduateForm initialJob={job} initialGraduate={is_snu_graduate} />;
+  return <Form initialJob={job} initialGraduate={is_snu_graduate} />;
 }

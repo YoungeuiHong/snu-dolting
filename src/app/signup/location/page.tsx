@@ -1,8 +1,8 @@
 import { getUserInfo } from "@/utils/user";
-import LocationForm from "./LocationForm";
+import Form from "./form";
 
 export default async function Location() {
   const { location } = await getUserInfo(["location"]);
 
-  return <LocationForm initialLocation={location} />;
+  return <Form initialLocation={location} />;
 }
