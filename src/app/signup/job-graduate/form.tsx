@@ -4,6 +4,7 @@ import { container, title, titleWrapper } from "@/app/signup/form.css";
 import { updateJobAndGraduate } from "@/app/signup/job-graduate/action";
 import { BinaryChoice, SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
+import { booleanToString } from "@/utils/type/converts";
 
 interface Props {
   initialJob: string | null;
@@ -16,12 +17,7 @@ export default function Form({ initialJob, initialGraduate }: Props) {
     is_snu_graduate: initialGraduate,
   });
 
-  const graduateValue =
-    state?.user?.is_snu_graduate === true
-      ? "true"
-      : state?.user?.is_snu_graduate === false
-        ? "false"
-        : null;
+  const graduateValue = booleanToString(state?.user?.is_snu_graduate);
 
   return (
     <form action={formAction} className={container}>

@@ -4,7 +4,7 @@ import { container, title, titleWrapper } from "@/app/signup/form.css";
 import { updateBirthdayGender } from "@/app/signup/birthday-gender/action";
 import { BinaryChoice, SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
-import { numToString } from "@/utils/type/numToString";
+import { numToString } from "@/utils/type/converts";
 
 interface Props {
   initialGender: string | null;

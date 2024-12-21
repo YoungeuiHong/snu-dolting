@@ -4,6 +4,7 @@ import {
   updateUser,
 } from "@/app/signup/actions";
 import { moveToNextStepPath, Step } from "@/app/signup/utils/steps";
+import { stringToBoolean } from "@/utils/type/converts";
 
 export async function updateRemarriage(
   prevState: Awaited<SignUpActionResponse | undefined>,
@@ -20,10 +21,7 @@ export async function updateRemarriage(
   if (Object.keys(errors).length > 0) {
     return {
       user: {
-        remarriage_intent:
-          remarriage === null || remarriage === undefined
-            ? null
-            : Boolean(remarriage),
+        remarriage_intent: stringToBoolean(remarriage?.toString()),
       },
       errors,
       success: false,

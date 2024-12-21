@@ -4,6 +4,7 @@ import {
   updateUser,
 } from "@/app/signup/actions";
 import { moveToNextStepPath, Step } from "@/app/signup/utils/steps";
+import { stringToBoolean } from "@/utils/type/converts";
 
 export async function updateJobAndGraduate(
   prevState: Awaited<SignUpActionResponse | undefined>,
@@ -26,10 +27,7 @@ export async function updateJobAndGraduate(
     return {
       user: {
         job,
-        is_snu_graduate:
-          graduate === null || graduate === undefined
-            ? null
-            : Boolean(graduate),
+        is_snu_graduate: stringToBoolean(graduate?.toString()),
       },
       errors,
       success: false,

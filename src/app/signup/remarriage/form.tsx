@@ -3,6 +3,7 @@ import { container, title, titleWrapper } from "@/app/signup/form.css";
 import { BinaryChoice, SubmitButton } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
 import { updateRemarriage } from "@/app/signup/remarriage/action";
+import { booleanToString } from "@/utils/type/converts";
 
 interface Props {
   initialRemarriage: boolean | null;
@@ -13,12 +14,7 @@ export default function Form({ initialRemarriage }: Props) {
     remarriage_intent: initialRemarriage,
   });
 
-  const remarriageIntentValue =
-    state?.user?.remarriage_intent === true
-      ? "true"
-      : state?.user?.remarriage_intent === false
-        ? "false"
-        : null;
+  const remarriageIntentValue = booleanToString(state?.user?.remarriage_intent);
 
   return (
     <form action={formAction} className={container}>
