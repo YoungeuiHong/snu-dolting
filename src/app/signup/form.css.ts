@@ -62,7 +62,7 @@ export const title = style({
 
 export const textField = style({
   fontFamily: "Pretendard",
-  fontSize: "15px",
+  fontSize: "16px",
   lineHeight: "18px",
   color: "#424242",
   borderRadius: "8px",
@@ -96,13 +96,15 @@ export const errorMessage = style({
 
 export const actionBar = style({
   position: "fixed",
-  bottom: 0,
+  bottom: "env(safe-area-inset-bottom, 0)",
   left: "50%",
   transform: "translateX(-50%)",
   width: "100%",
   maxWidth: "900px",
   padding: "12px",
   boxSizing: "border-box",
+  zIndex: 100,
+  backgroundColor: "white",
 });
 
 export const nextButton = style({
@@ -110,7 +112,7 @@ export const nextButton = style({
   height: "48px",
   background: "#242729",
   color: "white",
-  fontSize: "15px",
+  fontSize: "16px",
   fontWeight: 700,
   borderRadius: "24px",
   padding: "14px 24px",
@@ -128,7 +130,7 @@ export const binaryChoiceLabel = style({
   alignItems: "center",
   width: "50%",
   height: "44px",
-  fontSize: "15px",
+  fontSize: "16px",
   fontWeight: 500,
   color: "#333",
   backgroundColor: "#f9f9f9",
