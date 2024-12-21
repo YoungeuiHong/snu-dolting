@@ -26,7 +26,10 @@ export async function updateJobAndGraduate(
     return {
       user: {
         job,
-        is_snu_graduate: Boolean(graduate),
+        is_snu_graduate:
+          graduate === null || graduate === undefined
+            ? null
+            : Boolean(graduate),
       },
       errors,
       success: false,

@@ -19,7 +19,7 @@ export default function Form({ initialJob, initialGraduate }: Props) {
   const graduateValue =
     state?.user?.is_snu_graduate === true
       ? "true"
-      : initialGraduate === false
+      : state?.user?.is_snu_graduate === false
         ? "false"
         : null;
 
