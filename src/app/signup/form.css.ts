@@ -96,15 +96,13 @@ export const errorMessage = style({
 
 export const actionBar = style({
   position: "fixed",
-  bottom: "env(safe-area-inset-bottom, 0)",
+  bottom: 0,
   left: "50%",
   transform: "translateX(-50%)",
   width: "100%",
   maxWidth: "900px",
   padding: "12px",
   boxSizing: "border-box",
-  zIndex: 100,
-  backgroundColor: "white",
 });
 
 export const nextButton = style({
