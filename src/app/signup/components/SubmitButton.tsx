@@ -16,7 +16,9 @@ export const SubmitButton = ({ pending }: Props) => {
           window.visualViewport?.height || window.innerHeight;
         const totalHeight = window.innerHeight;
         const offset = totalHeight - viewportHeight;
-        actionBarRef.current.style.bottom = `${offset > 0 ? offset : 0}px`;
+        requestAnimationFrame(() => {
+          actionBarRef.current!.style.bottom = `${offset > 0 ? offset : 0}px`;
+        });
       }
     };
 
