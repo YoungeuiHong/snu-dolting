@@ -34,7 +34,6 @@ export async function GET(request: Request) {
     const userData: UsersInsert = {
       id: user.id,
       email: user.email,
-      is_profile_complete: false,
     };
 
     const { data, error } = await supabase
