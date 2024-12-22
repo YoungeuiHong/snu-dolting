@@ -18,6 +18,7 @@ export interface User {
   location: string | null;
   mbti: string | null;
   nickname: string | null;
+  introduction: string | null;
   photo_exchange_intent: boolean | null;
   religion: string | null;
   remarriage_intent: boolean | null;
