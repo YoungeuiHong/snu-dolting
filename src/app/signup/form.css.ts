@@ -219,3 +219,20 @@ export const unitLabel = style({
   color: "#828A8F",
   pointerEvents: "none",
 });
+
+export const imageUploadButton = style({
+  width: "100px",
+  height: "100px",
+  borderRadius: "10px",
+  backgroundColor: "#e0e0e0",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
+export const profileImageContainer = style({
+  position: "relative",
+  width: "100%",
+  height: "40dvh",
+  marginTop: "10px",
+});

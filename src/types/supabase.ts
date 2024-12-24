@@ -32,6 +32,7 @@ export type Database = {
           mbti: string | null;
           nickname: string | null;
           photo_exchange_intent: boolean | null;
+          profile_picture: string | null;
           religion: string | null;
           remarriage_intent: boolean | null;
           son_count: number | null;
@@ -60,6 +61,7 @@ export type Database = {
           mbti?: string | null;
           nickname?: string | null;
           photo_exchange_intent?: boolean | null;
+          profile_picture?: string | null;
           religion?: string | null;
           remarriage_intent?: boolean | null;
           son_count?: number | null;
@@ -88,6 +90,7 @@ export type Database = {
           mbti?: string | null;
           nickname?: string | null;
           photo_exchange_intent?: boolean | null;
+          profile_picture?: string | null;
           religion?: string | null;
           remarriage_intent?: boolean | null;
           son_count?: number | null;

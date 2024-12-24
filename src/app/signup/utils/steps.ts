@@ -29,6 +29,7 @@ import { redirect } from "next/navigation";
 export enum Step {
   Home = "Home",
   Nickname = "Nickname",
+  Profile = "Profile",
   BirthdayGender = "BirthdayGender",
   Religion = "Religion",
   JobGraduate = "JobGraduate",
@@ -41,23 +42,26 @@ export enum Step {
   Remarriage = "Remarriage",
   Children = "Children",
   Photo = "Photo",
+  Done = "Done",
 }
 
 const STEP_PATHS: Record<Step, string> = {
   [Step.Home]: "/",
   [Step.Nickname]: "/signup/nickname",
+  [Step.Profile]: "/signup/profile-picture",
   [Step.BirthdayGender]: "/signup/birthday-gender",
   [Step.Religion]: "/signup/religion",
   [Step.JobGraduate]: "/signup/job-graduate",
   [Step.Location]: "/signup/location",
   [Step.Body]: "/signup/body-profile",
   [Step.Appearance]: "/signup/appearance",
+  [Step.Photo]: "/signup/photo",
   [Step.Personality]: "/signup/personality",
   [Step.Dating]: "/signup/dating-style",
   [Step.IdealType]: "/signup/ideal-type",
   [Step.Remarriage]: "/signup/remarriage",
   [Step.Children]: "/signup/children",
-  [Step.Photo]: "/signup/photo",
+  [Step.Done]: "/signup-done",
 };
 
 function getAdjacentStepPath(

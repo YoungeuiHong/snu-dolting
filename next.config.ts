@@ -4,7 +4,15 @@ import { createVanillaExtractPlugin } from "@vanilla-extract/next-plugin";
 const withVanillaExtract = createVanillaExtractPlugin();
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "yoaeoftmjizxtuvyfymq.supabase.co",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default withVanillaExtract(nextConfig);

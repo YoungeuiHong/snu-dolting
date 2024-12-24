@@ -20,6 +20,7 @@ export interface User {
   nickname: string | null;
   introduction: string | null;
   photo_exchange_intent: boolean | null;
+  profile_picture: string | null;
   religion: string | null;
   remarriage_intent: boolean | null;
   son_count: number | null;
