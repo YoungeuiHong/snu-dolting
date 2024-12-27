@@ -12,7 +12,7 @@ export interface User {
   id: string;
   ideal_type: string | null;
   inner_description: string | null;
-  is_profile_complete: boolean;
+  is_profile_complete: boolean | null;
   is_snu_graduate: boolean | null;
   job: string | null;
   location: string | null;
