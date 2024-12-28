@@ -24,7 +24,7 @@ export const numberInput = style({
   padding: "7px",
   border: "1px solid #eeeeee",
   borderRadius: "4px",
-  flex: 1,
+  flexGrow: 1,
   touchAction: "manipulation",
 
   ":focus": {
