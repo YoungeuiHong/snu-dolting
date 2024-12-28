@@ -42,3 +42,19 @@ export const blackRoundButton = style({
   border: "none",
   textDecoration: "none",
 });
+
+export const header = style({
+  position: "fixed",
+  top: 0,
+  left: "50%",
+  transform: "translateX(-50%)",
+  width: "100%",
+  maxWidth: "900px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  height: "52px",
+  padding: "0 12px",
+  boxSizing: "border-box",
+  background: "white",
+});

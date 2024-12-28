@@ -9,6 +9,42 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      scraps: {
+        Row: {
+          created_at: string | null;
+          id: number;
+          target_user_id: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          id?: number;
+          target_user_id: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string | null;
+          id?: number;
+          target_user_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "scraps_target_user_id_fkey";
+            columns: ["target_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "scraps_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       users: {
         Row: {
           appearance_description: string | null;

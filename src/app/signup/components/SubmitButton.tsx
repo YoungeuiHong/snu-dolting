@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useRef } from "react";
 import { actionBar, nextButton } from "@/app/signup/form.css";
 import { LoadingDots } from "@/components/loading/LoadingDots";
