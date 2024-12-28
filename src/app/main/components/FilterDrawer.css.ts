@@ -7,6 +7,7 @@ export const filterTitle = style({
   fontWeight: 500,
   lineHeight: "20px",
   padding: "20px 0 8px 0",
+  color: "#242729",
 });
 
 // 범위 입력 컨테이너
@@ -14,6 +15,8 @@ export const rangeContainer = style({
   display: "flex",
   alignItems: "center",
   gap: "3px",
+  width: "100%",
+  boxSizing: "border-box",
 });
 
 // 숫자 입력 필드
@@ -22,6 +25,7 @@ export const numberInput = style({
   border: "1px solid #eeeeee",
   borderRadius: "4px",
   flex: 1,
+  touchAction: "manipulation",
 
   ":focus": {
     outline: "none",
@@ -141,6 +145,7 @@ export const initButton = style({
   border: "1px solid #242729",
   background: "white",
   borderRadius: "4px",
+  color: "#242729",
 });
 
 // 적용하기 버튼

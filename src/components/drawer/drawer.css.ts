@@ -39,10 +39,11 @@ export const drawerVisibleStyle = style({
 
 export const closeButtonStyle = style({
   position: "absolute",
-  top: "16px",
-  right: "16px",
+  top: "12px",
+  right: "20px",
   backgroundColor: "transparent",
   border: "none",
   cursor: "pointer",
   fontSize: "1.5rem",
+  color: "#242729",
 });
