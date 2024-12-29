@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { getUsers } from "@/app/main/action";
-import { FilterDrawer } from "@/app/main/components/FilterDrawer";
-import { UserCard } from "@/app/main/components/UserCard";
+import { getUsers } from "@/app/(with-gnb)/main/action";
+import { FilterDrawer } from "@/app/(with-gnb)/main/components/FilterDrawer";
+import { UserCard } from "@/app/(with-gnb)/main/components/UserCard";
 import { Religion } from "@/types/religion";
 import { User } from "@/types/user";
-import { mainContainer } from "@/app/main/page.css";
-import { FilterButton } from "@/app/main/components/FilterButton";
-import { NoResult } from "@/app/main/components/NoResult";
+import { mainContainer } from "@/app/(with-gnb)/main/page.css";
+import { FilterButton } from "@/app/(with-gnb)/main/components/FilterButton";
+import { NoResult } from "@/app/(with-gnb)/main/components/NoResult";
 import { INITIAL_FILTER, UserFilters } from "@/types/filter";
 
 interface Props {

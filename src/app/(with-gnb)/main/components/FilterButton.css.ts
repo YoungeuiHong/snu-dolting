@@ -1,11 +1,12 @@
 import { style } from "@vanilla-extract/css";
 
 export const stickyHeader = style({
-  position: "sticky",
+  position: "fixed",
+  width: "100%",
   top: 0,
   left: 0,
   background: "#F1F4F6",
-  padding: "20px 0 10px 0",
+  padding: "20px 20px 10px 20px",
 });
 
 export const filterContainer = style({

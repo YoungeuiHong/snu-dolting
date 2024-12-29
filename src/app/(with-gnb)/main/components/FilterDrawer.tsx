@@ -12,7 +12,7 @@ import {
   radioLabel,
   rangeContainer,
   rangeIndicator,
-} from "@/app/main/components/FilterDrawer.css";
+} from "@/app/(with-gnb)/main/components/FilterDrawer.css";
 import { Religion, ReligionLabels } from "@/types/religion";
 import { UserFilters } from "@/types/filter";
 

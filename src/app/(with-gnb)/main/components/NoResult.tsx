@@ -1,4 +1,7 @@
-import { container, message } from "@/app/main/components/NoResult.css";
+import {
+  container,
+  message,
+} from "@/app/(with-gnb)/main/components/NoResult.css";
 
 export const NoResult = () => {
   return (

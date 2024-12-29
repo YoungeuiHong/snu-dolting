@@ -1,5 +1,5 @@
-import ClientMainPage from "@/app/main/client";
-import { getUsers } from "@/app/main/action";
+import ClientMainPage from "@/app/(with-gnb)/main/client";
+import { getUsers } from "@/app/(with-gnb)/main/action";
 import { INITIAL_FILTER } from "@/types/filter";
 
 export default async function MainPage() {
