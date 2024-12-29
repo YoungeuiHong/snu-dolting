@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { getUsers } from "@/app/main/action";
-import Link from "next/link";
 import { FilterDrawer } from "@/app/main/components/FilterDrawer";
 import { UserCard } from "@/app/main/components/UserCard";
 import { Religion } from "@/types/religion";
@@ -79,15 +78,7 @@ export default function ClientMainPage({ initUsers }: Props) {
       />
 
       {users.length > 0 ? (
-        users.map((user) => (
-          <Link
-            key={user.nickname}
-            href={`/profile/${encodeURIComponent(user.nickname || "")}`}
-            style={{ textDecoration: "none" }}
-          >
-            <UserCard user={user} />
-          </Link>
-        ))
+        users.map((user) => <UserCard key={user.nickname} user={user} />)
       ) : (
         <NoResult />
       )}
