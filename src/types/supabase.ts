@@ -9,6 +9,84 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      chat_rooms: {
+        Row: {
+          created_at: string | null;
+          id: string;
+          user1_id: string;
+          user2_id: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          id?: string;
+          user1_id: string;
+          user2_id: string;
+        };
+        Update: {
+          created_at?: string | null;
+          id?: string;
+          user1_id?: string;
+          user2_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "chat_rooms_user1_id_fkey";
+            columns: ["user1_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "chat_rooms_user2_id_fkey";
+            columns: ["user2_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      messages: {
+        Row: {
+          chat_room_id: string;
+          content: string;
+          created_at: string;
+          id: string;
+          is_read: boolean;
+          user_id: string;
+        };
+        Insert: {
+          chat_room_id: string;
+          content: string;
+          created_at?: string;
+          id?: string;
+          is_read?: boolean;
+          user_id: string;
+        };
+        Update: {
+          chat_room_id?: string;
+          content?: string;
+          created_at?: string;
+          id?: string;
+          is_read?: boolean;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "messages_chat_room_id_fkey";
+            columns: ["chat_room_id"];
+            isOneToOne: false;
+            referencedRelation: "chat_rooms";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "messages_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       scraps: {
         Row: {
           created_at: string | null;
