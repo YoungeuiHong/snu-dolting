@@ -3,8 +3,11 @@ import { style } from "@vanilla-extract/css";
 export const stickyHeader = style({
   position: "fixed",
   width: "100%",
+  maxWidth: "900px",
+  margin: "auto",
   top: 0,
-  left: 0,
+  left: "50%",
+  transform: "translateX(-50%)",
   background: "#F1F4F6",
   padding: "20px 20px 10px 20px",
 });
