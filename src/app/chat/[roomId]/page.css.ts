@@ -123,7 +123,7 @@ export const input = style({
   border: "none",
   background: "#f5f5f5",
   padding: "12px 20px",
-  fontSize: "14px",
+  fontSize: "16px",
   resize: "none",
   height: "41px",
   overflowY: "auto",

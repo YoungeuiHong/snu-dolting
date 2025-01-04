@@ -258,7 +258,6 @@ export default function ChatRoomPage({
           onKeyDown={handleKeyDown}
           placeholder="메세지 입력"
           className={input}
-          style={{ height: "41px" }}
           onInput={(e) => {
             const target = e.target as HTMLTextAreaElement;
             target.style.height = "41px";
