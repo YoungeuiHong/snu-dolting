@@ -4,6 +4,9 @@ export const transparentButton = style({
   border: "none",
   background: "none",
   padding: 0,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 });
 
 export const bottomBar = style({

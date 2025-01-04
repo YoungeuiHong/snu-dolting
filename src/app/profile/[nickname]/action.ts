@@ -2,6 +2,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { TablesInsert } from "@/types/supabase";
 import { User } from "@/types/user";
+import { redirect } from "next/navigation";
 
 type ScrapsInsert = TablesInsert<"scraps">;
 
@@ -116,3 +117,64 @@ export async function removeScrap(targetUserId: string) {
   if (error) throw error;
   return true;
 }
+
+export const findOrCreateChatRoom = async (nickname: string) => {
+  const supabase = await createClient();
+
+  // 현재 로그인된 사용자 확인
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("인증된 사용자가 아닙니다.");
+  }
+
+  const user1Id = user.id;
+
+  // 닉네임으로 상대방 사용자 ID 찾기
+  const { data: targetUser, error: targetUserError } = await supabase
+    .from("users")
+    .select("id")
+    .eq("nickname", nickname)
+    .single();
+
+  if (targetUserError) {
+    if (targetUserError.code === "PGRST116") {
+      throw new Error("해당 닉네임을 가진 사용자가 존재하지 않습니다.");
+    } else {
+      throw targetUserError;
+    }
+  }
+
+  const user2Id = targetUser.id;
+
+  // 기존 채팅방 확인
+  const { data, error } = await supabase
+    .from("chat_rooms")
+    .select("id")
+    .or(
+      `and(user1_id.eq.${user1Id},user2_id.eq.${user2Id}),and(user1_id.eq.${user2Id},user1_id.eq.${user1Id})`,
+    )
+    .single();
+
+  if (error && error.code !== "PGRST116") throw error; // PGRST116: no rows found
+  if (data) {
+    redirect(`/chat/${data.id}`);
+    return;
+  }
+
+  // 새로운 채팅방 생성
+  const { data: newRoom, error: createRoomError } = await supabase
+    .from("chat_rooms")
+    .insert({
+      user1_id: user1Id,
+      user2_id: user2Id,
+    })
+    .select("id")
+    .single();
+
+  if (createRoomError) throw createRoomError;
+
+  redirect(`/chat/${newRoom.id}`);
+};

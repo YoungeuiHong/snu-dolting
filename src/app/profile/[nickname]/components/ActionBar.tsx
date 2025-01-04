@@ -3,14 +3,23 @@ import { useState } from "react";
 import Image from "next/image";
 import { actionBar, chattingButton } from "@/app/profile/[nickname]/page.css";
 import { transparentButton } from "@/app/shared.css";
-import { addScrap, removeScrap } from "@/app/profile/[nickname]/action";
+import {
+  addScrap,
+  findOrCreateChatRoom,
+  removeScrap,
+} from "@/app/profile/[nickname]/action";
 
 interface Props {
   isScrapped: boolean;
   targetUserId: string;
+  targetNickname: string;
 }
 
-export const ActionBar = ({ isScrapped, targetUserId }: Props) => {
+export const ActionBar = ({
+  isScrapped,
+  targetUserId,
+  targetNickname,
+}: Props) => {
   const [scrapped, setScrapped] = useState(isScrapped);
 
   const handleScrapToggle = async () => {
@@ -27,6 +36,10 @@ export const ActionBar = ({ isScrapped, targetUserId }: Props) => {
       console.error("Error updating scrap status:", error);
       setScrapped(currentStatus);
     }
+  };
+
+  const goToChatRoom = async () => {
+    await findOrCreateChatRoom(targetNickname);
   };
 
   return (
@@ -48,7 +61,9 @@ export const ActionBar = ({ isScrapped, targetUserId }: Props) => {
           />
         )}
       </button>
-      <button className={chattingButton}>채팅 보내기</button>
+      <button className={chattingButton} onClick={goToChatRoom}>
+        채팅 보내기
+      </button>
     </div>
   );
 };

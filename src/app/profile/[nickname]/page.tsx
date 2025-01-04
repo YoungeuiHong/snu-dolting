@@ -108,7 +108,11 @@ export default async function Page({
           </div>
         </div>
       </div>
-      <ActionBar isScrapped={isScrapped || false} targetUserId={user.id} />
+      <ActionBar
+        isScrapped={isScrapped || false}
+        targetUserId={user.id}
+        targetNickname={user.nickname || ""}
+      />
     </>
   );
 }
