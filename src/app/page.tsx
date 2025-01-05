@@ -8,6 +8,7 @@ import {
   logo,
 } from "./main.css";
 import { createClient } from "@/utils/supabase/client";
+import { useEffect } from "react";
 
 export default function Home() {
   const handleLogin = async () => {
@@ -33,6 +34,14 @@ export default function Home() {
       console.error("로그인 중 에러 발생: " + error.message);
     }
   };
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .catch((err) => console.error("서비스 워커 등록 실패 : ", err));
+    }
+  }, []);
 
   return (
     <div>
