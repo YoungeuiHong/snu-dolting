@@ -47,7 +47,7 @@ export async function GET(request: Request) {
     }
 
     if (data?.length && data[0].is_profile_complete) {
-      return NextResponse.redirect(`${origin}/main`);
+      return NextResponse.redirect(`${origin}/home`);
     } else {
       return NextResponse.redirect(`${origin}/signup/nickname`);
     }

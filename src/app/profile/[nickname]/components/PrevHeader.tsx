@@ -11,7 +11,7 @@ export const PrevHeader = () => {
     <div className={prevHeader}>
       <button
         className={transparentButton}
-        onClick={() => router.push("/main")}
+        onClick={() => router.push("/home")}
       >
         <Image src="/icon/prev.svg" alt="이전" width={24} height={24} />
       </button>

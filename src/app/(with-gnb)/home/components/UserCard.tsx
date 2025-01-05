@@ -11,7 +11,7 @@ import {
   userInfo,
   userIntroduction,
   userName,
-} from "@/app/(with-gnb)/main/components/UserCard.css";
+} from "@/app/(with-gnb)/home/components/UserCard.css";
 
 interface UserCardProps {
   user: User;

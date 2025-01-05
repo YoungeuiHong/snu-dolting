@@ -4,7 +4,7 @@ import {
   filterButton,
   filterContainer,
   stickyHeader,
-} from "@/app/(with-gnb)/main/components/FilterButton.css";
+} from "@/app/(with-gnb)/home/components/FilterButton.css";
 
 interface Props {
   onClick: () => void;
