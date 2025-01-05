@@ -4,8 +4,10 @@ import { bottomBar } from "@/app/shared.css";
 export const gnbContainer = style([
   bottomBar,
   {
-    padding: "0 16px !important",
-    paddingBottom: "calc(env(safe-area-inset-bottom, 16px) + 16px)",
+    paddingTop: "0px !important",
+    paddingLeft: "16px",
+    paddingRight: "16px",
+    paddingBottom: "env(safe-area-inset-bottom, 0px) !important",
     borderTop: "1px solid #8a8a8a1a",
     background: "white",
     zIndex: 300,
