@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useRef, useState } from "react";
+import { CSSProperties, use, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   fetchMessages,
@@ -9,12 +9,13 @@ import {
 import { User } from "@supabase/auth-js";
 import { Sender } from "@/types/chat";
 import { createClient } from "@/utils/supabase/client";
-import { ImageWithFallback } from "@/components/image";
+import { ImageWithFallback, ImgWithTimeout } from "@/components/image";
 import { SvgIconButton } from "@/components/button";
 import { formatLocalTime } from "@/utils/date";
 import {
   chatContainer,
   chatHeader,
+  imageWrapper,
   input,
   inputContainer,
   messageContainer,
@@ -28,6 +29,16 @@ import {
   nickname,
   unreadMessage,
 } from "./page.css";
+import { uploadImage } from "@/utils/supabase/storage";
+import heic2any from "heic2any";
+
+const buttonStyle: CSSProperties = {
+  backgroundColor: "#1474FF",
+  width: "43px",
+  height: "43px",
+  borderRadius: "43px",
+  color: "white",
+};
 
 export default function ChatRoomPage({
   params: rawParams,
@@ -47,6 +58,7 @@ export default function ChatRoomPage({
   const [profilePicture, setProfilePicture] = useState<string>("");
 
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
+  const imageRef = useRef<HTMLInputElement | null>(null);
 
   const supabase = createClient();
 
@@ -117,6 +129,7 @@ export default function ChatRoomPage({
             createdAt: newMessage.created_at,
             sender: newMessage.user_id === user?.id ? Sender.Me : Sender.Other,
             isRead: newMessage.is_read,
+            imageUrl: newMessage.image_url,
           },
         ]);
       },
@@ -150,16 +163,26 @@ export default function ChatRoomPage({
     };
   }, [roomId, supabase, user]);
 
-  const sendMessage = async () => {
-    if (!newMessage.trim() || !user || isSending) return;
+  const sendMessage = async (imageFile?: File) => {
+    if ((!newMessage.trim() && !imageFile) || !user || isSending) return;
 
     setIsSending(true);
 
     try {
+      let imageUrl = null;
+      if (imageFile) {
+        imageUrl = await uploadImage(
+          imageFile,
+          `private/${roomId}/${user.id}_${Date.now()}_${imageFile.name}`,
+          "images",
+        );
+      }
+
       const { error } = await supabase.from("messages").insert({
         chat_room_id: roomId,
         user_id: user.id,
-        content: newMessage.trim(),
+        content: imageFile ? "" : newMessage.trim(),
+        image_url: imageUrl,
       });
 
       if (error) {
@@ -169,6 +192,31 @@ export default function ChatRoomPage({
       }
     } finally {
       setIsSending(false);
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      if (file.type === "image/heic" || file.name.endsWith(".heic")) {
+        try {
+          const convertedBlob = await heic2any({
+            blob: file,
+            toType: "image/jpeg",
+          });
+          const convertedFile = new File(
+            [convertedBlob as Blob],
+            file.name.replace(/\.heic$/i, ".jpg"),
+            { type: "image/jpeg" },
+          );
+          await sendMessage(convertedFile);
+        } catch (error) {
+          console.error("HEIC 변환 중 오류 발생:", error);
+        }
+      } else {
+        await sendMessage(file);
+      }
     }
   };
 
@@ -182,6 +230,12 @@ export default function ChatRoomPage({
       } else if (e.key === "Enter" && (e.shiftKey || e.ctrlKey)) {
         return;
       }
+    }
+  };
+
+  const onClickImageButton = () => {
+    if (imageRef != null && imageRef.current != null) {
+      imageRef.current!.click();
     }
   };
 
@@ -234,13 +288,31 @@ export default function ChatRoomPage({
                     </span>
                   </div>
                 )}
-                <div
-                  className={
-                    msg.sender === Sender.Me ? messageMe : messageOther
-                  }
-                >
-                  {msg.content}
-                </div>
+                <>
+                  {msg.imageUrl ? (
+                    <div className={imageWrapper}>
+                      <ImgWithTimeout
+                        src={msg.imageUrl}
+                        alt="이미지"
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          display: "block",
+                          borderRadius: "10px",
+                          overflow: "hidden",
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className={
+                        msg.sender === Sender.Me ? messageMe : messageOther
+                      }
+                    >
+                      {msg.content}
+                    </div>
+                  )}
+                </>
                 {msg.sender === Sender.Other && (
                   <span className={messageTime}>
                     {formatLocalTime(msg.createdAt, "A h:mm")}
@@ -260,26 +332,38 @@ export default function ChatRoomPage({
           className={input}
           onInput={(e) => {
             const target = e.target as HTMLTextAreaElement;
-            target.style.height = "41px";
+            target.style.height = "43px";
             const scrollHeight = target.scrollHeight;
             const maxHeight = 100;
             target.style.height = `${Math.min(scrollHeight, maxHeight)}px`;
           }}
         />
-        <SvgIconButton
-          src="/icon/send.svg"
-          alt="전송"
-          width={18}
-          height={18}
-          onClick={sendMessage}
-          style={{
-            backgroundColor: "#1474FF",
-            width: "41px",
-            height: "41px",
-            borderRadius: "41px",
-            paddingLeft: "3px",
-          }}
+        <input
+          ref={imageRef}
+          type="file"
+          accept="image/*,image/heic"
+          hidden
+          onChange={handleFileChange}
         />
+        {newMessage.trim() === "" ? (
+          <SvgIconButton
+            src="/icon/camera_white.svg"
+            alt="사진"
+            width={18}
+            height={18}
+            onClick={onClickImageButton}
+            style={{ ...buttonStyle }}
+          />
+        ) : (
+          <SvgIconButton
+            src="/icon/send.svg"
+            alt="전송"
+            width={18}
+            height={18}
+            onClick={() => sendMessage()}
+            style={{ ...buttonStyle }}
+          />
+        )}
       </div>
     </div>
   );

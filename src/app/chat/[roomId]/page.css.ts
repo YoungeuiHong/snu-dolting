@@ -64,6 +64,7 @@ export const messageOtherWrapper = style({
 });
 
 export const message = style({
+  position: "relative",
   padding: "12px",
   borderRadius: "18px",
   maxWidth: "70%",
@@ -117,6 +118,13 @@ export const messageTime = style({
   color: "#666",
 });
 
+export const imageWrapper = style({
+  maxWidth: "70%",
+  height: "auto",
+  borderRadius: "10px",
+  overflow: "hidden",
+  display: "block",
+});
 export const input = style({
   flexGrow: 1,
   borderRadius: "20px",
@@ -125,7 +133,7 @@ export const input = style({
   padding: "12px 20px",
   fontSize: "16px",
   resize: "none",
-  height: "41px",
+  height: "43px",
   overflowY: "auto",
 
   ":focus": {

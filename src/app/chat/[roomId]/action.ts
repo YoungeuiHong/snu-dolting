@@ -10,6 +10,7 @@ type MarkMessagesAsReadResponse = {
 export interface MessageDto {
   id: string;
   content: string;
+  imageUrl: string | null;
   createdAt: string | null;
   isRead: boolean;
   sender: Sender;
@@ -82,7 +83,7 @@ export const fetchMessages = async (
   // 메시지 가져오기
   const { data: messages, error: messagesError } = await supabase
     .from("messages")
-    .select("id, content, created_at, user_id, is_read")
+    .select("id, content, image_url, created_at, user_id, is_read")
     .eq("chat_room_id", roomId)
     .order("created_at", { ascending: true });
 
@@ -95,6 +96,7 @@ export const fetchMessages = async (
   return messages.map((message) => ({
     id: message.id,
     content: message.content,
+    imageUrl: message.image_url,
     createdAt: message.created_at,
     isRead: message.is_read,
     sender: message.user_id === userId ? Sender.Me : Sender.Other,
