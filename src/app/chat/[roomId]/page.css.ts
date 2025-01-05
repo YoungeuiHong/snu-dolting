@@ -34,7 +34,7 @@ export const inputContainer = style({
   display: "flex",
   gap: "10px",
   width: "100%",
-  padding: "10px",
+  padding: "10px 10px env(safe-area-inset-bottom, 10px) 10px",
   borderTop: "1px solid #eeeeee",
   backgroundColor: "white",
 });
