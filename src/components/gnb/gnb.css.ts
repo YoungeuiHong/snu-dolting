@@ -5,6 +5,7 @@ export const gnbContainer = style([
   bottomBar,
   {
     padding: "0 16px !important",
+    paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 16px)",
     borderTop: "1px solid #8a8a8a1a",
     background: "white",
     zIndex: 300,
