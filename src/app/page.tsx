@@ -9,6 +9,7 @@ import {
 } from "./main.css";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const handleLogin = async () => {
@@ -48,6 +49,9 @@ export default function Home() {
       <main className={container}>
         <div className={background}></div>
         <p className={logo}>스누돌팅</p>
+        <Link href="/fcm">
+          <span className={loginButtonText}>FCM TEST</span>
+        </Link>
         <button className={loginButton} onClick={handleLogin}>
           <span className={loginButtonText}>구글로 시작하기</span>
         </button>
