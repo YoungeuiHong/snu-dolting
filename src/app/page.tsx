@@ -49,7 +49,11 @@ export default function Home() {
       <main className={container}>
         <div className={background}></div>
         <p className={logo}>스누돌팅</p>
-        <Link href="/fcm" style={loginButton} style={{ top: 0, zIndex: 300 }}>
+        <Link
+          href="/fcm"
+          className={loginButton}
+          style={{ top: 0, zIndex: 300 }}
+        >
           <span
             className={loginButtonText}
             style={{ top: "50px", zIndex: 300 }}
