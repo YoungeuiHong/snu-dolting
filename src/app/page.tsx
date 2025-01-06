@@ -49,8 +49,13 @@ export default function Home() {
       <main className={container}>
         <div className={background}></div>
         <p className={logo}>스누돌팅</p>
-        <Link href="/fcm">
-          <span className={loginButtonText}>FCM TEST</span>
+        <Link href="/fcm" style={loginButton} style={{ top: 0, zIndex: 300 }}>
+          <span
+            className={loginButtonText}
+            style={{ top: "50px", zIndex: 300 }}
+          >
+            FCM TEST
+          </span>
         </Link>
         <button className={loginButton} onClick={handleLogin}>
           <span className={loginButtonText}>구글로 시작하기</span>
