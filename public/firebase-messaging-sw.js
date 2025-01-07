@@ -1,11 +1,14 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging/sw";
-import { onBackgroundMessage } from "firebase/messaging/sw";
+importScripts(
+  "https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js",
+);
+importScripts(
+  "https://www.gstatic.com/firebasejs/9.21.0/firebase-messaging-compat.js",
+);
 
 // Initialize the Firebase app in the service worker by passing in
 // your app's Firebase config object.
 // https://firebase.google.com/docs/web/setup#config-object
-const firebaseApp = initializeApp({
+const firebaseApp = firebase.initializeApp({
   apiKey: "AIzaSyAPYz-ViydrRDN2RxUKU7rD1LW-2Wkz25Y",
   authDomain: "snu-dolting-fd737.firebaseapp.com",
   projectId: "snu-dolting-fd737",
@@ -17,8 +20,8 @@ const firebaseApp = initializeApp({
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
-const messaging = getMessaging(firebaseApp);
-onBackgroundMessage(messaging, (payload) => {
+const messaging = firebase.messaging(firebaseApp);
+messaging.onBackgroundMessage((payload) => {
   console.log(
     "[firebase-messaging-sw.js] Received background message ",
     payload,
