@@ -53,6 +53,7 @@ export type Database = {
           id: string;
           image_url: string | null;
           is_read: boolean;
+          receiver_id: string | null;
           user_id: string;
         };
         Insert: {
@@ -62,6 +63,7 @@ export type Database = {
           id?: string;
           image_url?: string | null;
           is_read?: boolean;
+          receiver_id?: string | null;
           user_id: string;
         };
         Update: {
@@ -71,6 +73,7 @@ export type Database = {
           id?: string;
           image_url?: string | null;
           is_read?: boolean;
+          receiver_id?: string | null;
           user_id?: string;
         };
         Relationships: [
@@ -79,6 +82,13 @@ export type Database = {
             columns: ["chat_room_id"];
             isOneToOne: false;
             referencedRelation: "chat_rooms";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "messages_receiver_id_fkey";
+            columns: ["receiver_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
           {
@@ -134,6 +144,7 @@ export type Database = {
           dating_style: string | null;
           daughter_count: number | null;
           email: string;
+          fcm_token: string | null;
           gender: string | null;
           has_children: boolean | null;
           has_custody: boolean | null;
@@ -163,6 +174,7 @@ export type Database = {
           dating_style?: string | null;
           daughter_count?: number | null;
           email: string;
+          fcm_token?: string | null;
           gender?: string | null;
           has_children?: boolean | null;
           has_custody?: boolean | null;
@@ -192,6 +204,7 @@ export type Database = {
           dating_style?: string | null;
           daughter_count?: number | null;
           email?: string;
+          fcm_token?: string | null;
           gender?: string | null;
           has_children?: boolean | null;
           has_custody?: boolean | null;

@@ -102,3 +102,47 @@ export const fetchMessages = async (
     sender: message.user_id === userId ? Sender.Me : Sender.Other,
   }));
 };
+
+// 메세지 전송하기
+export const sendMessage = async ({
+  roomId,
+  userId,
+  content,
+  imageUrl = null,
+}: {
+  roomId: string;
+  userId: string;
+  content: string;
+  imageUrl?: string | null;
+}) => {
+  const supabase = await createClient();
+
+  const { data: chatRoom, error: chatRoomError } = await supabase
+    .from("chat_rooms")
+    .select("user1_id, user2_id")
+    .eq("id", roomId)
+    .single();
+
+  if (chatRoomError) {
+    console.error("Failed to fetch chat room:", chatRoomError.message);
+    throw new Error("Failed to fetch chat room");
+  }
+
+  const otherId =
+    chatRoom.user1_id === userId ? chatRoom.user2_id : chatRoom.user1_id;
+
+  const { error } = await supabase.from("messages").insert({
+    chat_room_id: roomId,
+    user_id: userId,
+    content: content || "",
+    image_url: imageUrl,
+    receiver_id: otherId,
+  });
+
+  if (error) {
+    console.error("메시지 삽입 실패:", error.message);
+    throw new Error("메시지 삽입에 실패했습니다.");
+  }
+
+  return { success: true };
+};

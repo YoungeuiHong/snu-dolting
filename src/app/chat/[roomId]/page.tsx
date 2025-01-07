@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import {
   fetchMessages,
   markMessagesAsRead,
+  sendMessage as sendMessageAction,
   MessageDto,
 } from "@/app/chat/[roomId]/action";
 import { User } from "@supabase/auth-js";
@@ -178,18 +179,16 @@ export default function ChatRoomPage({
         );
       }
 
-      const { error } = await supabase.from("messages").insert({
-        chat_room_id: roomId,
-        user_id: user.id,
+      await sendMessageAction({
+        roomId,
+        userId: user.id,
         content: imageFile ? "" : newMessage.trim(),
-        image_url: imageUrl,
+        imageUrl,
       });
 
-      if (error) {
-        console.error(error);
-      } else {
-        setNewMessage("");
-      }
+      setNewMessage("");
+    } catch (error) {
+      console.error(error);
     } finally {
       setIsSending(false);
     }
