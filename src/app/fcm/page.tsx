@@ -1,12 +1,14 @@
 "use client";
 import { getToken, onMessage } from "firebase/messaging";
 import { useEffect, useState } from "react";
-import { messaging } from "@/utils/firebase";
+import { getMessaging } from "firebase/messaging/sw";
+import { app } from "@/utils/firebase";
 
 export default function useNotificationHandler() {
   const [isPermitted, setIsPermitted] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [token, setToken] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   async function onClickAlert() {
     if (
@@ -23,7 +25,7 @@ export default function useNotificationHandler() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-
+    const messaging = getMessaging(app);
     const handleIncomingMessage = () => {
       if (messaging) {
         onMessage(messaging, (payload) => {
@@ -37,10 +39,13 @@ export default function useNotificationHandler() {
 
   const registerToken = async () => {
     try {
-      if (typeof window === "undefined" || !messaging) {
+      if (typeof window === "undefined") {
+        setError("브라우저 환경 또는 messaging 없음");
         console.log("브라우저 환경 또는 messaging 없음");
         return;
       }
+
+      const messaging = getMessaging(app);
 
       const currentToken = await getToken(messaging, {
         vapidKey:
@@ -51,18 +56,21 @@ export default function useNotificationHandler() {
         console.log("FCM 토큰:", currentToken);
         setToken(currentToken);
       } else {
+        setError("토큰을 가져오지 못했습니다.");
         console.log("토큰을 가져오지 못했습니다.");
       }
     } catch (err) {
+      setError("Error getting FCM token:" + err);
       console.error("Error getting FCM token:", err);
     }
   };
 
   return (
     <div>
-      <h1> 알림 허용 상태: {isPermitted}</h1>
+      <h1>알림 허용 상태: {isPermitted ? "허용됨" : "허용 안 됨"}</h1>
       <p>수신된 메세지: {message}</p>
       <p>발급된 토큰: {token}</p>
+      <p>에러: {error}</p>
       <button onClick={onClickAlert}>알림 허용</button>
       <button onClick={registerToken}>토큰 발급</button>
     </div>

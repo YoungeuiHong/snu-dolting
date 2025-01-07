@@ -1,6 +1,5 @@
 "use client";
 import { initializeApp } from "firebase/app";
-import { getMessaging, isSupported, Messaging } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAPYz-ViydrRDN2RxUKU7rD1LW-2Wkz25Y",
@@ -14,16 +13,4 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-let messaging: Messaging;
-
-if (typeof window !== "undefined") {
-  isSupported()
-    .then((supported) => {
-      if (supported) {
-        messaging = getMessaging(app);
-      }
-    })
-    .catch((err) => console.error("FCM 지원 확인 오류:", err));
-}
-
-export { messaging };
+export { app };
