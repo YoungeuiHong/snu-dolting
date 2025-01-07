@@ -5,6 +5,7 @@ import {
   itemContainer,
   settingContainer,
 } from "@/app/(with-gnb)/setting/page.css";
+import { NotificationSetting } from "@/app/(with-gnb)/setting/components/NotificationSetting";
 
 export default async function SettingPage() {
   return (
@@ -18,6 +19,7 @@ export default async function SettingPage() {
           <span>내 정보 수정하기</span>
         </div>
       </Link>
+      <NotificationSetting />
       <div className={itemContainer} onClick={logout}>
         <Image src="/icon/logout.svg" alt="로그아웃" width={14} height={14} />
         <span>로그아웃하기</span>
