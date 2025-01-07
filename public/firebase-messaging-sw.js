@@ -6,14 +6,13 @@ import { onBackgroundMessage } from "firebase/messaging/sw";
 // your app's Firebase config object.
 // https://firebase.google.com/docs/web/setup#config-object
 const firebaseApp = initializeApp({
-  apiKey: "api-key",
-  authDomain: "project-id.firebaseapp.com",
-  databaseURL: "https://project-id.firebaseio.com",
-  projectId: "project-id",
-  storageBucket: "project-id.appspot.com",
-  messagingSenderId: "sender-id",
-  appId: "app-id",
-  measurementId: "G-measurement-id",
+  apiKey: "AIzaSyAPYz-ViydrRDN2RxUKU7rD1LW-2Wkz25Y",
+  authDomain: "snu-dolting-fd737.firebaseapp.com",
+  projectId: "snu-dolting-fd737",
+  storageBucket: "snu-dolting-fd737.firebasestorage.app",
+  messagingSenderId: "307291527013",
+  appId: "1:307291527013:web:3ef92527361554a9c2338c",
+  measurementId: "G-X5NW20WVG5",
 });
 
 // Retrieve an instance of Firebase Messaging so that it can handle background

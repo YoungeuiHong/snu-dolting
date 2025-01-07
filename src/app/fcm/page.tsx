@@ -1,7 +1,7 @@
 "use client";
 import { getToken, onMessage } from "firebase/messaging";
 import { useEffect, useState } from "react";
-import { getMessaging } from "firebase/messaging";
+import { messaging } from "@/utils/firebase";
 
 export default function useNotificationHandler() {
   const [isPermitted, setIsPermitted] = useState<boolean>(false);
@@ -24,7 +24,11 @@ export default function useNotificationHandler() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const messaging = getMessaging();
+
+    if (!messaging) {
+      setError("messaging 없음");
+    }
+
     const handleIncomingMessage = () => {
       if (messaging) {
         onMessage(messaging, (payload) => {
@@ -43,8 +47,6 @@ export default function useNotificationHandler() {
         console.log("브라우저 환경 또는 messaging 없음");
         return;
       }
-
-      const messaging = getMessaging();
 
       if (!messaging) {
         setError("messaging 없음");
