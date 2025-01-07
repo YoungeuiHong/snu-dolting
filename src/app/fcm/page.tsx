@@ -1,8 +1,7 @@
 "use client";
 import { getToken, onMessage } from "firebase/messaging";
 import { useEffect, useState } from "react";
-import { getMessaging } from "firebase/messaging/sw";
-import { app } from "@/utils/firebase";
+import { getMessaging } from "firebase/messaging";
 
 export default function useNotificationHandler() {
   const [isPermitted, setIsPermitted] = useState<boolean>(false);
@@ -25,7 +24,7 @@ export default function useNotificationHandler() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const messaging = getMessaging(app);
+    const messaging = getMessaging();
     const handleIncomingMessage = () => {
       if (messaging) {
         onMessage(messaging, (payload) => {
@@ -45,7 +44,11 @@ export default function useNotificationHandler() {
         return;
       }
 
-      const messaging = getMessaging(app);
+      const messaging = getMessaging();
+
+      if (!messaging) {
+        setError("messaging 없음");
+      }
 
       const currentToken = await getToken(messaging, {
         vapidKey:
