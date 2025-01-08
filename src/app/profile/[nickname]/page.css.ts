@@ -103,7 +103,7 @@ export const actionBar = style([
   {
     borderTop: "1px solid #8a8a8a1a",
     background: "white",
-    padding: "8px 12px env(safe-area-inset-bottom, 8px) 12px",
+    padding: "8px 12px calc(env(safe-area-inset-bottom, 0px) + 8px) 12px",
     zIndex: 300,
     display: "flex",
     justifyContent: "space-between",
