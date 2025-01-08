@@ -20,11 +20,22 @@ export async function getUsers(
     throw new Error("인증된 사용자가 아닙니다.");
   }
 
+  const { data: myInfo, error: myInfoError } = await supabase
+    .from("users")
+    .select("gender")
+    .eq("id", user.id)
+    .single();
+
+  if (!myInfo || myInfoError || !myInfo.gender) {
+    throw new Error("내 정보를 가져오는 데 실패했습니다.");
+  }
+
   let query = supabase.from("users").select("*");
 
-  if (filters?.gender) {
-    query = query.eq("gender", filters.gender);
-  }
+  query = query.neq("id", user.id);
+
+  query = query.eq("gender", myInfo.gender === "male" ? "female" : "male");
+
   if (filters?.birthYearRange) {
     if (filters.birthYearRange.min !== undefined) {
       query = query.gte("birth_year", filters.birthYearRange.min);

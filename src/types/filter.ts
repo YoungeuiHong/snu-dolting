@@ -1,7 +1,6 @@
 import { ReligionLabels } from "@/types/religion";
 
 export interface UserFilters {
-  gender?: string;
   birthYearRange?: { min?: number; max?: number };
   remarriageIntent?: string;
   hasChildren?: string;
@@ -12,7 +11,6 @@ export interface UserFilters {
 }
 
 export const INITIAL_FILTER: UserFilters = {
-  gender: "",
   birthYearRange: { min: undefined, max: undefined },
   remarriageIntent: "all",
   hasChildren: "all",
