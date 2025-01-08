@@ -21,10 +21,10 @@ export const rangeContainer = style({
 
 // 숫자 입력 필드
 export const numberInput = style({
+  width: "120px",
   padding: "7px",
   border: "1px solid #eeeeee",
   borderRadius: "4px",
-  flexGrow: 1,
   touchAction: "manipulation",
 
   ":focus": {

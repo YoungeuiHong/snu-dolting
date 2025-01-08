@@ -47,7 +47,7 @@ export const FilterDrawer = ({
           <div className={rangeContainer}>
             <input
               type="number"
-              placeholder="최소"
+              placeholder="최소 (YYYY)"
               value={filters?.birthYearRange?.min || ""}
               onChange={(e) =>
                 onFilterChange("birthYearRange", {
@@ -60,7 +60,7 @@ export const FilterDrawer = ({
             <span className={rangeIndicator}>-</span>
             <input
               type="number"
-              placeholder="최대"
+              placeholder="최대 (YYYY)"
               value={filters?.birthYearRange?.max || ""}
               onChange={(e) =>
                 onFilterChange("birthYearRange", {
@@ -77,7 +77,7 @@ export const FilterDrawer = ({
           <div className={rangeContainer}>
             <input
               type="number"
-              placeholder="최소"
+              placeholder="최소 (cm)"
               value={filters?.heightRange?.min || ""}
               onChange={(e) =>
                 onFilterChange("heightRange", {
@@ -91,7 +91,7 @@ export const FilterDrawer = ({
 
             <input
               type="number"
-              placeholder="최대"
+              placeholder="최대 (cm)"
               value={filters?.heightRange?.max || ""}
               onChange={(e) =>
                 onFilterChange("heightRange", {
