@@ -26,6 +26,7 @@ export const numberInput = style({
   border: "1px solid #eeeeee",
   borderRadius: "4px",
   touchAction: "manipulation",
+  fontSize: "16px",
 
   ":focus": {
     outline: "none",
@@ -33,6 +34,9 @@ export const numberInput = style({
   },
   ":hover": {
     borderColor: "#e0e0e0",
+  },
+  "::placeholder": {
+    fontSize: "13px",
   },
 });
 
