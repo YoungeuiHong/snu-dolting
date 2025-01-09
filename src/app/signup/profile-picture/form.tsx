@@ -13,7 +13,12 @@ import {
   subtitle,
   title,
   titleWrapper,
+  uploadLoading,
 } from "@/app/signup/form.css";
+import { convertHeicToJpeg } from "@/utils/image";
+import { uploadPublicImage } from "@/utils/supabase/storage";
+import { createClient } from "@/utils/supabase/client";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 interface Props {
   initialPicture: string | null;
@@ -25,6 +30,7 @@ export default function Form({ initialPicture }: Props) {
   });
 
   const [imageUrl, setImageUrl] = useState<string | null>(initialPicture);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const onClickBox = () => {
@@ -33,22 +39,50 @@ export default function Form({ initialPicture }: Props) {
     }
   };
 
-  const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
 
     const files: File[] = Array.from(event.target.files);
 
-    const file = files[0];
-    const reader = new FileReader();
+    let file = files[0];
 
-    reader.onloadend = () => {
-      if (reader.result && typeof reader.result === "string") {
-        setImageUrl(reader.result);
+    if (!file) return;
+
+    setIsUploading(true);
+
+    try {
+      if (file.type === "image/heic" || file.name.endsWith(".heic")) {
+        file = await convertHeicToJpeg(file);
       }
-    };
 
-    if (file) {
-      reader.readAsDataURL(file);
+      const supabase = createClient();
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        throw new Error("인증되지 않은 사용자입니다.");
+      }
+
+      const publicUrl = await uploadPublicImage(
+        file,
+        `public/${user.id}/${Date.now()}`,
+        "profiles",
+      );
+
+      const profileInput = document.querySelector<HTMLInputElement>(
+        'input[name="profile_picture"]',
+      );
+      if (profileInput) {
+        profileInput.value = publicUrl;
+      }
+
+      setImageUrl(publicUrl);
+    } catch (e) {
+      console.error("이미지 업로드에 실패했습니다: ", e);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -73,28 +107,42 @@ export default function Form({ initialPicture }: Props) {
           <p className={errorMessage}>{state.errors?.profile_picture}</p>
         )}
         <input
-          ref={inputRef}
-          type="file"
+          type="text"
           name="profile_picture"
           hidden
-          accept="image/*"
+          defaultValue={state.user?.profile_picture || undefined}
+        />
+        <input
+          ref={inputRef}
+          type="file"
+          hidden
+          accept="image/*,image/heic"
           onChange={onChangeFile}
         />
 
-        {imageUrl && (
-          <div className={profileImageContainer}>
-            <Image
-              src={imageUrl}
-              alt="프로필 이미지"
-              sizes="300px"
-              fill
-              style={{
-                objectFit: "contain",
-                objectPosition: "left top",
-              }}
-            />
-          </div>
-        )}
+        <div className={profileImageContainer}>
+          {isUploading ? (
+            <div className={uploadLoading}>
+              <div style={{ height: "40px" }}>
+                <DotLottieReact src="/lottie/loading.lottie" loop autoplay />
+              </div>
+              <span>이미지 업로드 중입니다</span>
+            </div>
+          ) : (
+            imageUrl && (
+              <Image
+                src={imageUrl}
+                alt="프로필 이미지"
+                sizes="300px"
+                fill
+                style={{
+                  objectFit: "contain",
+                  objectPosition: "left top",
+                }}
+              />
+            )
+          )}
+        </div>
       </div>
       <SubmitButton pending={pending} />
     </form>

@@ -245,3 +245,15 @@ export const profileImageContainer = style({
   height: "40dvh",
   marginTop: "10px",
 });
+
+export const uploadLoading = style({
+  width: "100%",
+  height: "150px",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "20px",
+  fontSize: "13px",
+  color: "#757575",
+});
