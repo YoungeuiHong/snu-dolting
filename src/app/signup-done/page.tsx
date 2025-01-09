@@ -16,7 +16,7 @@ export default async function SingUpDonePage() {
         환영해요!
       </p>
       <div className={bottomBar}>
-        <Link href="/main">
+        <Link href="/home">
           <button className={blackRoundButton}>스누돌팅 이용하러 가기</button>
         </Link>
       </div>

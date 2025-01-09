@@ -17,6 +17,7 @@ export const bottomBar = style({
   width: "100%",
   maxWidth: "900px",
   padding: "12px",
+  paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 12px)",
   boxSizing: "border-box",
   transition: "bottom 0.2s ease-in-out",
 });
@@ -38,8 +39,8 @@ export const blackRoundButton = style({
   height: "48px",
   background: "#242729",
   color: "white",
-  fontSize: "16px",
-  fontWeight: 700,
+  fontSize: "14px",
+  fontWeight: 500,
   borderRadius: "24px",
   padding: "14px 24px",
   border: "none",
