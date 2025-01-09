@@ -151,6 +151,7 @@ export const initButton = style({
   background: "white",
   borderRadius: "4px",
   color: "#242729",
+  fontSize: "14px",
 });
 
 // 적용하기 버튼
