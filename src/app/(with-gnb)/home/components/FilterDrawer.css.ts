@@ -139,6 +139,7 @@ export const buttonContainer = style({
   display: "flex",
   alignItems: "center",
   marginTop: "30px",
+  paddingBottom: "env(safe-area-inset-bottom, 0px)",
   gap: "10px",
 });
 
