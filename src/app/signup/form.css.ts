@@ -1,9 +1,15 @@
 import { globalStyle, style } from "@vanilla-extract/css";
 
 export const container = style({
-  paddingTop: "52px",
   width: "100%",
   boxSizing: "border-box",
+  display: "flex",
+  flexDirection: "column",
+  height: "calc(100dvh - 52px)",
+});
+
+export const contentContainer = style({
+  flexGrow: 1,
 });
 
 export const header = style({
@@ -30,7 +36,9 @@ export const content = style({
   padding: "0 16px",
   width: "100%",
   maxWidth: "900px",
+  height: "calc(100dvh - 52px)",
   margin: "auto",
+  marginTop: "52px",
   boxSizing: "border-box",
 });
 
@@ -130,13 +138,13 @@ export const errorMessage = style({
 });
 
 export const actionBar = style({
-  position: "fixed",
+  position: "sticky",
   bottom: 0,
   left: "50%",
-  transform: "translateX(-50%)",
+  background: "white",
   width: "100%",
   maxWidth: "900px",
-  padding: "12px",
+  paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 12px)",
   boxSizing: "border-box",
   transition: "bottom 0.2s ease-in-out",
 });
@@ -144,6 +152,7 @@ export const actionBar = style({
 export const nextButton = style({
   width: "100%",
   height: "48px",
+  margin: "auto",
   background: "#242729",
   color: "white",
   fontSize: "16px",

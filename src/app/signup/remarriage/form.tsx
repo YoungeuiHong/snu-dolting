@@ -1,5 +1,10 @@
 "use client";
-import { container, title, titleWrapper } from "@/app/signup/form.css";
+import {
+  container,
+  contentContainer,
+  title,
+  titleWrapper,
+} from "@/app/signup/form.css";
 import { BinaryChoice, SubmitButton } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
 import { updateRemarriage } from "@/app/signup/remarriage/action";
@@ -18,19 +23,21 @@ export default function Form({ initialRemarriage }: Props) {
 
   return (
     <form action={formAction} className={container}>
-      <div className={titleWrapper}>
-        <p className={title}>재혼 의향이 있으신가요?</p>
+      <div className={contentContainer}>
+        <div className={titleWrapper}>
+          <p className={title}>재혼 의향이 있으신가요?</p>
+        </div>
+        <BinaryChoice
+          name="remarriage_intent"
+          label="재혼 의향"
+          options={[
+            { value: "false", label: "아니요" },
+            { value: "true", label: "예" },
+          ]}
+          value={remarriageIntentValue}
+          error={state?.errors?.remarriage_intent}
+        />
       </div>
-      <BinaryChoice
-        name="remarriage_intent"
-        label="재혼 의향"
-        options={[
-          { value: "false", label: "아니요" },
-          { value: "true", label: "예" },
-        ]}
-        value={remarriageIntentValue}
-        error={state?.errors?.remarriage_intent}
-      />
       <SubmitButton pending={pending} />
     </form>
   );

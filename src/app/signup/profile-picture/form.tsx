@@ -6,6 +6,7 @@ import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
 import { uploadProfilePicture } from "@/app/signup/profile-picture/action";
 import {
   container,
+  contentContainer,
   errorMessage,
   imageUploadButton,
   profileImageContainer,
@@ -53,46 +54,48 @@ export default function Form({ initialPicture }: Props) {
 
   return (
     <form action={formAction} className={container}>
-      <div className={titleWrapper}>
-        <p className={title}>프로필 사진을 업로드 해주세요</p>
-        <p className={subtitle}>
-          나를 잘 표현할 수 있는 사진을 업로드해주세요.
-        </p>
-      </div>
-      <div className={imageUploadButton} onClick={onClickBox}>
-        <Image
-          src="/icon/camera.svg"
-          alt="사진 업로드"
-          width={24}
-          height={24}
-        />
-      </div>
-      {state.errors?.profile_picture && (
-        <p className={errorMessage}>{state.errors?.profile_picture}</p>
-      )}
-      <input
-        ref={inputRef}
-        type="file"
-        name="profile_picture"
-        hidden
-        accept="image/*"
-        onChange={onChangeFile}
-      />
-
-      {imageUrl && (
-        <div className={profileImageContainer}>
+      <div className={contentContainer}>
+        <div className={titleWrapper}>
+          <p className={title}>프로필 사진을 업로드 해주세요</p>
+          <p className={subtitle}>
+            나를 잘 표현할 수 있는 사진을 업로드해주세요.
+          </p>
+        </div>
+        <div className={imageUploadButton} onClick={onClickBox}>
           <Image
-            src={imageUrl}
-            alt="프로필 이미지"
-            sizes="300px"
-            fill
-            style={{
-              objectFit: "contain",
-              objectPosition: "left top",
-            }}
+            src="/icon/camera.svg"
+            alt="사진 업로드"
+            width={24}
+            height={24}
           />
         </div>
-      )}
+        {state.errors?.profile_picture && (
+          <p className={errorMessage}>{state.errors?.profile_picture}</p>
+        )}
+        <input
+          ref={inputRef}
+          type="file"
+          name="profile_picture"
+          hidden
+          accept="image/*"
+          onChange={onChangeFile}
+        />
+
+        {imageUrl && (
+          <div className={profileImageContainer}>
+            <Image
+              src={imageUrl}
+              alt="프로필 이미지"
+              sizes="300px"
+              fill
+              style={{
+                objectFit: "contain",
+                objectPosition: "left top",
+              }}
+            />
+          </div>
+        )}
+      </div>
       <SubmitButton pending={pending} />
     </form>
   );

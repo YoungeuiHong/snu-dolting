@@ -1,6 +1,7 @@
 "use client";
 import {
   container,
+  contentContainer,
   subtitle,
   title,
   titleWrapper,
@@ -24,19 +25,21 @@ export default function Form({
 
   return (
     <form action={formAction} className={container}>
-      <div className={titleWrapper}>
-        <p className={title}>이상형에 대해 알려주세요</p>
-        <p className={subtitle}>
-          외모, 성격, 나이, 종교 등 상대에게 바라는 점을 알려주세요.
-        </p>
+      <div className={contentContainer}>
+        <div className={titleWrapper}>
+          <p className={title}>이상형에 대해 알려주세요</p>
+          <p className={subtitle}>
+            외모, 성격, 나이, 종교 등 상대에게 바라는 점을 알려주세요.
+          </p>
+        </div>
+        <TextArea
+          name="ideal_type"
+          label="나의 이상형"
+          placeholder="최소 20자 이상 적어주세요"
+          value={user?.ideal_type}
+          error={errors?.ideal_type}
+        />
       </div>
-      <TextArea
-        name="ideal_type"
-        label="나의 이상형"
-        placeholder="최소 20자 이상 적어주세요"
-        value={user?.ideal_type}
-        error={errors?.ideal_type}
-      />
       <SubmitButton pending={pending} />
     </form>
   );
