@@ -10,7 +10,7 @@ export const prevHeader = style([
 ]);
 
 export const container = style({
-  padding: "50px 10px 70px 10px",
+  padding: "50px 10px calc(env(safe-area-inset-bottom, 0px) + 70px) 10px",
   width: "100%",
   maxWidth: "900px",
   margin: "auto",
