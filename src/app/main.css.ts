@@ -88,3 +88,15 @@ export const loginButtonText = style({
   fontWeight: 500,
   fontSize: "15px",
 });
+
+export const customToast = style({
+  background: "#616161",
+  bottom: "50px",
+  borderRadius: "60px",
+  color: "white",
+  textAlign: "center",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontSize: "14px",
+});
