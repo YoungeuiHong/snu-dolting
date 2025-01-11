@@ -1,6 +1,7 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
 import { User } from "@/types/user";
+import { redirect } from "next/navigation";
 
 export type SignUpError = Partial<Record<keyof User, string>>;
 
@@ -18,7 +19,7 @@ export async function updateUser(fields: (keyof User)[], formData: FormData) {
   } = await supabase.auth.getUser();
 
   if (!user || !user.email) {
-    throw new Error("인증된 사용자가 아닙니다.");
+    redirect("/login");
   }
 
   const updateData: Record<string, FormDataEntryValue | null> = {};
@@ -37,7 +38,8 @@ export async function updateUser(fields: (keyof User)[], formData: FormData) {
     .eq("email", user.email);
 
   if (error) {
-    throw new Error(`업데이트 중 오류 발생: ${error.message}`);
+    console.error("사용자 정보 수정 실패: ", error.message);
+    throw new Error(`내 정보 수정에 실패했습니다`);
   }
 
   return { success: true, user: updatedUser };
