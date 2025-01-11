@@ -9,6 +9,7 @@ import { mainContainer } from "@/app/(with-gnb)/home/page.css";
 import { FilterButton } from "@/app/(with-gnb)/home/components/FilterButton";
 import { NoResult } from "@/app/(with-gnb)/home/components/NoResult";
 import { INITIAL_FILTER, UserFilters } from "@/types/filter";
+import { toastError } from "@/utils/error";
 
 interface Props {
   initUsers: User[];
@@ -45,20 +46,28 @@ export default function ClientMainPage({ initUsers }: Props) {
   };
 
   const initFilter = async () => {
-    setFilters(INITIAL_FILTER);
-    const result = await getUsers(INITIAL_FILTER);
-    setUsers(result.users);
-    setDrawerOpen(false);
-    setIsFilterActive(false);
+    try {
+      setFilters(INITIAL_FILTER);
+      const result = await getUsers(INITIAL_FILTER);
+      setUsers(result.users);
+      setDrawerOpen(false);
+      setIsFilterActive(false);
+    } catch (e) {
+      toastError(e);
+    }
   };
 
   const applyFilters = async () => {
-    const result = await getUsers(filters);
-    setUsers(result.users);
-    setDrawerOpen(false);
-    setIsFilterActive(
-      JSON.stringify(filters) !== JSON.stringify(INITIAL_FILTER),
-    );
+    try {
+      const result = await getUsers(filters);
+      setUsers(result.users);
+      setDrawerOpen(false);
+      setIsFilterActive(
+        JSON.stringify(filters) !== JSON.stringify(INITIAL_FILTER),
+      );
+    } catch (e) {
+      toastError(e);
+    }
   };
 
   return (

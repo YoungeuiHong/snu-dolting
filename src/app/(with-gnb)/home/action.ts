@@ -27,7 +27,8 @@ export async function getUsers(
     .single();
 
   if (!myInfo || myInfoError || !myInfo.gender) {
-    throw new Error("내 정보를 가져오는 데 실패했습니다.");
+    console.error("사용자 목록 조회 중 에러 발생: ", myInfo, myInfoError);
+    throw new Error("사용자 목록 조회에 실패했습니다");
   }
 
   let query = supabase.from("users").select("*");
@@ -74,7 +75,8 @@ export async function getUsers(
   const { data: filteredUsers, error } = await query;
 
   if (error) {
-    throw new Error(`조회 중 오류 발생: ${error.message}`);
+    console.error("사용자 목록 조회 중 에러 발생: ", error);
+    throw new Error("사용자 목록 조회에 실패했습니다");
   }
 
   return { users: filteredUsers };
