@@ -12,6 +12,7 @@ import {
 import { getToken } from "firebase/messaging";
 import { messaging } from "@/utils/firebase";
 import { updateFCMToken, getFCMTokenStatus } from "./actions";
+import { toastError } from "@/utils/error";
 
 export const NotificationSetting = () => {
   const [alertGranted, setAlertGranted] = useState<boolean>(false);
@@ -19,9 +20,13 @@ export const NotificationSetting = () => {
   useEffect(() => {
     const initializeAlertGranted = async () => {
       if (typeof window !== "undefined" && "Notification" in window) {
-        const fcmToken = await getFCMTokenStatus();
-        if (Notification.permission === "granted" && fcmToken) {
-          setAlertGranted(true);
+        try {
+          const fcmToken = await getFCMTokenStatus();
+          if (Notification.permission === "granted" && fcmToken) {
+            setAlertGranted(true);
+          }
+        } catch (e) {
+          toastError(e);
         }
       }
     };
