@@ -32,8 +32,8 @@ export const markMessagesAsRead = async (
     .single();
 
   if (chatRoomError) {
-    console.error("Failed to fetch chat room:", chatRoomError.message);
-    throw new Error("Failed to fetch chat room");
+    console.error("채팅방 정보 조회 실패:", chatRoomError.message);
+    throw new Error("채팅방 조회에 실패했습니다");
   }
 
   const otherId =
@@ -47,11 +47,8 @@ export const markMessagesAsRead = async (
     .single();
 
   if (otherUserError) {
-    console.error(
-      "Failed to fetch other user's nickname:",
-      otherUserError.message,
-    );
-    throw new Error("Failed to fetch other user's nickname");
+    console.error("채팅방 상대 정보 조회 실패:", otherUserError.message);
+    throw new Error("채팅방 조회에 실패했습니다");
   }
 
   // 읽지 않은 메시지 읽음 처리
@@ -63,8 +60,7 @@ export const markMessagesAsRead = async (
     .eq("is_read", false);
 
   if (updateError) {
-    console.error("메세지 읽음 처리에 실패했습니다.", updateError.message);
-    throw new Error("메세지 읽음 처리에 실패했습니다.");
+    console.error("메세지 읽음 처리에 실패: ", updateError.message);
   }
 
   return {
@@ -88,8 +84,8 @@ export const fetchMessages = async (
     .order("created_at", { ascending: true });
 
   if (messagesError) {
-    console.error("Failed to fetch messages:", messagesError.message);
-    throw new Error("Failed to fetch messages");
+    console.error("채팅방 메세지 조회 실패: ", messagesError.message);
+    throw new Error("채팅방 조회에 실패했습니다");
   }
 
   // 클라이언트로 반환할 데이터 가공
@@ -124,8 +120,8 @@ export const sendMessage = async ({
     .single();
 
   if (chatRoomError) {
-    console.error("Failed to fetch chat room:", chatRoomError.message);
-    throw new Error("Failed to fetch chat room");
+    console.error("메세지 전송 실패:", chatRoomError.message);
+    throw new Error("메세지 전송에 실패했습니다");
   }
 
   const otherId =
@@ -140,8 +136,8 @@ export const sendMessage = async ({
   });
 
   if (error) {
-    console.error("메시지 삽입 실패:", error.message);
-    throw new Error("메시지 삽입에 실패했습니다.");
+    console.error("메시지 전송 실패:", error.message);
+    throw new Error("메시지 전송에 실패했습니다");
   }
 
   return { success: true };

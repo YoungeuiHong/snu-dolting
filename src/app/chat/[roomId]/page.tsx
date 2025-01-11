@@ -32,6 +32,8 @@ import {
 } from "./page.css";
 import { uploadImage } from "@/utils/supabase/storage";
 import heic2any from "heic2any";
+import { toastError } from "@/utils/error";
+import { toast } from "sonner";
 
 const buttonStyle: CSSProperties = {
   backgroundColor: "#1474FF",
@@ -96,6 +98,7 @@ export default function ChatRoomPage({
         setProfilePicture(profilePicture || "");
       } catch (error) {
         console.error(error);
+        toastError(error);
       }
     };
 
@@ -189,6 +192,7 @@ export default function ChatRoomPage({
       setNewMessage("");
     } catch (error) {
       console.error(error);
+      toastError(error);
     } finally {
       setIsSending(false);
     }
@@ -212,9 +216,14 @@ export default function ChatRoomPage({
           await sendMessage(convertedFile);
         } catch (error) {
           console.error("HEIC 변환 중 오류 발생:", error);
+          toast("메시지 전송에 실패했습니다");
         }
       } else {
-        await sendMessage(file);
+        try {
+          await sendMessage(file);
+        } catch (e) {
+          toastError(e);
+        }
       }
     }
   };
