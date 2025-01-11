@@ -8,6 +8,7 @@ import {
   findOrCreateChatRoom,
   removeScrap,
 } from "@/app/profile/[nickname]/action";
+import { toastError } from "@/utils/error";
 
 interface Props {
   isScrapped: boolean;
@@ -33,13 +34,17 @@ export const ActionBar = ({
         await addScrap(targetUserId);
       }
     } catch (error) {
-      console.error("Error updating scrap status:", error);
       setScrapped(currentStatus);
+      toastError(error);
     }
   };
 
   const goToChatRoom = async () => {
-    await findOrCreateChatRoom(targetNickname);
+    try {
+      await findOrCreateChatRoom(targetNickname);
+    } catch (e) {
+      toastError(e);
+    }
   };
 
   return (

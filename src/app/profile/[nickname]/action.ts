@@ -8,7 +8,7 @@ type ScrapsInsert = TablesInsert<"scraps">;
 
 export async function getUserByNickname(nickname: string): Promise<User> {
   if (!nickname) {
-    throw new Error("닉네임은 필수 입력값입니다.");
+    throw new Error("프로필 조회에 실패했습니다");
   }
 
   const supabase = await createClient();
@@ -18,12 +18,8 @@ export async function getUserByNickname(nickname: string): Promise<User> {
     error: authError,
   } = await supabase.auth.getUser();
 
-  if (authError) {
-    throw new Error(`인증 상태 확인 중 오류 발생: ${authError.message}`);
-  }
-
-  if (!user || !user.email) {
-    throw new Error("인증된 사용자가 아닙니다.");
+  if (authError || !user || !user.email) {
+    redirect("/login");
   }
 
   const { data: queriedUsers, error: queryError } = await supabase
@@ -32,19 +28,18 @@ export async function getUserByNickname(nickname: string): Promise<User> {
     .eq("nickname", nickname);
 
   if (queryError) {
-    throw new Error(`조회 중 오류 발생: ${queryError.message}`);
+    console.error("프로필 조회 실패: ", queryError.message);
+    throw new Error("프로필 조회에 실패했습니다");
   }
 
   if (!queriedUsers || queriedUsers.length === 0) {
-    throw new Error(
-      `닉네임 '${nickname}'에 해당하는 사용자를 찾을 수 없습니다.`,
-    );
+    throw new Error("프로필 조회에 실패했습니다");
   }
 
   const userResult = queriedUsers[0];
 
   if (!userResult) {
-    throw new Error("조회된 사용자 데이터가 유효하지 않습니다.");
+    throw new Error("프로필 조회에 실패했습니다");
   }
 
   return userResult as User;
@@ -58,7 +53,7 @@ export async function getIsScrapped(nickname: string) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error("인증된 사용자가 아닙니다.");
+    redirect("/login");
   }
 
   const { data, error } = await supabase
@@ -72,7 +67,9 @@ export async function getIsScrapped(nickname: string) {
     .eq("user_id", user.id)
     .eq("users.nickname", nickname);
 
-  if (error) throw error;
+  if (error) {
+    console.error("스크랩 정보 조회 실패: ", error.message);
+  }
 
   return data && data.length > 0;
 }
@@ -85,15 +82,20 @@ export async function addScrap(targetUserId: string) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error("인증된 사용자가 아닙니다.");
+    redirect("/login");
   }
 
   const values: ScrapsInsert = {
     user_id: user.id,
     target_user_id: targetUserId,
   };
+
   const { error } = await supabase.from("scraps").insert(values);
-  if (error) throw error;
+
+  if (error) {
+    throw new Error("스크랩에 실패했습니다");
+  }
+
   return true;
 }
 
@@ -105,7 +107,7 @@ export async function removeScrap(targetUserId: string) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error("인증된 사용자가 아닙니다.");
+    redirect("/login");
   }
 
   const { error } = await supabase
@@ -114,7 +116,10 @@ export async function removeScrap(targetUserId: string) {
     .eq("user_id", user.id)
     .eq("target_user_id", targetUserId);
 
-  if (error) throw error;
+  if (error) {
+    throw new Error("스크랩 해제에 실패했습니다");
+  }
+
   return true;
 }
 
@@ -127,7 +132,7 @@ export const findOrCreateChatRoom = async (nickname: string) => {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error("인증된 사용자가 아닙니다.");
+    redirect("/login");
   }
 
   const user1Id = user.id;
@@ -140,11 +145,8 @@ export const findOrCreateChatRoom = async (nickname: string) => {
     .single();
 
   if (targetUserError) {
-    if (targetUserError.code === "PGRST116") {
-      throw new Error("해당 닉네임을 가진 사용자가 존재하지 않습니다.");
-    } else {
-      throw targetUserError;
-    }
+    console.error("상대방 정보 조회 실패: ", targetUserError.message);
+    throw new Error("상대방 정보 조회에 실패했습니다");
   }
 
   const user2Id = targetUser.id;
@@ -158,7 +160,11 @@ export const findOrCreateChatRoom = async (nickname: string) => {
     )
     .single();
 
-  if (error && error.code !== "PGRST116") throw error; // PGRST116: no rows found
+  if (error && error.code !== "PGRST116") {
+    console.error("채팅방 조회 실패: ", error.message);
+    throw new Error("채팅방 이동에 실패했습니다");
+  }
+
   if (data) {
     redirect(`/chat/${data.id}`);
     return;
@@ -174,7 +180,10 @@ export const findOrCreateChatRoom = async (nickname: string) => {
     .select("id")
     .single();
 
-  if (createRoomError) throw createRoomError;
+  if (createRoomError) {
+    console.error("채팅방 생성 실패: ", createRoomError.message);
+    throw new Error("채팅방 이동에 실패했습니다");
+  }
 
   redirect(`/chat/${newRoom.id}`);
 };
