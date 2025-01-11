@@ -37,6 +37,7 @@ export const errorMessage = style({
   whiteSpace: "normal",
   padding: "5px",
   fontSize: "15px",
+  textAlign: "center",
 });
 
 export const buttonContainer = style({
