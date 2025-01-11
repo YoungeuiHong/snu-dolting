@@ -1,17 +1,13 @@
 "use client";
 import {
-  background,
-  container,
-  gradientOverlay,
   loginButton,
-  loginButtonText,
-  logo,
-} from "./main.css";
+  loginMessage,
+  loginPageContainer,
+} from "@/app/login/page.css";
 import { createClient } from "@/utils/supabase/client";
-import { useEffect } from "react";
 import { toast } from "sonner";
 
-export default function Home() {
+export default function LoginPage() {
   const handleLogin = async () => {
     const supabase = createClient();
     const redirectUrl =
@@ -37,24 +33,12 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/sw.js")
-        .catch((err) => console.error("서비스 워커 등록 실패 : ", err));
-    }
-  }, []);
-
   return (
-    <div>
-      <main className={container}>
-        <div className={background}></div>
-        <p className={logo}>스누돌팅</p>
-        <button className={loginButton} onClick={handleLogin}>
-          <span className={loginButtonText}>구글로 시작하기</span>
-        </button>
-        <div className={gradientOverlay} />
-      </main>
+    <div className={loginPageContainer}>
+      <p className={loginMessage}>로그인 후 이용해주세요</p>
+      <button className={loginButton} onClick={handleLogin}>
+        로그인하기
+      </button>
     </div>
   );
 }
