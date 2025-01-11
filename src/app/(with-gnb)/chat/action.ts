@@ -1,5 +1,6 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export const getUserChatRoomsWithMessages = async () => {
   const supabase = await createClient();
@@ -9,7 +10,7 @@ export const getUserChatRoomsWithMessages = async () => {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error("인증된 사용자가 아닙니다.");
+    redirect("/login");
   }
 
   const { data: chatRooms, error: chatRoomsError } = await supabase
@@ -23,7 +24,9 @@ export const getUserChatRoomsWithMessages = async () => {
     )
     .or(`user1_id.eq.${user.id},user2_id.eq.${user.id}`);
 
-  if (chatRoomsError) throw chatRoomsError;
+  if (chatRoomsError) {
+    throw new Error("채팅방 목록 조회에 실패했습니다");
+  }
 
   if (chatRooms && chatRooms.length === 0) return [];
 
@@ -42,7 +45,7 @@ export const getUserChatRoomsWithMessages = async () => {
 
       if (otherUserError) {
         console.error(
-          "상대방 정보를 가져오는 데 실패했습니다:",
+          "채팅방 상대 정보 조회에 실패했습니다:",
           otherUserError.message,
         );
         return null;
@@ -58,7 +61,7 @@ export const getUserChatRoomsWithMessages = async () => {
 
       if (unreadError) {
         console.error(
-          "읽지 않은 메시지 개수를 가져오는 데 실패했습니다:",
+          "읽지 않은 메시지 개수 조회에 실패했습니다:",
           unreadError.message,
         );
         return null;
@@ -93,14 +96,18 @@ export const getUserChatRoomsWithMessages = async () => {
     .in("chat_room_id", chatRoomIds)
     .order("created_at", { ascending: false });
 
-  if (messagesError) throw messagesError;
+  if (messagesError) {
+    console.error("최근 메세지 조회에 실패했습니다: ", messagesError.message);
+  }
 
   return enrichedChatRooms
     .map((room) => {
       if (!room) return null;
-      const recentMessage = recentMessages.find(
+
+      const recentMessage = recentMessages?.find(
         (message) => message.chat_room_id === room.id,
       );
+
       return {
         ...room,
         recentMessage: recentMessage || null,
