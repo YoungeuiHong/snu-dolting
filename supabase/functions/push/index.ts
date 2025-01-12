@@ -78,6 +78,7 @@ Deno.serve(async (req) => {
             title: nickname,
             body: payload.record.content,
             image: profilePicture,
+            url: `/chat/${payload.record.chat_room_id}`,
           },
         },
       }),
