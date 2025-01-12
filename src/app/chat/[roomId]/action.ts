@@ -81,7 +81,7 @@ export const fetchMessages = async (
     .from("messages")
     .select("id, content, image_url, created_at, user_id, is_read")
     .eq("chat_room_id", roomId)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: false });
 
   if (messagesError) {
     console.error("채팅방 메세지 조회 실패: ", messagesError.message);

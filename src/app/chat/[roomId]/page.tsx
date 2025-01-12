@@ -65,13 +65,6 @@ export default function ChatRoomPage({
 
   const supabase = createClient();
 
-  const scrollToBottom = () => {
-    if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTop =
-        messageContainerRef.current.scrollHeight;
-    }
-  };
-
   useEffect(() => {
     const fetchUserAndMessages = async () => {
       const {
@@ -88,7 +81,6 @@ export default function ChatRoomPage({
       try {
         const serverMessages = await fetchMessages(roomId, user.id);
         setMessages(serverMessages);
-        scrollToBottom();
 
         const { otherNickname, profilePicture } = await markMessagesAsRead(
           roomId,
@@ -104,10 +96,6 @@ export default function ChatRoomPage({
 
     fetchUserAndMessages();
   }, [roomId, router, supabase]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
   useEffect(() => {
     if (!user) return;
@@ -126,7 +114,6 @@ export default function ChatRoomPage({
       (payload) => {
         const newMessage = payload.new;
         setMessages((prev) => [
-          ...prev,
           {
             id: newMessage.id,
             content: newMessage.content,
@@ -135,6 +122,7 @@ export default function ChatRoomPage({
             isRead: newMessage.is_read,
             imageUrl: newMessage.image_url,
           },
+          ...prev,
         ]);
       },
     );
@@ -270,8 +258,8 @@ export default function ChatRoomPage({
       <div ref={messageContainerRef} className={messageContainer}>
         {messages.map((msg, index) => {
           const showDate =
-            index === 0 ||
-            formatLocalTime(messages[index - 1].createdAt, "YYYY년 M월 D일") !==
+            index === messages.length - 1 ||
+            formatLocalTime(messages[index + 1].createdAt, "YYYY년 M월 D일") !==
               formatLocalTime(msg.createdAt, "YYYY년 M월 D일");
 
           return (

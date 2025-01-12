@@ -44,7 +44,7 @@ export const messageContainer = style({
   flexGrow: 1,
   overflowY: "auto",
   display: "flex",
-  flexDirection: "column",
+  flexDirection: "column-reverse",
   gap: "10px",
   padding: "0 20px",
 });
