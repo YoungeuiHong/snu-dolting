@@ -1,11 +1,11 @@
 "use client";
-import { CSSProperties, use, useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   fetchMessages,
   markMessagesAsRead,
-  sendMessage as sendMessageAction,
   MessageDto,
+  sendMessage as sendMessageAction,
 } from "@/app/chat/[roomId]/action";
 import { User } from "@supabase/auth-js";
 import { Sender } from "@/types/chat";
@@ -28,20 +28,13 @@ import {
   messageOtherWrapper,
   messageTime,
   nickname,
+  sendButton,
   unreadMessage,
 } from "./page.css";
 import { uploadImage } from "@/utils/supabase/storage";
 import heic2any from "heic2any";
 import { toastError } from "@/utils/error";
 import { toast } from "sonner";
-
-const buttonStyle: CSSProperties = {
-  backgroundColor: "#1474FF",
-  width: "43px",
-  height: "43px",
-  borderRadius: "43px",
-  color: "white",
-};
 
 export default function ChatRoomPage({
   params: rawParams,
@@ -56,7 +49,7 @@ export default function ChatRoomPage({
   const [messages, setMessages] = useState<MessageDto[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
-  const [isSending, setIsSending] = useState<boolean>(false); // 전송 중 상태 관리
+  const [isSending, setIsSending] = useState<boolean>(false);
   const [otherNickname, setOtherNickname] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<string>("");
 
@@ -356,7 +349,8 @@ export default function ChatRoomPage({
             width={18}
             height={18}
             onClick={onClickImageButton}
-            style={{ ...buttonStyle }}
+            className={sendButton}
+            disabled={isSending}
           />
         ) : (
           <SvgIconButton
@@ -365,7 +359,8 @@ export default function ChatRoomPage({
             width={18}
             height={18}
             onClick={() => sendMessage()}
-            style={{ ...buttonStyle }}
+            className={sendButton}
+            disabled={isSending}
           />
         )}
       </div>

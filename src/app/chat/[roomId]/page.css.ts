@@ -140,3 +140,15 @@ export const input = style({
     outline: "none",
   },
 });
+
+export const sendButton = style({
+  backgroundColor: "#1474FF",
+  width: "43px",
+  height: "43px",
+  borderRadius: "43px",
+  color: "white",
+
+  ":disabled": {
+    backgroundColor: "#bdbdbd",
+  },
+});
