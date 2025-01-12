@@ -23,6 +23,9 @@ messaging.onBackgroundMessage((payload) => {
     body: payload.data.body,
     icon:
       payload.data.image || "/app-icon/android/android-launchericon-48-48.png",
+    data: {
+      url: payload.data.url || "/",
+    },
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
