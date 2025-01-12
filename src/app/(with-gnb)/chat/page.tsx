@@ -57,7 +57,7 @@ export default async function ChatRoomsPage() {
                       </div>
                       <div className={textBottomContainer}>
                         <span className={recentMessage}>
-                          {room.recentMessage?.content}
+                          {room.recentMessage?.content || "사진을 보냈습니다"}
                         </span>
                         {room.unreadCount > 0 && (
                           <span className={unreadCount}>
