@@ -111,7 +111,7 @@ export default function ChatRoomPage({
         table: "messages",
         filter: `chat_room_id=eq.${roomId}`,
       },
-      (payload) => {
+      async (payload) => {
         const newMessage = payload.new;
         setMessages((prev) => [
           {
@@ -124,6 +124,14 @@ export default function ChatRoomPage({
           },
           ...prev,
         ]);
+
+        if (newMessage.user_id !== user.id) {
+          try {
+            await markMessagesAsRead(roomId, user.id);
+          } catch (error) {
+            console.error("새 메시지 읽음 처리 실패:", error);
+          }
+        }
       },
     );
 
