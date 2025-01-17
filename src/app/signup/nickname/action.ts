@@ -1,3 +1,4 @@
+"use server";
 import { z } from "zod";
 import {
   SignUpActionResponse,
@@ -5,6 +6,8 @@ import {
   updateUser,
 } from "@/app/signup/actions";
 import { moveToNextStepPath, Step } from "@/app/signup/utils/steps";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 const nicknameSchema = z
   .string()
@@ -32,6 +35,33 @@ export async function updateNickname(
   const validateNickname = nicknameSchema.safeParse(nickname);
   if (!validateNickname.success) {
     errors.nickname = validateNickname.error.flatten().formErrors.join(" / ");
+  }
+
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  // 닉네임 중복 여부 확인
+  if (nickname) {
+    const { data: existingNickname, error: fetchError } = await supabase
+      .from("users")
+      .select("nickname")
+      .neq("id", user.id)
+      .eq("nickname", nickname)
+      .single();
+
+    if (fetchError && fetchError.code !== "PGRST116") {
+      console.error("닉네임 확인 중 에러 발생:", fetchError);
+      errors.nickname = "닉네임 중복 확인 중 에러가 발생했습니다.";
+    } else if (existingNickname) {
+      errors.nickname = "이미 존재하는 닉네임입니다.";
+    }
   }
 
   const validateIntroduction = introductionSchema.safeParse(introduction);
