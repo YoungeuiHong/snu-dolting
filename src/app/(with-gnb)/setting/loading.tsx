@@ -7,6 +7,7 @@ export default function Loading() {
       <Skeleton height={57} borderRadius={5} />
       <Skeleton height={57} borderRadius={5} />
       <Skeleton height={57} borderRadius={5} />
+      <Skeleton height={57} borderRadius={5} />
     </div>
   );
 }

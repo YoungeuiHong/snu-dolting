@@ -14,12 +14,31 @@ export default async function SettingPage() {
   return (
     <div className={settingContainer}>
       <Link
+        href="/profile/my"
+        style={{ textDecoration: "none", color: "#424242" }}
+      >
+        <div className={itemContainer}>
+          <Image
+            src="/icon/profile.svg"
+            alt="내 프로필"
+            width={14}
+            height={14}
+          />
+          <span>내 프로필 보기</span>
+        </div>
+      </Link>
+      <Link
         href="/signup/nickname"
         style={{ textDecoration: "none", color: "#424242" }}
       >
         <div className={itemContainer}>
-          <Image src="/icon/edit.svg" alt="로그아웃" width={14} height={14} />
-          <span>내 정보 수정하기</span>
+          <Image
+            src="/icon/edit.svg"
+            alt="내 프로필 수정"
+            width={14}
+            height={14}
+          />
+          <span>내 프로필 수정하기</span>
         </div>
       </Link>
       <NotificationSetting hasFcmToken={hasFcmToken} />
