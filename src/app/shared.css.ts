@@ -62,3 +62,10 @@ export const header = style({
   boxSizing: "border-box",
   background: "white",
 });
+
+export const loadingContainer = style({
+  padding: "20px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "5px",
+});
