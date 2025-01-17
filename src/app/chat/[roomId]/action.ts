@@ -1,8 +1,9 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
 import { Sender } from "@/types/chat";
+import { redirect } from "next/navigation";
 
-type MarkMessagesAsReadResponse = {
+type OtherUserInfo = {
   otherNickname: string | null;
   profilePicture: string | null;
 };
@@ -19,11 +20,16 @@ export interface MessageDto {
 type FetchMessagesResponse = MessageDto[];
 
 // 메시지 읽음 처리 함수
-export const markMessagesAsRead = async (
-  roomId: string,
-  userId: string,
-): Promise<MarkMessagesAsReadResponse> => {
+export const markMessagesAsRead = async (roomId: string): Promise<string> => {
   const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
 
   const { data: chatRoom, error: chatRoomError } = await supabase
     .from("chat_rooms")
@@ -37,19 +43,7 @@ export const markMessagesAsRead = async (
   }
 
   const otherId =
-    chatRoom.user1_id === userId ? chatRoom.user2_id : chatRoom.user1_id;
-
-  // 상대방 닉네임 가져오기
-  const { data: otherUser, error: otherUserError } = await supabase
-    .from("users")
-    .select("nickname, profile_picture")
-    .eq("id", otherId)
-    .single();
-
-  if (otherUserError) {
-    console.error("채팅방 상대 정보 조회 실패:", otherUserError.message);
-    throw new Error("채팅방 조회에 실패했습니다");
-  }
+    chatRoom.user1_id === user.id ? chatRoom.user2_id : chatRoom.user1_id;
 
   // 읽지 않은 메시지 읽음 처리
   const { error: updateError } = await supabase
@@ -63,6 +57,25 @@ export const markMessagesAsRead = async (
     console.error("메세지 읽음 처리에 실패: ", updateError.message);
   }
 
+  return otherId;
+};
+
+export const getOtherUserInfo = async (
+  otherId: string,
+): Promise<OtherUserInfo> => {
+  const supabase = await createClient();
+
+  const { data: otherUser, error: otherUserError } = await supabase
+    .from("users")
+    .select("nickname, profile_picture")
+    .eq("id", otherId)
+    .single();
+
+  if (otherUserError) {
+    console.error("채팅방 상대 정보 조회 실패:", otherUserError.message);
+    throw new Error("채팅방 조회에 실패했습니다");
+  }
+
   return {
     otherNickname: otherUser.nickname,
     profilePicture: otherUser.profile_picture,
@@ -72,9 +85,16 @@ export const markMessagesAsRead = async (
 // 메시지 가져오기 함수
 export const fetchMessages = async (
   roomId: string,
-  userId: string,
 ): Promise<FetchMessagesResponse> => {
   const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
 
   // 메시지 가져오기
   const { data: messages, error: messagesError } = await supabase
@@ -95,8 +115,33 @@ export const fetchMessages = async (
     imageUrl: message.image_url,
     createdAt: message.created_at,
     isRead: message.is_read,
-    sender: message.user_id === userId ? Sender.Me : Sender.Other,
+    sender: message.user_id === user.id ? Sender.Me : Sender.Other,
   }));
+};
+
+interface ChatRoomInfo {
+  userId: string;
+  otherNickname: string | null;
+  profilePicture: string | null;
+  messages: MessageDto[];
+}
+
+export const initChatRoom = async (roomId: string): Promise<ChatRoomInfo> => {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const otherId = await markMessagesAsRead(roomId);
+  const otherUser = await getOtherUserInfo(otherId);
+  const messages = await fetchMessages(roomId);
+
+  return { ...otherUser, userId: user.id, messages };
 };
 
 // 메세지 전송하기
