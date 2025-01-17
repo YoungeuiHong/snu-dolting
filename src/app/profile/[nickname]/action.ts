@@ -156,7 +156,7 @@ export const findOrCreateChatRoom = async (nickname: string) => {
     .from("chat_rooms")
     .select("id")
     .or(
-      `and(user1_id.eq.${user1Id},user2_id.eq.${user2Id}),and(user1_id.eq.${user2Id},user1_id.eq.${user1Id})`,
+      `and(user1_id.eq.${user1Id},user2_id.eq.${user2Id}),and(user1_id.eq.${user2Id},user2_id.eq.${user1Id})`,
     )
     .single();
 
