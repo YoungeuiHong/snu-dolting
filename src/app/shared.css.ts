@@ -66,7 +66,7 @@ export const header = style({
 export const loadingContainer = style({
   width: "100%",
   maxWidth: "900px",
-  margin: "auto",
+  margin: "0 auto",
   padding: "20px",
   display: "flex",
   flexDirection: "column",
