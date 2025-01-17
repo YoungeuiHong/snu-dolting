@@ -28,13 +28,14 @@ import {
   messageOtherWrapper,
   messageTime,
   nickname,
+  profileLink,
   sendButton,
   unreadMessage,
 } from "./page.css";
 import { uploadImage } from "@/utils/supabase/storage";
-import heic2any from "heic2any";
 import { toastError } from "@/utils/error";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function ChatRoomPage({
   params: rawParams,
@@ -193,6 +194,8 @@ export default function ChatRoomPage({
     if (file) {
       if (file.type === "image/heic" || file.name.endsWith(".heic")) {
         try {
+          const heic2any = (await import("heic2any")).default;
+
           const convertedBlob = await heic2any({
             blob: file,
             toType: "image/jpeg",
@@ -246,14 +249,19 @@ export default function ChatRoomPage({
           height={20}
           onClick={() => router.push("/chat")}
         />
-        <ImageWithFallback
-          src={profilePicture}
-          alt="프로필 이미지"
-          width={30}
-          height={30}
-          style={{ borderRadius: "50%" }}
-        />
-        <span className={nickname}>{otherNickname}</span>
+        <Link
+          href={`/profile/${encodeURIComponent(otherNickname)}`}
+          className={profileLink}
+        >
+          <ImageWithFallback
+            src={profilePicture}
+            alt="프로필 이미지"
+            width={30}
+            height={30}
+            style={{ borderRadius: "50%" }}
+          />
+          <span className={nickname}>{otherNickname}</span>
+        </Link>
       </div>
 
       <div ref={messageContainerRef} className={messageContainer}>

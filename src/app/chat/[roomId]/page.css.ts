@@ -14,11 +14,18 @@ export const chatContainer = style({
 export const chatHeader = style({
   display: "flex",
   borderBottom: "1px solid #eeeeee",
-  gap: "10px",
+  gap: "12px",
   alignItems: "center",
   padding: "20px 10px 10px 10px",
   height: "60px",
   background: "white",
+});
+
+export const profileLink = style({
+  textDecoration: "none",
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
 });
 
 export const nickname = style({
