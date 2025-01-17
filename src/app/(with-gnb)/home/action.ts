@@ -31,7 +31,11 @@ export async function getUsers(
     throw new Error("사용자 목록 조회에 실패했습니다");
   }
 
-  let query = supabase.from("users").select("*");
+  let query = supabase
+    .from("users")
+    .select(
+      "nickname, profile_picture, introduction, birth_year, has_children, height, weight, job, religion, location",
+    );
 
   query = query.neq("id", user.id);
 
