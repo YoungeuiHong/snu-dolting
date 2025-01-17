@@ -5,8 +5,6 @@ export interface UserFilters {
   remarriageIntent?: string;
   hasChildren?: string;
   heightRange?: { min?: number; max?: number };
-  isSnuGraduate?: boolean;
-  photoExchangeIntent?: boolean;
   religion?: string[];
 }
 
@@ -15,7 +13,5 @@ export const INITIAL_FILTER: UserFilters = {
   remarriageIntent: "all",
   hasChildren: "all",
   heightRange: { min: undefined, max: undefined },
-  isSnuGraduate: undefined,
-  photoExchangeIntent: undefined,
   religion: Object.keys(ReligionLabels),
 };

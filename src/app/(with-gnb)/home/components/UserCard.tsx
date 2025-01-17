@@ -14,7 +14,7 @@ import {
 } from "@/app/(with-gnb)/home/components/UserCard.css";
 
 interface UserCardProps {
-  user: User;
+  user: Partial<User>;
 }
 
 export const UserCard = ({ user }: UserCardProps) => (
@@ -26,7 +26,7 @@ export const UserCard = ({ user }: UserCardProps) => (
     <div className={userCard}>
       <div className={userCardHeader}>
         <ImageWithFallback
-          src={user.profile_picture}
+          src={user.profile_picture || null}
           alt="프로필 이미지"
           width={50}
           height={50}

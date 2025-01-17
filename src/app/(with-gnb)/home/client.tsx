@@ -12,13 +12,13 @@ import { INITIAL_FILTER, UserFilters } from "@/types/filter";
 import { toastError } from "@/utils/error";
 
 interface Props {
-  initUsers: User[];
+  initUsers: Partial<User>[];
 }
 
 export default function ClientMainPage({ initUsers }: Props) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filters, setFilters] = useState(INITIAL_FILTER);
-  const [users, setUsers] = useState<User[]>(initUsers);
+  const [users, setUsers] = useState<Partial<User>[]>(initUsers);
   const [isFilterActive, setIsFilterActive] = useState<boolean>(false);
 
   const handleFilterChange = <K extends keyof UserFilters>(

@@ -4,7 +4,7 @@ import { User } from "@/types/user";
 import { UserFilters } from "@/types/filter";
 
 interface GetUsersResponse {
-  users: User[];
+  users: Partial<User>[];
 }
 
 export async function getUsers(
@@ -65,12 +65,6 @@ export async function getUsers(
     if (filters.heightRange.max !== undefined) {
       query = query.lte("height", filters.heightRange.max);
     }
-  }
-  if (filters?.isSnuGraduate !== undefined) {
-    query = query.eq("is_snu_graduate", filters.isSnuGraduate);
-  }
-  if (filters?.photoExchangeIntent !== undefined) {
-    query = query.eq("photo_exchange_intent", filters.photoExchangeIntent);
   }
   if (filters?.religion) {
     query = query.in("religion", filters.religion);
