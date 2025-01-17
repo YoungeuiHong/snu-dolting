@@ -43,7 +43,7 @@ export const ActionBar = ({
     try {
       await findOrCreateChatRoom(targetNickname);
     } catch (e) {
-      if (e.message !== "NEXT_REDIRECT") {
+      if (e instanceof Error && e.message !== "NEXT_REDIRECT") {
         toastError(e);
       }
     }
