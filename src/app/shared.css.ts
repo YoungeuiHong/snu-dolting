@@ -64,6 +64,8 @@ export const header = style({
 });
 
 export const loadingContainer = style({
+  maxWidth: "900px",
+  margin: "auto",
   padding: "20px",
   display: "flex",
   flexDirection: "column",
