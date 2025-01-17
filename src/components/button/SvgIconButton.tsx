@@ -9,6 +9,7 @@ interface Props {
   height: number;
   onClick: () => void;
   style?: CSSProperties;
+  svgStyle?: CSSProperties;
   label?: string;
   className?: string;
   disabled?: boolean;
@@ -24,6 +25,7 @@ export const SvgIconButton = ({
   label,
   className,
   disabled = false,
+  svgStyle,
 }: Props) => {
   return (
     <button
@@ -32,7 +34,13 @@ export const SvgIconButton = ({
       style={style}
       disabled={disabled}
     >
-      <Image src={src} alt={alt} width={width} height={height} />
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        style={svgStyle}
+      />
       {label && label}
     </button>
   );
