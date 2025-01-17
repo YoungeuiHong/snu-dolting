@@ -1,5 +1,3 @@
-"use client";
-import { logout } from "@/app/(with-gnb)/setting/action";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -7,18 +5,11 @@ import {
   settingContainer,
 } from "@/app/(with-gnb)/setting/page.css";
 import { NotificationSetting } from "@/app/(with-gnb)/setting/components/NotificationSetting";
-import { isServerError, toastError } from "@/utils/error";
+import { LogoutButton } from "@/app/(with-gnb)/setting/components/LogoutButton";
+import { getFCMTokenStatus } from "@/app/(with-gnb)/setting/components/actions";
 
-export default function SettingPage() {
-  const handleLogout = async () => {
-    try {
-      await logout();
-    } catch (e) {
-      if (isServerError(e)) {
-        toastError(e);
-      }
-    }
-  };
+export default async function SettingPage() {
+  const hasFcmToken = await getFCMTokenStatus();
 
   return (
     <div className={settingContainer}>
@@ -31,11 +22,8 @@ export default function SettingPage() {
           <span>내 정보 수정하기</span>
         </div>
       </Link>
-      <NotificationSetting />
-      <div className={itemContainer} onClick={handleLogout}>
-        <Image src="/icon/logout.svg" alt="로그아웃" width={14} height={14} />
-        <span>로그아웃하기</span>
-      </div>
+      <NotificationSetting hasFcmToken={hasFcmToken} />
+      <LogoutButton />
     </div>
   );
 }
