@@ -19,7 +19,7 @@ interface Props {
 
 export const ProfileInfo = ({ user }: Props) => {
   return (
-    <div className={container} style={{ paddingBottom: "10px" }}>
+    <div className={container}>
       <div className={imageWrapper}>
         <ImageWithFallback
           src={user.profile_picture || ""}
