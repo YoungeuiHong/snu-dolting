@@ -38,7 +38,7 @@ export default async function ChatRoomsPage() {
                 >
                   <div className={chatRoomContainer}>
                     <ImageWithFallback
-                      src={room.otherUser.profile_picture}
+                      src={room.otherUser?.profile_picture || null}
                       alt="프로필"
                       width={40}
                       height={40}
@@ -47,7 +47,7 @@ export default async function ChatRoomsPage() {
                     <div className={textContainer}>
                       <div className={textTopContainer}>
                         <span className={nickname}>
-                          {room.otherUser.nickname}
+                          {room.otherUser?.nickname}
                         </span>
                         <span className={createdAt}>
                           {room.recentMessage?.created_at

@@ -234,7 +234,15 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_unread_message_counts: {
+        Args: {
+          user_id: string;
+        };
+        Returns: {
+          chat_room_id: string;
+          unread_count: number;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;
