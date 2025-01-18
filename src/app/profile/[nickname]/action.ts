@@ -24,7 +24,9 @@ export async function getUserByNickname(nickname: string): Promise<User> {
 
   const { data: queriedUsers, error: queryError } = await supabase
     .from("users")
-    .select("*")
+    .select(
+      "appearance_description, birth_year, dating_style, daughter_count, has_children, height, ideal_type, inner_description, introduction, is_snu_graduate, job, location, nickname, photo_exchange_intent, profile_picture, religion, remarriage_intent, son_count, weight",
+    )
     .eq("nickname", nickname);
 
   if (queryError) {
@@ -74,7 +76,7 @@ export async function getIsScrapped(nickname: string) {
   return data && data.length > 0;
 }
 
-export async function addScrap(targetUserId: string) {
+export async function addScrap(nickname: string) {
   const supabase = await createClient();
 
   const {
@@ -85,9 +87,20 @@ export async function addScrap(targetUserId: string) {
     redirect("/login");
   }
 
+  const { data: targetUser, error: userError } = await supabase
+    .from("users")
+    .select("id")
+    .eq("nickname", nickname)
+    .single();
+
+  if (userError || !targetUser) {
+    console.error("스크랩 대상 조회 실패: ", userError?.message);
+    throw new Error("스크랩에 실패했습니다");
+  }
+
   const values: ScrapsInsert = {
     user_id: user.id,
-    target_user_id: targetUserId,
+    target_user_id: targetUser.id,
   };
 
   const { error } = await supabase.from("scraps").insert(values);
@@ -99,7 +112,7 @@ export async function addScrap(targetUserId: string) {
   return true;
 }
 
-export async function removeScrap(targetUserId: string) {
+export async function removeScrap(nickname: string) {
   const supabase = await createClient();
 
   const {
@@ -110,11 +123,22 @@ export async function removeScrap(targetUserId: string) {
     redirect("/login");
   }
 
+  const { data: targetUser, error: userError } = await supabase
+    .from("users")
+    .select("id")
+    .eq("nickname", nickname)
+    .single();
+
+  if (userError || !targetUser) {
+    console.error("스크랩 대상 조회 실패: ", userError?.message);
+    throw new Error("스크랩 해제에 실패했습니다");
+  }
+
   const { error } = await supabase
     .from("scraps")
     .delete()
     .eq("user_id", user.id)
-    .eq("target_user_id", targetUserId);
+    .eq("target_user_id", targetUser.id);
 
   if (error) {
     throw new Error("스크랩 해제에 실패했습니다");

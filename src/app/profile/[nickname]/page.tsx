@@ -21,7 +21,6 @@ export default async function Page({
       <ProfileInfo user={user} />;
       <ActionBar
         isScrapped={isScrapped || false}
-        targetUserId={user.id}
         targetNickname={user.nickname || ""}
       />
     </>

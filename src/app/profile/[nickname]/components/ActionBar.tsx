@@ -12,15 +12,10 @@ import { toastError } from "@/utils/error";
 
 interface Props {
   isScrapped: boolean;
-  targetUserId: string;
   targetNickname: string;
 }
 
-export const ActionBar = ({
-  isScrapped,
-  targetUserId,
-  targetNickname,
-}: Props) => {
+export const ActionBar = ({ isScrapped, targetNickname }: Props) => {
   const [scrapped, setScrapped] = useState(isScrapped);
 
   const handleScrapToggle = async () => {
@@ -29,9 +24,9 @@ export const ActionBar = ({
 
     try {
       if (currentStatus) {
-        await removeScrap(targetUserId);
+        await removeScrap(targetNickname);
       } else {
-        await addScrap(targetUserId);
+        await addScrap(targetNickname);
       }
     } catch (error) {
       setScrapped(currentStatus);
