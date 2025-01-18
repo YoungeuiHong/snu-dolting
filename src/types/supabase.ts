@@ -243,6 +243,13 @@ export type Database = {
           unread_count: number;
         }[];
       };
+      init_chat_room: {
+        Args: {
+          room_id: string;
+          current_user_id: string;
+        };
+        Returns: Json;
+      };
     };
     Enums: {
       [_ in never]: never;
