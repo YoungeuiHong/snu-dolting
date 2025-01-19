@@ -67,13 +67,14 @@ export async function getIsScrapped(nickname: string) {
     `,
     )
     .eq("user_id", user.id)
-    .eq("users.nickname", nickname);
+    .eq("users.nickname", nickname)
+    .single();
 
   if (error) {
     console.error("스크랩 정보 조회 실패: ", error.message);
   }
 
-  return data && data.length > 0;
+  return data && data.users !== null;
 }
 
 export async function addScrap(nickname: string) {
