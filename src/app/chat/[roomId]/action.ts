@@ -103,7 +103,7 @@ export const initChatRoom = async (roomId: string): Promise<ChatRoomInfo> => {
     userId: parsedData.userId,
     otherNickname: parsedData.otherUser.otherNickname,
     profilePicture: parsedData.otherUser.profilePicture,
-    messages: parsedData.messages.map((message) => ({
+    messages: (parsedData.messages ?? []).map((message) => ({
       id: message.id,
       content: message.content,
       imageUrl: message.imageUrl,
