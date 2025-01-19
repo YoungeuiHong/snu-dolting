@@ -58,23 +58,40 @@ export async function getIsScrapped(nickname: string) {
     redirect("/login");
   }
 
-  const { data, error } = await supabase
-    .from("scraps")
-    .select(
-      `
-      target_user_id,
-      users!scraps_target_user_id_fkey (nickname)
-    `,
-    )
-    .eq("user_id", user.id)
-    .eq("users.nickname", nickname)
+  // nickname에 해당하는 유저의 id 찾기
+  const { data: targetUser, error: userError } = await supabase
+    .from("users")
+    .select("id")
+    .eq("nickname", nickname)
     .single();
 
-  if (error) {
-    console.error("스크랩 정보 조회 실패: ", error.message);
+  if (userError) {
+    console.error(
+      nickname,
+      "에 해당되는 스크랩 상대 조회 실패: ",
+      userError.message,
+    );
+    return false;
   }
 
-  return data && data.users !== null;
+  if (!targetUser) {
+    console.error(nickname, "에 해당되는 스크랩 상대 조회 실패");
+    return false;
+  }
+
+  const { data: scrap, error: scrapError } = await supabase
+    .from("scraps")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("target_user_id", targetUser.id)
+    .single();
+
+  if (scrapError) {
+    console.error("스크랩 정보 조회 실패: ", scrapError.message);
+    return false;
+  }
+
+  return !!scrap;
 }
 
 export async function addScrap(nickname: string) {
