@@ -9,7 +9,7 @@ import { LogoutButton } from "@/app/(with-gnb)/setting/components/LogoutButton";
 import { getFCMTokenStatus } from "@/app/(with-gnb)/setting/components/actions";
 
 export default async function SettingPage() {
-  const hasFcmToken = await getFCMTokenStatus();
+  const fcmToken = await getFCMTokenStatus();
 
   return (
     <div className={settingContainer}>
@@ -41,7 +41,7 @@ export default async function SettingPage() {
           <span>내 프로필 수정하기</span>
         </div>
       </Link>
-      <NotificationSetting hasFcmToken={hasFcmToken} />
+      <NotificationSetting hasFcmToken={fcmToken !== null} />
       <LogoutButton />
     </div>
   );

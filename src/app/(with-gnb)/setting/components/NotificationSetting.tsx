@@ -4,33 +4,28 @@ import { useEffect, useState } from "react";
 import {
   leftContainer,
   notificationSetting,
-  toggleWrapper,
   toggleKnob,
-  toggleWrapperActive,
   toggleKnobActive,
+  toggleWrapper,
+  toggleWrapperActive,
 } from "@/app/(with-gnb)/setting/components/NotificationSetting.css";
 import { getToken } from "firebase/messaging";
 import { messaging } from "@/utils/firebase";
-import { updateFCMToken, getFCMTokenStatus } from "./actions";
+import { updateFCMToken } from "./actions";
 import { toastError } from "@/utils/error";
 
 interface Props {
-  hasFcmToken: string | null;
+  hasFcmToken: boolean;
 }
 
 export const NotificationSetting = ({ hasFcmToken }: Props) => {
-  const [alertGranted, setAlertGranted] = useState<boolean>(
-    hasFcmToken !== null,
-  );
+  const [alertGranted, setAlertGranted] = useState<boolean>(hasFcmToken);
 
   useEffect(() => {
     const initializeAlertGranted = async () => {
       if (typeof window !== "undefined" && "Notification" in window) {
         try {
-          const fcmToken = await getFCMTokenStatus();
-          setAlertGranted(
-            Notification.permission === "granted" && fcmToken !== null,
-          );
+          setAlertGranted(Notification.permission === "granted" && hasFcmToken);
         } catch (e) {
           toastError(e);
         }
