@@ -87,11 +87,7 @@ export const ProfileInfo = ({ user }: Props) => {
         </div>
         <div>
           <p className={title}>자녀 유무</p>
-          <p className={content}>
-            {user.has_children
-              ? `유자녀 (아들 ${user.son_count}명, 딸 ${user.daughter_count}명)`
-              : "무자녀"}
-          </p>
+          <p className={content}>{user.has_children ? "유자녀" : "무자녀"}</p>
         </div>
       </div>
     </div>

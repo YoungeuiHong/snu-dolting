@@ -18,7 +18,7 @@ export async function getMyInfo(): Promise<Partial<User>> {
   const { data: myInfo, error: queryError } = await supabase
     .from("users")
     .select(
-      "appearance_description, birth_year, dating_style, daughter_count, has_children, height, ideal_type, inner_description, introduction, is_snu_graduate, job, location, nickname, photo_exchange_intent, profile_picture, religion, remarriage_intent, son_count, weight",
+      "appearance_description, birth_year, dating_style, has_children, height, ideal_type, inner_description, introduction, is_snu_graduate, job, location, nickname, photo_exchange_intent, profile_picture, religion, remarriage_intent, weight",
     )
     .eq("id", user.id)
     .single();
