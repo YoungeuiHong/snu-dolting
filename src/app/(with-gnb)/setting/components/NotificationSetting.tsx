@@ -35,26 +35,41 @@ export const NotificationSetting = ({ hasFcmToken }: Props) => {
   }, []);
 
   const onClickAlert = async () => {
+    const previousState = alertGranted;
+
+    setAlertGranted(!alertGranted);
+
     if (alertGranted) {
-      // 알림 비활성화
-      await updateFCMToken(null);
-      setAlertGranted(false);
+      try {
+        await updateFCMToken(null);
+      } catch (e) {
+        setAlertGranted(previousState);
+        toastError(e);
+      }
     } else {
-      // 알림 활성화
       if ("Notification" in window) {
-        const permission = await Notification.requestPermission();
-        if (permission === "granted") {
-          const token = await getToken(messaging, {
-            vapidKey:
-              "BMuOuAa7hCW6sW16fgKLOQaNulOhO7n21D8Ziqq_UxWibYPdaO6hdEbMuHZ0UuBV3E3tIQhkrAyuWdqoKAERGe4",
-          });
-          if (token) {
-            await updateFCMToken(token);
-            setAlertGranted(true);
+        try {
+          const permission = await Notification.requestPermission();
+          if (permission === "granted") {
+            const token = await getToken(messaging, {
+              vapidKey:
+                "BMuOuAa7hCW6sW16fgKLOQaNulOhO7n21D8Ziqq_UxWibYPdaO6hdEbMuHZ0UuBV3E3tIQhkrAyuWdqoKAERGe4",
+            });
+            if (token) {
+              await updateFCMToken(token);
+            } else {
+              console.error("FCM 토큰 발급 실패");
+              setAlertGranted(previousState);
+            }
           } else {
-            console.error("FCM 토큰 발급 실패");
+            setAlertGranted(previousState);
           }
+        } catch (e) {
+          setAlertGranted(previousState);
+          toastError(e);
         }
+      } else {
+        setAlertGranted(previousState);
       }
     }
   };
