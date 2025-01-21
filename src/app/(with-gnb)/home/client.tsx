@@ -7,7 +7,7 @@ import { Religion } from "@/types/religion";
 import { User } from "@/types/user";
 import { mainContainer } from "@/app/(with-gnb)/home/page.css";
 import { FilterButton } from "@/app/(with-gnb)/home/components/FilterButton";
-import { NoResult } from "@/app/(with-gnb)/home/components/NoResult";
+import { NoResult } from "@/components/no-result/NoResult";
 import { INITIAL_FILTER, UserFilters } from "@/types/filter";
 import { toastError } from "@/utils/error";
 
@@ -89,7 +89,7 @@ export default function ClientMainPage({ initUsers }: Props) {
       {users.length > 0 ? (
         users.map((user) => <UserCard key={user.nickname} user={user} />)
       ) : (
-        <NoResult />
+        <NoResult noResultMessage="사용자를 찾을 수 없습니다." />
       )}
     </div>
   );
