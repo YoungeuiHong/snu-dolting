@@ -36,12 +36,11 @@ export const getCachedUsers = unstable_cache(
     let query = supabase
       .from("users")
       .select(
-        "nickname, profile_picture, introduction, birth_year, has_children, height, weight, job, religion, location",
-      );
-
-    query = query.neq("id", user.id);
-
-    query = query.eq("gender", myInfo.gender === "male" ? "female" : "male");
+        "nickname, profile_picture, introduction, birth_year, has_children, height, weight, job, religion, location, is_profile_complete",
+      )
+      .neq("id", user.id)
+      .eq("gender", myInfo.gender === "male" ? "female" : "male")
+      .eq("is_profile_complete", true);
 
     if (filters?.birthYearRange) {
       if (filters.birthYearRange.min !== undefined) {
