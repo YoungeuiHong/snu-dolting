@@ -1,7 +1,8 @@
 "use client";
-import { SvgIconButton } from "@/components/button";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { gnbButton } from "@/components/gnb/gnb.css";
+import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   src: string;
@@ -10,23 +11,22 @@ interface Props {
 }
 
 export const GnbButton = ({ src, alt, url }: Props) => {
-  const router = useRouter();
   const path = usePathname();
 
   return (
-    <SvgIconButton
-      src={src}
-      alt={alt}
-      width={20}
-      height={20}
-      onClick={() => router.push(url)}
-      className={gnbButton}
-      svgStyle={{
-        filter:
-          path === url
-            ? "invert(41%) sepia(73%) saturate(1500%) hue-rotate(248deg) brightness(75%) contrast(110%)"
-            : "",
-      }}
-    />
+    <Link href={url} className={gnbButton}>
+      <Image
+        src={src}
+        alt={alt}
+        width={20}
+        height={20}
+        style={{
+          filter:
+            path === url
+              ? "invert(41%) sepia(73%) saturate(1500%) hue-rotate(248deg) brightness(75%) contrast(110%)"
+              : "",
+        }}
+      />
+    </Link>
   );
 };
