@@ -59,6 +59,15 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
+    if (user?.id) {
+      response.cookies.set("userId", user.id, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+      });
+    }
+
     if (request.nextUrl.pathname === "/" && user) {
       return NextResponse.redirect(new URL("/home", request.url));
     }
