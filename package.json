@@ -12,6 +12,8 @@
     "@lottiefiles/dotlottie-react": "^0.12.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.46.1",
+    "@tanstack/react-query": "^5.64.2",
+    "@tanstack/react-query-devtools": "^5.64.2",
     "@vanilla-extract/css": "^1.16.0",
     "dayjs": "^1.11.13",
     "firebase": "^11.1.0",

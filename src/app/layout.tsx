@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { customToast } from "@/app/main.css";
+import { ReactQueryClientProvider } from "@/components/react-query";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -36,13 +37,15 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} ${gmarket.variable}`}>
-        {children}
-        <Toaster
-          position="bottom-center"
-          toastOptions={{
-            className: customToast,
-          }}
-        />
+        <ReactQueryClientProvider>
+          {children}
+          <Toaster
+            position="bottom-center"
+            toastOptions={{
+              className: customToast,
+            }}
+          />
+        </ReactQueryClientProvider>
       </body>
     </html>
   );
