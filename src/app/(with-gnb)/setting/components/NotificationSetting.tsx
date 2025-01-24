@@ -20,6 +20,7 @@ interface Props {
 
 export const NotificationSetting = ({ hasFcmToken }: Props) => {
   const [alertGranted, setAlertGranted] = useState<boolean>(hasFcmToken);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   useEffect(() => {
     const initializeAlertGranted = async () => {
@@ -32,21 +33,34 @@ export const NotificationSetting = ({ hasFcmToken }: Props) => {
       }
     };
     initializeAlertGranted();
-  }, []);
+  }, [hasFcmToken]);
+
+  const handleTokenUpdate = async (
+    token: string | null,
+    previousState: boolean,
+  ) => {
+    try {
+      await updateFCMToken(token);
+    } catch (e) {
+      setAlertGranted(previousState);
+      toastError(e as Error);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   const onClickAlert = async () => {
-    const previousState = alertGranted;
+    if (isProcessing) return;
 
+    const previousState = alertGranted;
+    setIsProcessing(true);
     setAlertGranted(!alertGranted);
 
     if (alertGranted) {
-      try {
-        await updateFCMToken(null);
-      } catch (e) {
-        setAlertGranted(previousState);
-        toastError(e);
-      }
+      // 알림 해제
+      await handleTokenUpdate(null, previousState);
     } else {
+      // 알림 활성화
       if ("Notification" in window) {
         try {
           const permission = await Notification.requestPermission();
@@ -56,20 +70,24 @@ export const NotificationSetting = ({ hasFcmToken }: Props) => {
                 "BMuOuAa7hCW6sW16fgKLOQaNulOhO7n21D8Ziqq_UxWibYPdaO6hdEbMuHZ0UuBV3E3tIQhkrAyuWdqoKAERGe4",
             });
             if (token) {
-              await updateFCMToken(token);
+              await handleTokenUpdate(token, previousState);
             } else {
               console.error("FCM 토큰 발급 실패");
               setAlertGranted(previousState);
+              setIsProcessing(false);
             }
           } else {
             setAlertGranted(previousState);
+            setIsProcessing(false);
           }
         } catch (e) {
           setAlertGranted(previousState);
-          toastError(e);
+          toastError(e as Error);
+          setIsProcessing(false);
         }
       } else {
         setAlertGranted(previousState);
+        setIsProcessing(false);
       }
     }
   };
@@ -82,11 +100,12 @@ export const NotificationSetting = ({ hasFcmToken }: Props) => {
       </div>
       <div
         className={`${toggleWrapper} ${alertGranted ? toggleWrapperActive : ""}`}
-        onClick={onClickAlert}
+        onClick={isProcessing ? undefined : onClickAlert}
+        style={{ cursor: isProcessing ? "not-allowed" : "pointer" }}
       >
         <div
           className={`${toggleKnob} ${alertGranted ? toggleKnobActive : ""}`}
-        ></div>
+        />
       </div>
     </div>
   );
