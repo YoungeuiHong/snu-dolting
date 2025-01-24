@@ -1,24 +1,20 @@
 "use client";
-import React, { useState } from "react";
-import { getUsers } from "@/app/(with-gnb)/home/action";
-import { FilterDrawer } from "@/app/(with-gnb)/home/components/FilterDrawer";
-import { UserCard } from "@/app/(with-gnb)/home/components/UserCard";
-import { Religion } from "@/types/religion";
-import { User } from "@/types/user";
-import { mainContainer } from "@/app/(with-gnb)/home/page.css";
 import { FilterButton } from "@/app/(with-gnb)/home/components/FilterButton";
-import { NoResult } from "@/components/no-result/NoResult";
+import { FilterDrawer } from "@/app/(with-gnb)/home/components/FilterDrawer";
+import { mainContainer } from "@/app/(with-gnb)/home/page.css";
+import { getUsersQueryOption } from "@/query/useUsersQuery";
 import { INITIAL_FILTER, UserFilters } from "@/types/filter";
+import { Religion } from "@/types/religion";
 import { toastError } from "@/utils/error";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { UserResults } from "./components/UserResults";
 
-interface Props {
-  initUsers: Partial<User>[];
-}
-
-export default function ClientMainPage({ initUsers }: Props) {
+export default function ClientMainPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filters, setFilters] = useState(INITIAL_FILTER);
-  const [users, setUsers] = useState<Partial<User>[]>(initUsers);
+  const [currentFilters, setCurrentFilters] = useState(INITIAL_FILTER);
+  const { data, isLoading } = useSuspenseQuery(getUsersQueryOption(currentFilters));
   const [isFilterActive, setIsFilterActive] = useState<boolean>(false);
 
   const handleFilterChange = <K extends keyof UserFilters>(
@@ -47,9 +43,8 @@ export default function ClientMainPage({ initUsers }: Props) {
 
   const initFilter = async () => {
     try {
-      setFilters(INITIAL_FILTER);
-      const result = await getUsers(INITIAL_FILTER);
-      setUsers(result.users);
+      setFilters(INITIAL_FILTER); 
+      setCurrentFilters(INITIAL_FILTER);
       setDrawerOpen(false);
       setIsFilterActive(false);
     } catch (e) {
@@ -59,8 +54,7 @@ export default function ClientMainPage({ initUsers }: Props) {
 
   const applyFilters = async () => {
     try {
-      const result = await getUsers(filters);
-      setUsers(result.users);
+      setCurrentFilters(filters);
       setDrawerOpen(false);
       setIsFilterActive(
         JSON.stringify(filters) !== JSON.stringify(INITIAL_FILTER),
@@ -85,12 +79,7 @@ export default function ClientMainPage({ initUsers }: Props) {
         onApply={applyFilters}
         onInit={initFilter}
       />
-
-      {users.length > 0 ? (
-        users.map((user) => <UserCard key={user.nickname} user={user} />)
-      ) : (
-        <NoResult noResultMessage="사용자를 찾을 수 없습니다." />
-      )}
+      <UserResults isLoading={isLoading} users={data?.users || []} />
     </div>
   );
 }

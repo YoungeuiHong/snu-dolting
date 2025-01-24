@@ -1,9 +1,19 @@
 import ClientMainPage from "@/app/(with-gnb)/home/client";
-import { getUsers } from "@/app/(with-gnb)/home/action";
+import { getUsersQueryOption } from "@/query/useUsersQuery";
 import { INITIAL_FILTER } from "@/types/filter";
+import { getQueryClient } from "@/utils/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+
+export const dynamic = "force-dynamic"; 
 
 export default async function MainPage() {
-  const { users } = await getUsers(INITIAL_FILTER);
+  const queryClient = getQueryClient();
 
-  return <ClientMainPage initUsers={users} />;
+  void queryClient.prefetchQuery(getUsersQueryOption(INITIAL_FILTER));
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ClientMainPage />
+    </HydrationBoundary>
+  );
 }
