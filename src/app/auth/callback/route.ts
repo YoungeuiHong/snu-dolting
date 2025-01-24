@@ -46,11 +46,19 @@ export async function GET(request: Request) {
       redirect("/");
     }
 
-    if (data?.length && data[0].is_profile_complete) {
-      return NextResponse.redirect(`${origin}/home`);
-    } else {
-      return NextResponse.redirect(`${origin}/signup/nickname`);
-    }
+    const response =
+      data?.length && data[0].is_profile_complete
+        ? NextResponse.redirect(`${origin}/home`)
+        : NextResponse.redirect(`${origin}/signup/nickname`);
+
+    response.cookies.set("userId", user.id, {
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: "lax", 
+      path: "/", 
+    });
+
+    return response;
   }
 
   return NextResponse.redirect(`${origin}`);
