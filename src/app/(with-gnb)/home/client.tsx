@@ -2,7 +2,7 @@
 import { FilterButton } from "@/app/(with-gnb)/home/components/FilterButton";
 import { FilterDrawer } from "@/app/(with-gnb)/home/components/FilterDrawer";
 import { mainContainer } from "@/app/(with-gnb)/home/page.css";
-import { getUsersQueryOption } from "@/query/useUsersQuery";
+import { getUsersQueryOption } from "@/query/users";
 import { INITIAL_FILTER, UserFilters } from "@/types/filter";
 import { Religion } from "@/types/religion";
 import { toastError } from "@/utils/error";
