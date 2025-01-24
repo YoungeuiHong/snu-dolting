@@ -9,6 +9,7 @@ import {
   removeScrap,
 } from "@/app/profile/[nickname]/action";
 import { toastError } from "@/utils/error";
+import { getQueryClient } from "@/utils/react-query";
 
 interface Props {
   isScrapped: boolean;
@@ -17,6 +18,8 @@ interface Props {
 
 export const ActionBar = ({ isScrapped, targetNickname }: Props) => {
   const [scrapped, setScrapped] = useState(isScrapped);
+
+  const queryClient = getQueryClient();
 
   const handleScrapToggle = async () => {
     const currentStatus = scrapped;
@@ -31,6 +34,8 @@ export const ActionBar = ({ isScrapped, targetNickname }: Props) => {
     } catch (error) {
       setScrapped(currentStatus);
       toastError(error);
+    } finally {
+      queryClient.invalidateQueries({ queryKey: ["scraps"] });
     }
   };
 
