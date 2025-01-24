@@ -87,7 +87,6 @@ export async function getIsScrapped(nickname: string) {
     .single();
 
   if (scrapError) {
-    console.error("스크랩 정보 조회 실패: ", scrapError.message);
     return false;
   }
 
