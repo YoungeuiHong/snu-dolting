@@ -1,28 +1,28 @@
 import {
-  getIsScrapped,
-  getUserByNickname,
-} from "@/app/profile/[nickname]/action";
-import { PrevHeader } from "@/components/header";
-import { ActionBar } from "@/app/profile/[nickname]/components/ActionBar";
-import { ProfileInfo } from "@/app/profile/components/ProfileInfo";
+  getIsScrappedQueryOption,
+  getProfileQueryOption,
+} from "@/query/profile";
+import { getQueryClient } from "@/utils/react-query/getQueryClient";
+import { ClientProfilePage } from "./client";
+import { HydrationBoundary } from "@tanstack/react-query";
+import { dehydrate } from "@tanstack/react-query";
+
+export const dynamic = "force-dynamic";
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ nickname: string }>;
 }) {
-  const nickname = decodeURIComponent((await params).nickname);
-  const user = await getUserByNickname(nickname);
-  const isScrapped = await getIsScrapped(nickname);
+  const nickname = (await params).nickname;
+  const queryClient = getQueryClient();
+
+  void queryClient.prefetchQuery(getProfileQueryOption(nickname));
+  void queryClient.prefetchQuery(getIsScrappedQueryOption(nickname));
 
   return (
-    <>
-      <PrevHeader />
-      <ProfileInfo user={user} />;
-      <ActionBar
-        isScrapped={isScrapped || false}
-        targetNickname={user.nickname || ""}
-      />
-    </>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ClientProfilePage nickname={nickname} />
+    </HydrationBoundary>
   );
 }
