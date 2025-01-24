@@ -14,7 +14,7 @@ export default function ClientMainPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filters, setFilters] = useState(INITIAL_FILTER);
   const [currentFilters, setCurrentFilters] = useState(INITIAL_FILTER);
-  const { data, isLoading } = useSuspenseQuery(getUsersQueryOption(currentFilters));
+  const { data: users, isLoading } = useSuspenseQuery(getUsersQueryOption(currentFilters));
   const [isFilterActive, setIsFilterActive] = useState<boolean>(false);
 
   const handleFilterChange = <K extends keyof UserFilters>(
@@ -79,7 +79,7 @@ export default function ClientMainPage() {
         onApply={applyFilters}
         onInit={initFilter}
       />
-      <UserResults isLoading={isLoading} users={data?.users || []} />
+      <UserResults isLoading={isLoading} users={users || []} />
     </div>
   );
 }

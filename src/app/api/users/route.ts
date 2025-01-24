@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   const { data: myInfo, error: myInfoError } = await supabase
     .from("users")
     .select("gender")
-    .eq("id", userId) 
+    .eq("id", userId)
     .single();
 
   if (!myInfo || myInfoError || !myInfo.gender) {
@@ -33,10 +33,11 @@ export async function POST(req: NextRequest) {
   let query = supabase
     .from("users")
     .select(
-      "nickname, profile_picture, introduction, birth_year, has_children, height, weight, job, religion, location",
+      "nickname, profile_picture, introduction, birth_year, has_children, height, weight, job, religion, location, is_profile_complete",
     )
     .neq("id", userId)
-    .eq("gender", myInfo.gender === "male" ? "female" : "male");
+    .eq("gender", myInfo.gender === "male" ? "female" : "male")
+    .eq("is_profile_complete", true);
 
   if (filters.birthYearRange) {
     if (filters.birthYearRange.min !== undefined) {
@@ -73,5 +74,5 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return NextResponse.json({ users: filteredUsers });
+  return NextResponse.json(filteredUsers);
 }
