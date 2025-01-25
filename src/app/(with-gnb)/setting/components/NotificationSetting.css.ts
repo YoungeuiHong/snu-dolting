@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { keyframes, style } from "@vanilla-extract/css";
 
 export const notificationSetting = style({
   display: "flex",
@@ -42,4 +42,37 @@ export const toggleKnob = style({
 
 export const toggleKnobActive = style({
   transform: "translateX(20px)",
+});
+
+const colorChangeAnimation = keyframes({
+  "0%": { backgroundColor: "white" },
+  "50%": { backgroundColor: "#ccc" },
+  "100%": { backgroundColor: "white" },
+});
+
+export const notiLoading = style({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "4px",
+  border: "1px solid #ccc",
+  width: '40px',
+  height: '20px',
+  borderRadius: '15px'
+});
+
+export const notiLoadingDot = style({
+  width: "4px",
+  height: "4px",
+  borderRadius: "50%",
+  backgroundColor: "white",
+  animation: `${colorChangeAnimation} 1.2s infinite`,
+  selectors: {
+    "&:nth-child(2)": {
+      animationDelay: "0.2s",
+    },
+    "&:nth-child(3)": {
+      animationDelay: "0.4s",
+    },
+  },
 });

@@ -1,18 +1,15 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { getToken } from "firebase/messaging";
 import {
   leftContainer,
   notificationSetting,
-  toggleKnob,
-  toggleKnobActive,
-  toggleWrapper,
-  toggleWrapperActive,
 } from "@/app/(with-gnb)/setting/components/NotificationSetting.css";
-import { getToken } from "firebase/messaging";
 import { messaging } from "@/utils/firebase";
-import { updateFCMToken } from "./actions";
-import { toastError } from "@/utils/error";
+import { NotificationToggle } from "@/app/(with-gnb)/setting/components/NotificationToggle";
+import { updateFCMToken } from "@/app/(with-gnb)/setting/components/actions";
 
 interface Props {
   hasFcmToken: boolean;
@@ -23,72 +20,79 @@ export const NotificationSetting = ({ hasFcmToken }: Props) => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   useEffect(() => {
-    const initializeAlertGranted = async () => {
-      if (typeof window !== "undefined" && "Notification" in window) {
-        try {
-          setAlertGranted(Notification.permission === "granted" && hasFcmToken);
-        } catch (e) {
-          toastError(e);
-        }
-      }
-    };
-    initializeAlertGranted();
+    if (typeof window !== "undefined" && "Notification" in window) {
+      setAlertGranted(Notification.permission === "granted" && hasFcmToken);
+    }
   }, [hasFcmToken]);
 
-  const handleTokenUpdate = async (
-    token: string | null,
-    previousState: boolean,
-  ) => {
+  const handleError = (message: string) => {
+    toast(message);
+    setIsProcessing(false);
+  };
+
+  const handleSuccess = (isGranted: boolean) => {
+    setAlertGranted(isGranted);
+    setIsProcessing(false);
+  };
+
+  const requestNotificationPermission = async (): Promise<string | null> => {
     try {
-      await updateFCMToken(token);
-    } catch (e) {
-      setAlertGranted(previousState);
-      toastError(e as Error);
-    } finally {
-      setIsProcessing(false);
+      const permission = await Notification.requestPermission();
+      if (permission !== "granted") {
+        handleError("알림 권한이 거부되었습니다");
+        return null;
+      }
+
+      const token = await getToken(messaging, {
+        vapidKey:
+          "BMuOuAa7hCW6sW16fgKLOQaNulOhO7n21D8Ziqq_UxWibYPdaO6hdEbMuHZ0UuBV3E3tIQhkrAyuWdqoKAERGe4",
+      });
+
+      if (!token) {
+        handleError("FCM 토큰 발급 실패");
+        return null;
+      }
+
+      return token;
+    } catch (error) {
+      console.error("알림 권한 요청 중 오류 발생:", error);
+      handleError("알림 설정에 실패했습니다");
+      return null;
     }
   };
 
-  const onClickAlert = async () => {
+  const enableNotification = async () => {
+    const token = await requestNotificationPermission();
+    if (token) {
+      try {
+        await updateFCMToken(token);
+        handleSuccess(true);
+      } catch (error) {
+        console.error("알림 활성화 실패:", error);
+        handleError("알림 설정에 실패했습니다");
+      }
+    }
+  };
+
+  const disableNotification = async () => {
+    try {
+      await updateFCMToken(null);
+      handleSuccess(false);
+    } catch (error) {
+      console.error("알림 해제 실패:", error);
+      handleError("알림 해제에 실패했습니다");
+    }
+  };
+
+  const onClickAlert = () => {
     if (isProcessing) return;
 
-    const previousState = alertGranted;
     setIsProcessing(true);
-    setAlertGranted(!alertGranted);
 
     if (alertGranted) {
-      // 알림 해제
-      await handleTokenUpdate(null, previousState);
+      disableNotification();
     } else {
-      // 알림 활성화
-      if ("Notification" in window) {
-        try {
-          const permission = await Notification.requestPermission();
-          if (permission === "granted") {
-            const token = await getToken(messaging, {
-              vapidKey:
-                "BMuOuAa7hCW6sW16fgKLOQaNulOhO7n21D8Ziqq_UxWibYPdaO6hdEbMuHZ0UuBV3E3tIQhkrAyuWdqoKAERGe4",
-            });
-            if (token) {
-              await handleTokenUpdate(token, previousState);
-            } else {
-              console.error("FCM 토큰 발급 실패");
-              setAlertGranted(previousState);
-              setIsProcessing(false);
-            }
-          } else {
-            setAlertGranted(previousState);
-            setIsProcessing(false);
-          }
-        } catch (e) {
-          setAlertGranted(previousState);
-          toastError(e as Error);
-          setIsProcessing(false);
-        }
-      } else {
-        setAlertGranted(previousState);
-        setIsProcessing(false);
-      }
+      enableNotification();
     }
   };
 
@@ -98,15 +102,11 @@ export const NotificationSetting = ({ hasFcmToken }: Props) => {
         <Image src="/icon/notification.svg" alt="알림" width={14} height={14} />
         <span>채팅 알림 수신</span>
       </div>
-      <div
-        className={`${toggleWrapper} ${alertGranted ? toggleWrapperActive : ""}`}
-        onClick={isProcessing ? undefined : onClickAlert}
-        style={{ cursor: isProcessing ? "not-allowed" : "pointer" }}
-      >
-        <div
-          className={`${toggleKnob} ${alertGranted ? toggleKnobActive : ""}`}
-        />
-      </div>
+      <NotificationToggle
+        isProcessing={isProcessing}
+        alertGranted={alertGranted}
+        onClickAlert={onClickAlert}
+      />
     </div>
   );
 };
