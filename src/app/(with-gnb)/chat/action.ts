@@ -56,7 +56,7 @@ export const getUserChatRoomsWithMessages = async () => {
   const { data: unreadCounts } = await supabase.rpc(
     "get_unread_message_counts",
     {
-      user_id: user.id,
+      my_id: user.id,
     },
   );
 

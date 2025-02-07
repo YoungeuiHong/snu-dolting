@@ -236,7 +236,7 @@ export type Database = {
     Functions: {
       get_unread_message_counts: {
         Args: {
-          user_id: string;
+          my_id: string;
         };
         Returns: {
           chat_room_id: string;
