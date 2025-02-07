@@ -52,11 +52,22 @@ export async function GET(request: Request) {
         : NextResponse.redirect(`${origin}/signup/nickname`);
 
     response.cookies.set("userId", user.id, {
-      httpOnly: true, 
-      secure: process.env.NODE_ENV === "production", 
-      sameSite: "lax", 
-      path: "/", 
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
     });
+
+    response.cookies.set(
+      "complete",
+      data[0].is_profile_complete ? "yes" : "no",
+      {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+      },
+    );
 
     return response;
   }

@@ -69,7 +69,11 @@ export const updateSession = async (request: NextRequest) => {
     }
 
     if (request.nextUrl.pathname === "/" && user) {
-      return NextResponse.redirect(new URL("/home", request.url));
+      if (request.cookies.get("complete")?.value === "yes") {
+        return NextResponse.redirect(new URL("/home", request.url));
+      } else {
+        return NextResponse.redirect(new URL("/signup/nickname", request.url));
+      }
     }
 
     return response;
