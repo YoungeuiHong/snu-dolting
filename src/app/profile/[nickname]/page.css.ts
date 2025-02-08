@@ -10,7 +10,7 @@ export const prevHeader = style([
 ]);
 
 export const container = style({
-  padding: "50px 10px calc(env(safe-area-inset-bottom, 0px) + 70px) 10px",
+  padding: "60px 10px calc(env(safe-area-inset-bottom, 0px) + 70px) 10px",
   width: "100%",
   maxWidth: "900px",
   margin: "auto",
@@ -44,10 +44,10 @@ export const gradientOverlay = style({
 
 export const introWrapper = style({
   position: "absolute",
-
   bottom: 20,
   left: 20,
   zIndex: 200,
+  paddingRight: "20px",
 });
 
 export const nicknameFont = style({
