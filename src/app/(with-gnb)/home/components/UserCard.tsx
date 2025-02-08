@@ -4,6 +4,7 @@ import { User } from "@/types/user";
 import { ImageWithFallback } from "@/components/image";
 import { Religion, ReligionLabels } from "@/types/religion";
 import {
+  profileImage,
   userCard,
   userCardDetails,
   userCardHeader,
@@ -25,17 +26,19 @@ export const UserCard = ({ user }: UserCardProps) => (
   >
     <div className={userCard}>
       <div className={userCardHeader}>
-        <ImageWithFallback
-          src={user.profile_picture || null}
-          alt="프로필 이미지"
-          width={50}
-          height={50}
-          style={{
-            borderRadius: "100px",
-            objectFit: "cover",
-            backgroundPosition: "center center",
-          }}
-        />
+        <div className={profileImage}>
+          <ImageWithFallback
+            src={user.profile_picture || null}
+            alt="프로필 이미지"
+            width={50}
+            height={50}
+            style={{
+              borderRadius: "100px",
+              objectFit: "cover",
+              backgroundPosition: "center center",
+            }}
+          />
+        </div>
         <div className={userInfo}>
           <p className={userName}>{user.nickname}</p>
           <p className={userIntroduction}>{user.introduction}</p>

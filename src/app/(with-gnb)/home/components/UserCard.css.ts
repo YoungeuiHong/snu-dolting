@@ -19,15 +19,16 @@ export const userCardHeader = style({
 });
 
 export const profileImage = style({
-  borderRadius: "100px",
-  objectFit: "cover",
-  backgroundPosition: "center center",
+  width: "50px",
+  height: "50px",
 });
 
 export const userInfo = style({
+  flex: 1,
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
+  overflow: "hidden",
 });
 
 export const userName = style({
@@ -35,6 +36,10 @@ export const userName = style({
   color: "#292b2b",
   fontSize: "14px",
   lineHeight: "22px",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  width: "100%",
 });
 
 export const userIntroduction = style({
@@ -42,6 +47,10 @@ export const userIntroduction = style({
   color: "#292b2b",
   fontSize: "14px",
   lineHeight: "22px",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  width: "100%",
 });
 
 export const userCardDetails = style({
@@ -57,4 +66,7 @@ export const userDetail = style({
   fontSize: "13px",
   color: "#828A8F",
   lineHeight: "24px",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
 });
