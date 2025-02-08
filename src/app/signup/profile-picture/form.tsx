@@ -19,6 +19,7 @@ import { convertHeicToJpeg } from "@/utils/image";
 import { uploadPublicImage } from "@/utils/supabase/storage";
 import { createClient } from "@/utils/supabase/client";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { toast } from "sonner";
 
 interface Props {
   initialPicture: string | null;
@@ -81,6 +82,7 @@ export default function Form({ initialPicture }: Props) {
       setImageUrl(publicUrl);
     } catch (e) {
       console.error("이미지 업로드에 실패했습니다: ", e);
+      toast("이미지 업로드에 실패했습니다");
     } finally {
       setIsUploading(false);
     }

@@ -16,6 +16,7 @@
     "@tanstack/react-query-devtools": "^5.64.2",
     "@vanilla-extract/css": "^1.16.0",
     "dayjs": "^1.11.13",
+    "exif-js": "^2.3.0",
     "firebase": "^11.1.0",
     "firebase-admin": "^13.0.2",
     "heic2any": "^0.0.4",
