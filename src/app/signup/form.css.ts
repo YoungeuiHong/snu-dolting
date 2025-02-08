@@ -42,6 +42,16 @@ export const content = style({
   boxSizing: "border-box",
 });
 
+export const exitButton = style({
+  border: "1px solid #424242",
+  backgroundColor: "#ffffff",
+  color: "#424242",
+  borderRadius: "20px",
+  fontSize: "14px",
+  fontWeight: 500,
+  padding: "7px 16px",
+});
+
 export const formWrapper = style({
   width: "100%",
   boxSizing: "border-box",

@@ -62,7 +62,7 @@ export async function GET(request: Request) {
       "complete",
       data[0].is_profile_complete ? "yes" : "no",
       {
-        httpOnly: true,
+        httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
         path: "/",
