@@ -1,5 +1,4 @@
 import { globalStyle, style } from "@vanilla-extract/css";
-import { blackRoundButton } from "@/app/shared.css";
 
 // 필터 제목
 export const filterTitle = style({
@@ -60,6 +59,7 @@ export const radioLabel = style({
   fontSize: "13px",
   fontWeight: 400,
   color: "#666666",
+  backgroundColor: "#ffffff",
 });
 
 // 라디오 버튼 스타일
@@ -155,13 +155,14 @@ export const initButton = style({
 });
 
 // 적용하기 버튼
-export const applyButton = style([
-  blackRoundButton,
-  {
-    borderRadius: "4px",
-    fontWeight: 400,
-    height: "40px",
-    padding: 0,
-    fontSize: "14px",
-  },
-]);
+export const applyButton = style({
+  width: "100%",
+  background: "#242729",
+  color: "white",
+  textDecoration: "none",
+  borderRadius: "4px",
+  fontWeight: 400,
+  height: "40px",
+  padding: 0,
+  fontSize: "14px",
+});
