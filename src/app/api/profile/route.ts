@@ -9,17 +9,17 @@ export async function GET(req: NextRequest) {
   if (!userId) {
     return NextResponse.json(
       { error: "인증된 사용자가 아닙니다." },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
   const { searchParams } = new URL(req.url);
-  const nickname = searchParams.get('nickname');
+  const nickname = searchParams.get("nickname");
 
   if (!nickname) {
     return NextResponse.json(
       { error: "닉네임이 필요합니다." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
   const { data: queriedUsers, error: queryError } = await supabase
     .from("users")
     .select(
-      "appearance_description, birth_year, dating_style, has_children, height, ideal_type, inner_description, introduction, is_snu_graduate, job, location, nickname, photo_exchange_intent, profile_picture, religion, remarriage_intent, weight"
+      "birth_year, has_children, height, ideal_type, inner_description, introduction, is_snu_graduate, job, location, nickname, photo_exchange_intent, profile_picture, religion, remarriage_intent, weight",
     )
     .eq("nickname", nickname);
 
@@ -36,14 +36,14 @@ export async function GET(req: NextRequest) {
     console.error("프로필 조회 실패: ", queryError.message);
     return NextResponse.json(
       { error: "프로필 조회에 실패했습니다.", details: queryError.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
   if (!queriedUsers || queriedUsers.length === 0) {
     return NextResponse.json(
       { error: "조회된 사용자가 없습니다." },
-      { status: 404 }
+      { status: 404 },
     );
   }
 
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
   if (!userResult) {
     return NextResponse.json(
       { error: "조회된 사용자가 없습니다." },
-      { status: 404 }
+      { status: 404 },
     );
   }
 

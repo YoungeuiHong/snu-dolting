@@ -65,19 +65,11 @@ export const ProfileInfo = ({ user }: Props) => {
             {user.photo_exchange_intent ? "예" : "아니오"}
           </p>
         </div>
-        <div>
-          <p className={title}>내 외모에 대한 설명</p>
-          <p className={content}>{user.appearance_description}</p>
-        </div>
       </div>
       <div className={box}>
         <div>
-          <p className={title}>이상형</p>
+          <p className={title}>만나고 싶은 사람</p>
           <p className={content}>{user.ideal_type}</p>
-        </div>
-        <div>
-          <p className={title}>연애 스타일</p>
-          <p className={content}>{user.dating_style}</p>
         </div>
       </div>
       <div className={box}>

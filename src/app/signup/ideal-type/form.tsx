@@ -27,14 +27,14 @@ export default function Form({
     <form action={formAction} className={container}>
       <div className={contentContainer}>
         <div className={titleWrapper}>
-          <p className={title}>이상형에 대해 알려주세요</p>
+          <p className={title}>어떤 분을 만나고 싶으신가요?</p>
           <p className={subtitle}>
             외모, 성격, 나이, 종교 등 상대에게 바라는 점을 알려주세요.
           </p>
         </div>
         <TextArea
           name="ideal_type"
-          label="나의 이상형"
+          label="내가 만나고 싶은 사람"
           placeholder="최소 20자 이상 적어주세요"
           value={user?.ideal_type}
           error={errors?.ideal_type}
