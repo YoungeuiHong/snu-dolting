@@ -1,3 +1,5 @@
+"use server";
+import { cookies } from "next/headers";
 import {
   SignUpActionResponse,
   SignUpError,
@@ -29,6 +31,14 @@ export async function updateChildren(
   }
 
   await updateUser(["has_children"], formData);
+
+  const cookieStore = await cookies();
+  cookieStore.set("complete", "yes", {
+    httpOnly: false,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+  });
 
   moveToNextStepPath(Step.Children);
 }
