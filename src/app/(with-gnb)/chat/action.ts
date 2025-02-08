@@ -1,8 +1,9 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import type { ChatRoom } from "@/app/(with-gnb)/chat/types";
 
-export const getUserChatRoomsWithMessages = async () => {
+export const getUserChatRoomsWithMessages = async (): Promise<ChatRoom[]> => {
   const supabase = await createClient();
 
   const {
@@ -61,28 +62,42 @@ export const getUserChatRoomsWithMessages = async () => {
   );
 
   // 채팅방 정보 합쳐서 반환
-  return chatRooms.map((room) => {
-    const otherUserId =
-      room.user1_id === user.id ? room.user2_id : room.user1_id;
+  const chatRoomsWithMessages = chatRooms
+    .map((room) => {
+      const otherUserId =
+        room.user1_id === user.id ? room.user2_id : room.user1_id;
 
-    const otherUser = otherUsers?.find((user) => user.id === otherUserId);
-    const unreadCount =
-      unreadCounts?.find((count) => count.chat_room_id === room.id)
-        ?.unread_count || 0;
-    const recentMessage = recentMessages?.find(
-      (message) => message.chat_room_id === room.id,
+      const otherUser = otherUsers?.find((user) => user.id === otherUserId);
+      const unreadCount =
+        unreadCounts?.find((count) => count.chat_room_id === room.id)
+          ?.unread_count || 0;
+      const recentMessage = recentMessages?.find(
+        (message) => message.chat_room_id === room.id,
+      );
+
+      // recentMessage가 없으면 해당 채팅방을 제외
+      if (!recentMessage) {
+        return null;
+      }
+
+      return {
+        ...room,
+        otherUser: otherUser
+          ? {
+              nickname: otherUser.nickname,
+              profile_picture: otherUser.profile_picture,
+            }
+          : null,
+        unreadCount,
+        recentMessage,
+      };
+    })
+    .filter((room) => room !== null)
+    .sort(
+      (a, b) =>
+        new Date(b.recentMessage!.created_at).getTime() -
+        new Date(a.recentMessage!.created_at).getTime(),
     );
 
-    return {
-      ...room,
-      otherUser: otherUser
-        ? {
-            nickname: otherUser.nickname,
-            profile_picture: otherUser.profile_picture,
-          }
-        : null,
-      unreadCount,
-      recentMessage: recentMessage || null,
-    };
-  });
+  return chatRoomsWithMessages as ChatRoom[];
 };
