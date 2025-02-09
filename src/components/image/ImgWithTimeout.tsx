@@ -9,6 +9,7 @@ interface Props {
 
 export const ImgWithTimeout = ({ src, alt, style }: Props) => {
   const [hasError, setHasError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -20,10 +21,11 @@ export const ImgWithTimeout = ({ src, alt, style }: Props) => {
 
   return (
     <img
-      src={hasError ? "/images/fallback.webp" : src}
+      src={hasError || isLoading ? "/images/fallback.webp" : src}
       alt={alt}
       style={style}
       onError={() => setHasError(true)}
+      onLoad={() => setIsLoading(false)}
     />
   );
 };

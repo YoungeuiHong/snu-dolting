@@ -34,6 +34,7 @@ import { uploadImage } from "@/utils/supabase/storage";
 import { toastError } from "@/utils/error";
 import { toast } from "sonner";
 import Link from "next/link";
+import { ImageUploading } from "@/app/chat/[roomId]/component/ImageUploading";
 
 interface Props {
   userId: string;
@@ -54,6 +55,7 @@ export default function ChatRoomClientPage({
   const [messages, setMessages] = useState<MessageDto[]>(initialMessages || []);
   const [newMessage, setNewMessage] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [isImageSending, setIsImageSending] = useState<boolean>(false);
 
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLInputElement | null>(null);
@@ -134,7 +136,7 @@ export default function ChatRoomClientPage({
       if (imageFile) {
         imageUrl = await uploadImage(
           imageFile,
-          `private/${roomId}/${userId}_${Date.now()}_${imageFile.name}`,
+          `private/${roomId}/${userId}/${Date.now()}`,
           "images",
         );
       }
@@ -156,34 +158,30 @@ export default function ChatRoomClientPage({
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    setIsImageSending(true);
+    let file = e.target.files?.[0];
 
-    if (file) {
-      if (file.type === "image/heic" || file.name.endsWith(".heic")) {
-        try {
+    try {
+      if (file) {
+        if (file.type === "image/heic" || file.name.endsWith(".heic")) {
           const heic2any = (await import("heic2any")).default;
-
           const convertedBlob = await heic2any({
             blob: file,
             toType: "image/jpeg",
           });
-          const convertedFile = new File(
+          file = new File(
             [convertedBlob as Blob],
             file.name.replace(/\.heic$/i, ".jpg"),
             { type: "image/jpeg" },
           );
-          await sendMessage(convertedFile);
-        } catch (error) {
-          console.error("HEIC 변환 중 오류 발생:", error);
-          toast("메시지 전송에 실패했습니다");
         }
-      } else {
-        try {
-          await sendMessage(file);
-        } catch (e) {
-          toastError(e);
-        }
+        await sendMessage(file);
       }
+    } catch (e) {
+      console.error("채팅 이미지 전송 실패: ", e);
+      toast("메세지 전송에 실패했습니다.");
+    } finally {
+      setIsImageSending(false);
     }
   };
 
@@ -232,6 +230,7 @@ export default function ChatRoomClientPage({
       </div>
 
       <div ref={messageContainerRef} className={messageContainer}>
+        {isImageSending && <ImageUploading />}
         {messages.map((msg, index) => {
           const showDate =
             index === messages.length - 1 ||
@@ -300,7 +299,10 @@ export default function ChatRoomClientPage({
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="메세지 입력"
+          disabled={isSending || isImageSending}
+          placeholder={
+            isSending || isImageSending ? "메세지 전송 중..." : "메세지 입력"
+          }
           className={input}
           onInput={(e) => {
             const target = e.target as HTMLTextAreaElement;
