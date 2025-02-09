@@ -16,6 +16,7 @@ const options = [
   { value: "christianity", label: "기독교" },
   { value: "buddhism", label: "불교" },
   { value: "none", label: "무교" },
+  { value: "etc", label: "기타" },
 ];
 
 interface Props {

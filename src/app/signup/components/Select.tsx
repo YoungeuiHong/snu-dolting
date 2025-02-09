@@ -19,6 +19,7 @@ const customStyles: StylesConfig = {
   control: (base) => ({
     ...base,
     width: "100%",
+    height: "48px",
     borderRadius: "8px",
     border: "2px solid #eeeeee",
     ":hover": {
