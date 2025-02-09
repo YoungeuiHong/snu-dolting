@@ -23,11 +23,6 @@ export default function Home() {
       provider: "google",
       options: {
         redirectTo: redirectUrl,
-        scopes: "https://www.googleapis.com/auth/userinfo.email",
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
       },
     });
 
