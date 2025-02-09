@@ -14,7 +14,7 @@ export const UserResults = ({ isLoading, users }: Props) => {
   }
 
   if (users.length === 0) {
-    return <NoResult noResultMessage="사용자를 찾을 수 없습니다." />;
+    return <NoResult noResultMessage="사용자가 없습니다." />;
   }
 
   return (
