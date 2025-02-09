@@ -1,5 +1,4 @@
 "use server";
-import { cookies } from "next/headers";
 import {
   SignUpActionResponse,
   SignUpError,
@@ -7,6 +6,7 @@ import {
 } from "@/app/signup/actions";
 import { moveToNextStepPath, Step } from "@/app/signup/utils/steps";
 import { stringToBoolean } from "@/utils/type/converts";
+import { createClient } from "@/utils/supabase/server";
 
 export async function updateChildren(
   prevState: Awaited<SignUpActionResponse | undefined>,
@@ -32,12 +32,12 @@ export async function updateChildren(
 
   await updateUser(["has_children"], formData);
 
-  const cookieStore = await cookies();
-  cookieStore.set("complete", "yes", {
-    httpOnly: false,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
+  const supabase = await createClient();
+
+  await supabase.auth.updateUser({
+    data: {
+      complete: true,
+    },
   });
 
   moveToNextStepPath(Step.Children);

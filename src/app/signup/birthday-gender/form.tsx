@@ -11,31 +11,34 @@ import { updateBirthdayGender } from "@/app/signup/birthday-gender/action";
 import { BinaryChoice, SubmitButton, TextField } from "@/app/signup/components";
 import { useSignupForm } from "@/app/signup/hooks/useSignupForm";
 import { numToString } from "@/utils/type/converts";
-import { useCookie } from "@/hooks/cookie";
 
 interface Props {
   initialGender: string | null;
   initialBirthYear: number | null;
+  isExistingMember: boolean;
 }
 
-export default function Form({ initialGender, initialBirthYear }: Props) {
+export default function Form({
+  initialGender,
+  initialBirthYear,
+  isExistingMember,
+}: Props) {
   const { state, formAction, pending } = useSignupForm(updateBirthdayGender, {
     gender: initialGender,
     birth_year: initialBirthYear,
   });
-
-  const isSignupDone = useCookie("complete");
 
   return (
     <form action={formAction} className={container}>
       <div className={contentContainer}>
         <div className={titleWrapper}>
           <p className={title}>
-            {isSignupDone === "yes" && "출생년도를 입력해주세요"}
-            {isSignupDone === "no" && "출생년도와 성별을 입력해주세요"}
+            {isExistingMember
+              ? "출생년도를 입력해주세요"
+              : "출생년도와 성별을 입력해주세요"}
             &nbsp;
           </p>
-          {isSignupDone === "no" && (
+          {!isExistingMember && (
             <p className={subtitle}>
               성별은 이후에 수정할 수 없으니 꼼꼼히 확인해주세요
             </p>
@@ -48,7 +51,7 @@ export default function Form({ initialGender, initialBirthYear }: Props) {
           value={numToString(state?.user?.birth_year)}
           error={state?.errors?.birth_year}
         />
-        {isSignupDone === "yes" && state?.user?.gender && (
+        {isExistingMember && state?.user?.gender && (
           <input
             type="text"
             name="gender"
@@ -57,7 +60,7 @@ export default function Form({ initialGender, initialBirthYear }: Props) {
             readOnly
           />
         )}
-        {isSignupDone === "no" && (
+        {!isExistingMember && (
           <BinaryChoice
             name="gender"
             label="성별"

@@ -4,20 +4,24 @@ import { usePathname, useRouter } from "next/navigation";
 import { content, exitButton, header } from "@/app/signup/form.css";
 import { transparentButton } from "@/app/shared.css";
 import { moveToPrevUrl } from "@/app/signup/utils/steps";
-import { useCookie } from "@/hooks/cookie";
 import { logout } from "@/app/(with-gnb)/setting/action";
+import { createClient } from "@/utils/supabase/client";
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const isSignupDone = useCookie("complete");
+  const supabase = createClient();
 
   const handleClickPrev = () => {
     moveToPrevUrl(pathname);
   };
 
   const handleClickExit = async () => {
-    if (isSignupDone === "yes") {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user?.user_metadata?.complete) {
       router.push("/setting");
     } else {
       await logout();

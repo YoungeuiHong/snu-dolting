@@ -58,16 +58,11 @@ export async function GET(request: Request) {
       path: "/",
     });
 
-    response.cookies.set(
-      "complete",
-      data[0].is_profile_complete ? "yes" : "no",
-      {
-        httpOnly: false,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
+    await supabase.auth.updateUser({
+      data: {
+        complete: data[0].is_profile_complete,
       },
-    );
+    });
 
     return response;
   }
