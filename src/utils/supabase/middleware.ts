@@ -68,6 +68,13 @@ export const updateSession = async (request: NextRequest) => {
       });
     }
 
+    if (
+      request.nextUrl.pathname === "/" &&
+      user?.user_metadata?.is_super_admin
+    ) {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
+
     if (request.nextUrl.pathname === "/" && user?.user_metadata?.complete) {
       return NextResponse.redirect(new URL("/home", request.url));
     }
@@ -79,6 +86,14 @@ export const updateSession = async (request: NextRequest) => {
       !user.user_metadata.complete
     ) {
       return NextResponse.redirect(new URL("/signup/nickname", request.url));
+    }
+
+    if (
+      request.nextUrl.pathname === "/admin" &&
+      user &&
+      !user.user_metadata.is_super_admin
+    ) {
+      return NextResponse.redirect(new URL("/home", request.url));
     }
 
     return response;
