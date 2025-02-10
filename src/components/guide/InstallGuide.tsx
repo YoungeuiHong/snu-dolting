@@ -9,9 +9,10 @@ import { IOSInstallGuide } from "@/components/guide/iOSInstallGuide";
 
 interface Props {
   bottom?: number;
+  fixed?: boolean;
 }
 
-export const InstallGuide = ({ bottom }: Props) => {
+export const InstallGuide = ({ bottom, fixed }: Props) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
 
@@ -37,7 +38,13 @@ export const InstallGuide = ({ bottom }: Props) => {
   if (!isVisible) return null;
 
   return (
-    <div className={bubbleContainer} style={{ bottom: `${bottom || 120}px` }}>
+    <div
+      className={bubbleContainer}
+      style={{
+        bottom: `${bottom || 120}px`,
+        position: fixed ? "fixed" : "absolute",
+      }}
+    >
       <button className={closeButton} onClick={handleClose}>
         <span className={closeIconLine}></span>
         <span className={closeIconLine}></span>

@@ -83,7 +83,7 @@ export default function ClientMainPage() {
         onInit={initFilter}
       />
       <UserResults isLoading={isLoading} users={users || []} />
-      <InstallGuide bottom={65} />
+      <InstallGuide bottom={65} fixed />
     </div>
   );
 }
