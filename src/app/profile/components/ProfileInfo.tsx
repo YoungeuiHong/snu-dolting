@@ -41,6 +41,7 @@ export const ProfileInfo = ({ user }: Props) => {
           <p className={content}>
             • 종교 | {ReligionLabels[user.religion as Religion]}
           </p>
+          <p className={content}>• MBTI | {user.mbti}</p>
           <p className={content}>• 직업 | {user.job}</p>
           <p className={content}>
             • 학부 | {user.is_snu_graduate ? "자대" : "타대"}

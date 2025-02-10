@@ -10,5 +10,5 @@ export const ReligionLabels: Record<Religion, string> = {
   catholic: "천주교",
   christianity: "기독교",
   buddhism: "불교",
-  etc: "기타",
+  etc: "기타 종교",
 };

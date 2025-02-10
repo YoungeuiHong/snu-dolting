@@ -47,16 +47,20 @@ export const UserCard = ({ user }: UserCardProps) => (
       <div className={userCardDetails}>
         <p className={userDetail}>⏰ {user.birth_year}년생</p>
         <p className={userDetail}>
+          📏 {user.height}cm / {user.weight}kg
+        </p>
+        <p className={userDetail}>
           👼🏻 {user.has_children ? "유자녀" : "무자녀"}
         </p>
         <p className={userDetail}>
-          📏 {user.height}cm / {user.weight}kg
+          💍 {user.remarriage_intent ? "재혼의향 있음" : "재혼의향 없음"}
         </p>
         <p className={userDetail}>💻 {user.job}</p>
+        <p className={userDetail}>📍 {user.location}</p>
         <p className={userDetail}>
           🙏🏻 {ReligionLabels[user.religion as Religion]}
         </p>
-        <p className={userDetail}>📍 {user.location}</p>
+        <p className={userDetail}>🔖 {user.mbti}</p>
       </div>
     </div>
   </Link>
