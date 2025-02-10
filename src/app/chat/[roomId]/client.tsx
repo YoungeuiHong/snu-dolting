@@ -284,6 +284,15 @@ export default function ChatRoomClientPage({
         })}
       </div>
       <div className={inputContainer}>
+        <SvgIconButton
+          src="/icon/camera_white.svg"
+          alt="사진"
+          width={18}
+          height={18}
+          onClick={onClickImageButton}
+          className={sendButton}
+          disabled={isSending}
+        />
         <textarea
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
@@ -308,27 +317,15 @@ export default function ChatRoomClientPage({
           hidden
           onChange={handleFileChange}
         />
-        {newMessage.trim() === "" ? (
-          <SvgIconButton
-            src="/icon/camera_white.svg"
-            alt="사진"
-            width={18}
-            height={18}
-            onClick={onClickImageButton}
-            className={sendButton}
-            disabled={isSending}
-          />
-        ) : (
-          <SvgIconButton
-            src="/icon/send.svg"
-            alt="전송"
-            width={18}
-            height={18}
-            onClick={() => sendMessage()}
-            className={sendButton}
-            disabled={isSending}
-          />
-        )}
+        <SvgIconButton
+          src="/icon/send.svg"
+          alt="전송"
+          width={18}
+          height={18}
+          onClick={() => sendMessage()}
+          className={sendButton}
+          disabled={isSending || !newMessage.trim().length}
+        />
       </div>
     </div>
   );
