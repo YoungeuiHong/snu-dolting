@@ -28,11 +28,14 @@ export default function Form({ initialJob, initialGraduate }: Props) {
     <form action={formAction} className={container}>
       <div className={contentContainer}>
         <div className={titleWrapper}>
-          <p className={title}>본교 졸업 여부와 직업을 알려주세요</p>
+          <p className={title}>
+            학부 본교 졸업 여부와
+            <br /> 직업을 알려주세요
+          </p>
         </div>
         <BinaryChoice
           name="is_snu_graduate"
-          label="본교 졸업 여부"
+          label="학부 본교 졸업 여부"
           options={[
             { value: "false", label: "타대" },
             { value: "true", label: "자대" },
