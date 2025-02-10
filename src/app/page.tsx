@@ -8,11 +8,16 @@ import {
   logo,
 } from "./main.css";
 import { createClient } from "@/utils/supabase/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { LoadingDots } from "@/components/loading/LoadingDots";
 
 export default function Home() {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const handleLogin = async () => {
+    setLoading(true);
+
     const supabase = createClient();
     const redirectUrl =
       process.env.NODE_ENV === "development"
@@ -23,6 +28,10 @@ export default function Home() {
       provider: "google",
       options: {
         redirectTo: redirectUrl,
+        queryParams: {
+          prompt: "select_account",
+          scope: "email",
+        },
       },
     });
 
@@ -30,6 +39,8 @@ export default function Home() {
       console.error("로그인 중 에러 발생: " + error.message);
       toast("로그인에 실패했습니다");
     }
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -46,7 +57,11 @@ export default function Home() {
         <div className={background}></div>
         <p className={logo}>스누돌팅</p>
         <button className={loginButton} onClick={handleLogin}>
-          <span className={loginButtonText}>구글로 시작하기</span>
+          {loading ? (
+            <LoadingDots loading />
+          ) : (
+            <span className={loginButtonText}>구글로 시작하기</span>
+          )}
         </button>
         <div className={gradientOverlay} />
       </main>
