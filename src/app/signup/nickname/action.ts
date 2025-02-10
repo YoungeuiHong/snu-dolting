@@ -19,7 +19,7 @@ const nicknameSchema = z
 const introductionSchema = z
   .string()
   .max(20, "한 줄 소개는 20글자 이하여야 합니다.")
-  .refine((value) => value.trim().length > 0, {
+  .refine((value) => value.trim().length > 4, {
     message: "한 줄 소개는 최소 5글자 이상이어야 합니다.",
   });
 
