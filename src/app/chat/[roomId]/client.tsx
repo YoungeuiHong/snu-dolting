@@ -31,10 +31,10 @@ import {
   unreadMessage,
 } from "./page.css";
 import { uploadImage } from "@/utils/supabase/storage";
-import { toastError } from "@/utils/error";
 import { toast } from "sonner";
 import Link from "next/link";
 import { ImageUploading } from "@/app/chat/[roomId]/component/ImageUploading";
+import { convertHeicToJpeg } from "@/utils/image";
 
 interface Props {
   userId: string;
@@ -129,9 +129,8 @@ export default function ChatRoomClientPage({
   const sendMessage = async (imageFile?: File) => {
     if ((!newMessage.trim() && !imageFile) || isSending) return;
 
-    setIsSending(true);
-
     try {
+      setIsSending(true);
       let imageUrl = null;
       if (imageFile) {
         imageUrl = await uploadImage(
@@ -151,35 +150,25 @@ export default function ChatRoomClientPage({
       setNewMessage("");
     } catch (error) {
       console.error(error);
-      toastError(error);
+      toast("메세지 전송에 실패했습니다");
     } finally {
       setIsSending(false);
     }
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsImageSending(true);
-    let file = e.target.files?.[0];
-
     try {
+      setIsImageSending(true);
+      let file = e.target.files?.[0];
       if (file) {
         if (file.type === "image/heic" || file.name.endsWith(".heic")) {
-          const heic2any = (await import("heic2any")).default;
-          const convertedBlob = await heic2any({
-            blob: file,
-            toType: "image/jpeg",
-          });
-          file = new File(
-            [convertedBlob as Blob],
-            file.name.replace(/\.heic$/i, ".jpg"),
-            { type: "image/jpeg" },
-          );
+          file = await convertHeicToJpeg(file);
         }
         await sendMessage(file);
       }
     } catch (e) {
       console.error("채팅 이미지 전송 실패: ", e);
-      toast("메세지 전송에 실패했습니다.");
+      toast("메세지 전송에 실패했습니다");
     } finally {
       setIsImageSending(false);
     }
