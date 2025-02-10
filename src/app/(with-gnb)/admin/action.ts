@@ -23,7 +23,7 @@ export async function getAllUsers(
   let query = supabase
     .from("users")
     .select(
-      "nickname, profile_picture, introduction, birth_year, has_children, height, weight, job, religion, location",
+      "nickname, profile_picture, introduction, birth_year, has_children, height, weight, job, religion, location, mbti",
     );
 
   query = query.neq("id", user.id);

@@ -25,7 +25,7 @@ export async function getUserByNickname(nickname: string): Promise<User> {
   const { data: queriedUsers, error: queryError } = await supabase
     .from("users")
     .select(
-      "birth_year, has_children, height, ideal_type, inner_description, introduction, is_snu_graduate, job, location, nickname, photo_exchange_intent, profile_picture, religion, remarriage_intent, weight",
+      "birth_year, has_children, height, ideal_type, inner_description, introduction, is_snu_graduate, job, location, nickname, photo_exchange_intent, profile_picture, religion, remarriage_intent, weight, mbti",
     )
     .eq("nickname", nickname);
 

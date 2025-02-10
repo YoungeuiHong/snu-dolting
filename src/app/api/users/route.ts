@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   let query = supabase
     .from("users")
     .select(
-      "nickname, profile_picture, introduction, birth_year, has_children, height, weight, job, religion, location, is_profile_complete",
+      "nickname, profile_picture, introduction, birth_year, has_children, height, weight, job, religion, location, is_profile_complete, mbti",
     )
     .neq("id", userId)
     .eq("gender", myInfo.gender === "male" ? "female" : "male")
