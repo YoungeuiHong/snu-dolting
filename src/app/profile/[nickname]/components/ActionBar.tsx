@@ -36,7 +36,9 @@ export const ActionBar = ({ isScrapped, targetNickname }: Props) => {
       toastError(error);
     } finally {
       queryClient.invalidateQueries({ queryKey: ["scraps"] });
-      queryClient.invalidateQueries({ queryKey: ["isScrapped", targetNickname] });
+      queryClient.invalidateQueries({
+        queryKey: ["isScrapped", decodeURIComponent(targetNickname)],
+      });
     }
   };
 
