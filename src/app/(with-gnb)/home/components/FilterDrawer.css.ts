@@ -77,7 +77,8 @@ export const radioInput = style({
 
 // 라디오 버튼 선택된 경우 스타일
 globalStyle(`${radioInput}:checked + span`, {
-  color: "#000000",
+  color: "#000000 !important",
+  backgroundColor: "#ffffff !important",
   fontWeight: 500,
 });
 
@@ -158,6 +159,7 @@ export const initButton = style({
 export const applyButton = style({
   width: "100%",
   background: "#242729",
+  border: "1px solid #242729",
   color: "white",
   textDecoration: "none",
   borderRadius: "4px",

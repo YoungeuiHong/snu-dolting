@@ -153,7 +153,7 @@ export const FilterDrawer = ({
                 onChange={() => onFilterChange("hasChildren", "all")}
                 className={radioInput}
               />
-              전체
+              <span>전체</span>
             </label>
             <label className={radioLabel}>
               <input
@@ -164,7 +164,7 @@ export const FilterDrawer = ({
                 onChange={() => onFilterChange("hasChildren", "true")}
                 className={radioInput}
               />
-              있음
+              <span>있음</span>
             </label>
             <label className={radioLabel}>
               <input
@@ -175,7 +175,7 @@ export const FilterDrawer = ({
                 onChange={() => onFilterChange("hasChildren", "false")}
                 className={radioInput}
               />
-              없음
+              <span>없음</span>
             </label>
           </div>
         </div>
