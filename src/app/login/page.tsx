@@ -19,10 +19,10 @@ export default function LoginPage() {
       provider: "google",
       options: {
         redirectTo: redirectUrl,
-        scopes: "https://www.googleapis.com/auth/userinfo.email",
         queryParams: {
           access_type: "offline",
-          prompt: "consent",
+          prompt: "select_account",
+          scope: "email",
         },
       },
     });

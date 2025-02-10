@@ -30,6 +30,7 @@ export default function Home() {
       options: {
         redirectTo: redirectUrl,
         queryParams: {
+          access_type: "offline",
           prompt: "select_account",
           scope: "email",
         },
