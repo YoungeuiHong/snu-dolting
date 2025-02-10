@@ -11,6 +11,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { LoadingDots } from "@/components/loading/LoadingDots";
+import { InstallGuide } from "@/components/guide";
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -54,6 +55,7 @@ export default function Home() {
   return (
     <div>
       <main className={container}>
+        <InstallGuide />
         <div className={background}></div>
         <p className={logo}>스누돌팅</p>
         <button className={loginButton} onClick={handleLogin}>

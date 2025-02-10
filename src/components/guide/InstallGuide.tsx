@@ -3,11 +3,15 @@ import {
   bubbleContainer,
   closeButton,
   closeIconLine,
-} from "@/app/(with-gnb)/home/components/InstallGuide.css";
-import { AndroidInstallGuide } from "@/app/(with-gnb)/home/components/AndroidInstallGuide";
-import { IOSInstallGuide } from "@/app/(with-gnb)/home/components/iOSInstallGuide";
+} from "@/components/guide/InstallGuide.css";
+import { AndroidInstallGuide } from "@/components/guide/AndroidInstallGuide";
+import { IOSInstallGuide } from "@/components/guide/iOSInstallGuide";
 
-export const InstallGuide = () => {
+interface Props {
+  bottom?: number;
+}
+
+export const InstallGuide = ({ bottom }: Props) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
 
@@ -33,7 +37,7 @@ export const InstallGuide = () => {
   if (!isVisible) return null;
 
   return (
-    <div className={bubbleContainer}>
+    <div className={bubbleContainer} style={{ bottom: `${bottom || 120}px` }}>
       <button className={closeButton} onClick={handleClose}>
         <span className={closeIconLine}></span>
         <span className={closeIconLine}></span>

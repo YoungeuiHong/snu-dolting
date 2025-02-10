@@ -9,7 +9,7 @@ import { toastError } from "@/utils/error";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { UserResults } from "./components/UserResults";
-import { InstallGuide } from "@/app/(with-gnb)/home/components/InstallGuide";
+import { InstallGuide } from "@/components/guide/InstallGuide";
 
 export default function ClientMainPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -83,7 +83,7 @@ export default function ClientMainPage() {
         onInit={initFilter}
       />
       <UserResults isLoading={isLoading} users={users || []} />
-      <InstallGuide />
+      <InstallGuide bottom={65} />
     </div>
   );
 }

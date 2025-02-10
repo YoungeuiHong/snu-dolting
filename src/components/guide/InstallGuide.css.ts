@@ -1,21 +1,24 @@
 import { style } from "@vanilla-extract/css";
 
 export const bubbleContainer = style({
-  position: "fixed",
-  bottom: "65px",
+  position: "absolute",
+  bottom: "120px",
   left: "50%",
   transform: "translateX(-50%)",
   padding: "12px 35px",
   backgroundColor: "#FFFFFF",
   borderRadius: "16px",
   color: "#333",
-  fontSize: "14px",
+  fontSize: "13px",
   textAlign: "center",
   boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
   display: "flex",
-  maxWidth: "90%",
+  width: "80%",
+  maxWidth: "340px",
+
   flexDirection: "column",
   gap: "5px",
+  zIndex: 2,
 });
 
 export const rowContainer = style({
