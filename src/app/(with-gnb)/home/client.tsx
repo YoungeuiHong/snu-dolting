@@ -9,12 +9,15 @@ import { toastError } from "@/utils/error";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { UserResults } from "./components/UserResults";
+import { InstallGuide } from "@/app/(with-gnb)/home/components/InstallGuide";
 
 export default function ClientMainPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filters, setFilters] = useState(INITIAL_FILTER);
   const [currentFilters, setCurrentFilters] = useState(INITIAL_FILTER);
-  const { data: users, isLoading } = useSuspenseQuery(getUsersQueryOption(currentFilters));
+  const { data: users, isLoading } = useSuspenseQuery(
+    getUsersQueryOption(currentFilters),
+  );
   const [isFilterActive, setIsFilterActive] = useState<boolean>(false);
 
   const handleFilterChange = <K extends keyof UserFilters>(
@@ -43,7 +46,7 @@ export default function ClientMainPage() {
 
   const initFilter = async () => {
     try {
-      setFilters(INITIAL_FILTER); 
+      setFilters(INITIAL_FILTER);
       setCurrentFilters(INITIAL_FILTER);
       setDrawerOpen(false);
       setIsFilterActive(false);
@@ -80,6 +83,7 @@ export default function ClientMainPage() {
         onInit={initFilter}
       />
       <UserResults isLoading={isLoading} users={users || []} />
+      <InstallGuide />
     </div>
   );
 }
