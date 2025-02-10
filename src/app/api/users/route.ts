@@ -65,6 +65,8 @@ export async function POST(req: NextRequest) {
     query = query.in("religion", filters.religion);
   }
 
+  query.order("created_at", { ascending: false });
+
   const { data: filteredUsers, error } = await query;
 
   if (error) {

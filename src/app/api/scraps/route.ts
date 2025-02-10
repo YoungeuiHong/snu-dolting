@@ -23,10 +23,11 @@ export async function GET() {
         users!scraps_target_user_id_fkey (
         nickname, profile_picture, birth_year, has_children,
         height, weight, job, religion, location, introduction, mbti
-  )
-`,
+      )
+    `,
     )
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
 
   if (scrapsError) {
     console.error("스크랩 목록 조회 실패:", scrapsError.message);
