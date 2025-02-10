@@ -22,7 +22,7 @@ export async function GET() {
       `
         users!scraps_target_user_id_fkey (
         nickname, profile_picture, birth_year, has_children,
-        height, weight, job, religion, location, introduction
+        height, weight, job, religion, location, introduction, mbti
   )
 `,
     )
