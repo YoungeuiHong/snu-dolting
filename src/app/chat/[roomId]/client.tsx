@@ -35,6 +35,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { ImageUploading } from "@/app/chat/[roomId]/component/ImageUploading";
 import { convertHeicToJpeg } from "@/utils/image";
+import { ChatError } from "@/app/chat/[roomId]/component/ChatError";
 
 interface Props {
   userId: string;
@@ -56,6 +57,7 @@ export default function ChatRoomClientPage({
   const [newMessage, setNewMessage] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
   const [isImageSending, setIsImageSending] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLInputElement | null>(null);
@@ -119,7 +121,15 @@ export default function ChatRoomClientPage({
       },
     );
 
-    channel.subscribe();
+    channel.subscribe((status) => {
+      if (
+        status === "CHANNEL_ERROR" ||
+        status === "TIMED_OUT" ||
+        status === "CLOSED"
+      ) {
+        setHasError(true);
+      }
+    });
 
     return () => {
       supabase.removeChannel(channel);
@@ -192,6 +202,10 @@ export default function ChatRoomClientPage({
       imageRef.current!.click();
     }
   };
+
+  if (hasError) {
+    return <ChatError />;
+  }
 
   return (
     <div className={chatContainer}>
