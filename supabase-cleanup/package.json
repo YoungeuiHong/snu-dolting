@@ -1,0 +1,8 @@
+{
+  "name": "supabase-cleanup",
+  "version": "1.0.0",
+  "main": "cleanup.js",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.46.1"
+  }
+}
