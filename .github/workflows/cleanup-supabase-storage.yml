@@ -13,13 +13,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Docker Image
-        run: docker build -t supabase-cleanup ./supabase-cleanup
+        run: docker build -t supabase-cleanup:latest ./supabase-cleanup
 
       - name: Run Supabase Cleanup
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: docker run --rm \
-          -e SUPABASE_URL=$SUPABASE_URL \
-          -e SUPABASE_SERVICE_KEY=$SUPABASE_SERVICE_KEY \
-          supabase-cleanup
+          -e SUPABASE_URL=${SUPABASE_URL} \
+          -e SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY} \
+          supabase-cleanup:latest
