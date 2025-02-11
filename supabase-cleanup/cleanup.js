@@ -10,27 +10,36 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 const now = new Date();
 const oneMinuteAgo = new Date(now.getTime() - 1 * 60 * 1000);
 
-async function deleteOldFiles() {
-  const { data: files, error } = await supabase.storage
+async function deleteOldFiles(directory = "private") {
+  // 현재 디렉토리의 모든 파일과 폴더 목록 가져오기
+  const { data: items, error } = await supabase.storage
     .from("images")
-    .list("private");
+    .list(directory);
 
   if (error) {
-    console.error("Error listing files:", error);
+    console.error(`Error listing items in directory '${directory}':`, error);
     return;
   }
 
-  for (const file of files) {
-    const uploadDate = new Date(file.created_at);
-    if (uploadDate < oneMinuteAgo) {
-      const { error: deleteError } = await supabase.storage
-        .from("images")
-        .remove([`private/${file.name}`]);
+  for (const item of items) {
+    if (!item.id) {
+      // 폴더인 경우
+      await deleteOldFiles(`${directory}/${item.name}`);
+    } else {
+      const uploadDate = new Date(item.created_at);
+      if (uploadDate < oneMinuteAgo) {
+        const { error: deleteError } = await supabase.storage
+          .from("images")
+          .remove([`${directory}/${item.name}`]);
 
-      if (deleteError) {
-        console.error(`Failed to delete ${file.name}:`, deleteError);
-      } else {
-        console.log(`Deleted: ${file.name}`);
+        if (deleteError) {
+          console.error(
+            `Failed to delete file '${directory}/${item.name}':`,
+            deleteError,
+          );
+        } else {
+          console.log(`Deleted: ${directory}/${item.name}`);
+        }
       }
     }
   }
