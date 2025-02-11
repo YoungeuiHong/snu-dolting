@@ -21,7 +21,11 @@ export const ImgWithTimeout = ({ src, alt, style }: Props) => {
 
   return (
     <img
-      src={hasError || isLoading ? "/images/fallback.webp" : src}
+      src={
+        hasError || isLoading
+          ? "/images/fallback.webp"
+          : `${src}#t=${Date.now()}`
+      }
       alt={alt}
       style={{
         ...style,
