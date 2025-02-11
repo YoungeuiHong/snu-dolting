@@ -3,7 +3,7 @@ import { style } from "@vanilla-extract/css";
 export const chatContainer = style({
   display: "flex",
   flexDirection: "column",
-  padding: "20px",
+  padding: "20px 20px calc(env(safe-area-inset-bottom, 0px) + 20px) 20px",
 });
 
 export const noResultContainer = style({
