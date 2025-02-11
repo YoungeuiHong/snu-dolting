@@ -35,7 +35,6 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { ImageUploading } from "@/app/chat/[roomId]/component/ImageUploading";
 import { convertHeicToJpeg } from "@/utils/image";
-import { ChatError } from "@/app/chat/[roomId]/component/ChatError";
 
 interface Props {
   userId: string;
@@ -57,7 +56,6 @@ export default function ChatRoomClientPage({
   const [newMessage, setNewMessage] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
   const [isImageSending, setIsImageSending] = useState<boolean>(false);
-  const [hasError, setHasError] = useState<boolean>(false);
 
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLInputElement | null>(null);
@@ -121,13 +119,17 @@ export default function ChatRoomClientPage({
       },
     );
 
-    channel.subscribe((status) => {
+    channel.subscribe((status, err) => {
       if (
         status === "CHANNEL_ERROR" ||
         status === "TIMED_OUT" ||
-        status === "CLOSED"
+        status === "CLOSED" ||
+        err
       ) {
-        setHasError(true);
+        if (err) {
+          console.error("채팅방 에러 발생: ", err);
+        }
+        router.push("/chat");
       }
     });
 
@@ -202,10 +204,6 @@ export default function ChatRoomClientPage({
       imageRef.current!.click();
     }
   };
-
-  if (hasError) {
-    return <ChatError />;
-  }
 
   return (
     <div className={chatContainer}>
