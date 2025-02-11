@@ -23,7 +23,13 @@ export const ImgWithTimeout = ({ src, alt, style }: Props) => {
     <img
       src={hasError || isLoading ? "/images/fallback.webp" : src}
       alt={alt}
-      style={style}
+      style={{
+        ...style,
+        userSelect: "none",
+        pointerEvents: "none",
+        touchAction: "none",
+        WebkitTouchCallout: "none",
+      }}
       onError={() => setHasError(true)}
       onLoad={() => setIsLoading(false)}
     />
