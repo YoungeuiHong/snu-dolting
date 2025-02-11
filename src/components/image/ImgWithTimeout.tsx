@@ -10,21 +10,53 @@ interface Props {
 export const ImgWithTimeout = ({ src, alt, style }: Props) => {
   const [hasError, setHasError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setHasError(true);
-    }, 30 * 1000);
+    let isMounted = true;
 
-    return () => clearTimeout(timeout);
-  }, []);
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(src);
+        if (!response.ok) throw new Error("Failed to load image");
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        if (isMounted) {
+          setBlobUrl(url);
+          setIsLoading(false);
+        }
+      } catch {
+        if (isMounted) {
+          setHasError(true);
+        }
+      }
+    };
+
+    fetchImage();
+
+    const timeout = setTimeout(() => {
+      if (isMounted) setHasError(true);
+    }, 15 * 1000);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timeout);
+    };
+  }, [src]);
+
+  useEffect(() => {
+    return () => {
+      if (blobUrl) URL.revokeObjectURL(blobUrl);
+    };
+  }, [blobUrl]);
 
   return (
     <img
+      key={`${src}#t=${Date.now()}`}
       src={
         hasError || isLoading
           ? "/images/fallback.webp"
-          : `${src}#t=${Date.now()}`
+          : blobUrl || "/images/fallback.webp"
       }
       alt={alt}
       style={{
@@ -35,7 +67,6 @@ export const ImgWithTimeout = ({ src, alt, style }: Props) => {
         WebkitTouchCallout: "none",
       }}
       onError={() => setHasError(true)}
-      onLoad={() => setIsLoading(false)}
     />
   );
 };

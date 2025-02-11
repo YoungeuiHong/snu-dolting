@@ -44,7 +44,7 @@ export const uploadImage = async (
 
     const { data: urlData, error: urlError } = await supabase.storage
       .from(bucketName)
-      .createSignedUrl(fileName, 30);
+      .createSignedUrl(fileName, 15);
 
     if (urlError) {
       console.error("Signed URL 생성 실패: ", urlError);
