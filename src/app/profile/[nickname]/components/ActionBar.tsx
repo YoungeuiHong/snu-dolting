@@ -10,6 +10,7 @@ import {
 } from "@/app/profile/[nickname]/action";
 import { toastError } from "@/utils/error";
 import { getQueryClient } from "@/utils/react-query";
+import { LoadingDots } from "@/components/loading/LoadingDots";
 
 interface Props {
   isScrapped: boolean;
@@ -18,6 +19,7 @@ interface Props {
 
 export const ActionBar = ({ isScrapped, targetNickname }: Props) => {
   const [scrapped, setScrapped] = useState(isScrapped);
+  const [isChatLoading, setIsChatLoading] = useState<boolean>(false);
 
   const queryClient = getQueryClient();
 
@@ -44,11 +46,14 @@ export const ActionBar = ({ isScrapped, targetNickname }: Props) => {
 
   const goToChatRoom = async () => {
     try {
+      setIsChatLoading(true);
       await findOrCreateChatRoom(targetNickname);
     } catch (e) {
       if (e instanceof Error && e.message !== "NEXT_REDIRECT") {
         toastError(e);
       }
+    } finally {
+      setIsChatLoading(false);
     }
   };
 
@@ -72,7 +77,7 @@ export const ActionBar = ({ isScrapped, targetNickname }: Props) => {
         )}
       </button>
       <button className={chattingButton} onClick={goToChatRoom}>
-        채팅 보내기
+        {isChatLoading ? <LoadingDots loading /> : "채팅 보내기"}
       </button>
     </div>
   );
