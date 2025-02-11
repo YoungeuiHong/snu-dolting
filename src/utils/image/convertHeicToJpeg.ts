@@ -1,5 +1,4 @@
 "use client";
-import heic2any from "heic2any";
 import EXIF from "exif-js";
 
 const fixImageOrientation = async (blob: Blob): Promise<Blob> => {
@@ -71,6 +70,7 @@ const fixImageOrientation = async (blob: Blob): Promise<Blob> => {
 export const convertHeicToJpeg = async (file: File): Promise<File> => {
   if (file.type === "image/heic" || file.name.endsWith(".heic")) {
     try {
+      const heic2any = (await import("heic2any")).default;
       const convertedBlob = await heic2any({
         blob: file,
         toType: "image/jpeg",
