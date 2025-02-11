@@ -3,7 +3,6 @@ name: Supabase Storage Cleanup
 on:
   schedule:
     - cron: '*/10 * * * *'  # 매 10분마다 실행
-  workflow_dispatch:
 
 jobs:
   cleanup:
