@@ -37,7 +37,8 @@ export async function POST(req: NextRequest) {
     )
     .neq("id", userId)
     .eq("gender", myInfo.gender === "male" ? "female" : "male")
-    .eq("is_profile_complete", true);
+    .eq("is_profile_complete", true)
+    .neq("email", "snuhongfrcs@snu.ac.kr");
 
   if (filters.birthYearRange) {
     if (filters.birthYearRange.min !== undefined) {
