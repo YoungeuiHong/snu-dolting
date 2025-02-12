@@ -52,10 +52,12 @@ export async function GET(request: Request) {
       redirect("/");
     }
 
-    const response =
-      data?.length && data[0].is_profile_complete
-        ? NextResponse.redirect(`${origin}/home`)
-        : NextResponse.redirect(`${origin}/signup/nickname`);
+    let redirectUrl = `${origin}/signup/nickname`;
+    if (data?.length && data[0].is_profile_complete)
+      redirectUrl = `${origin}/home`;
+    if (user.user_metadata.is_super_admin) redirectUrl = `${origin}/admin`;
+
+    const response = NextResponse.redirect(redirectUrl);
 
     response.cookies.set("userId", user.id, {
       httpOnly: true,

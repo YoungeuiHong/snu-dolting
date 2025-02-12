@@ -69,7 +69,7 @@ export const updateSession = async (request: NextRequest) => {
     }
 
     if (
-      request.nextUrl.pathname === "/" &&
+      request.nextUrl.pathname === "/home" &&
       user?.user_metadata?.is_super_admin
     ) {
       return NextResponse.redirect(new URL("/admin", request.url));
