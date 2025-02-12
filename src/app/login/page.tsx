@@ -21,8 +21,8 @@ export default function LoginPage() {
         redirectTo: redirectUrl,
         queryParams: {
           access_type: "offline",
-          prompt: "select_account",
-          scope: "openid email offline_access",
+          prompt: "consent",
+          scope: "openid email",
         },
       },
     });
