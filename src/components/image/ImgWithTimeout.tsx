@@ -36,7 +36,7 @@ export const ImgWithTimeout = ({ src, alt, style }: Props) => {
 
     const timeout = setTimeout(() => {
       if (isMounted) setHasError(true);
-    }, 15 * 1000);
+    }, 30 * 1000);
 
     return () => {
       isMounted = false;
