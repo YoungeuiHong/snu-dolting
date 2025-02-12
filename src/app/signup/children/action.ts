@@ -30,7 +30,9 @@ export async function updateChildren(
     };
   }
 
-  await updateUser(["has_children"], formData);
+  formData.set("is_profile_complete", "TRUE");
+
+  await updateUser(["has_children", "is_profile_complete"], formData);
 
   const supabase = await createClient();
 

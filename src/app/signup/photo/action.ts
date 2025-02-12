@@ -28,9 +28,7 @@ export async function updatePhotoExchange(
     };
   }
 
-  formData.set("is_profile_complete", "TRUE");
-
-  await updateUser(["photo_exchange_intent", "is_profile_complete"], formData);
+  await updateUser(["photo_exchange_intent"], formData);
 
   moveToNextStepPath(Step.Photo);
 }
