@@ -32,7 +32,7 @@ export default function Home() {
         queryParams: {
           access_type: "offline",
           prompt: "select_account",
-          scope: "email",
+          scope: "openid email offline_access",
         },
       },
     });
