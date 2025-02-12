@@ -95,6 +95,7 @@ export const content = style([
     fontSize: "13px",
     lineHeight: "24px",
     fontWeight: 400,
+    whiteSpace: "pre-line",
   },
 ]);
 
