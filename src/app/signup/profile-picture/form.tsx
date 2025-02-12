@@ -96,6 +96,7 @@ export default function Form({ initialPicture }: Props) {
           <p className={subtitle}>
             나를 잘 표현할 수 있는 사진을 업로드해주세요.
           </p>
+          <p className={subtitle}>얼굴이 나온 사진이 아니어도 괜찮아요.</p>
         </div>
         <div className={imageUploadButton} onClick={onClickBox}>
           <Image
