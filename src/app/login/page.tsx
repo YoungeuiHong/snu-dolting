@@ -23,6 +23,7 @@ export default function LoginPage() {
           access_type: "offline",
           prompt: "select_account",
           scope: "openid email",
+          hd: "snu.ac.kr",
         },
       },
     });

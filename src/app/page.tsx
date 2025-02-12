@@ -33,6 +33,7 @@ export default function Home() {
           access_type: "offline",
           prompt: "select_account",
           scope: "openid email",
+          hd: "snu.ac.kr",
         },
       },
     });
