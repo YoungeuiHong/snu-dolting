@@ -31,6 +31,12 @@ export async function GET(request: Request) {
       return;
     }
 
+    if (!user.email.endsWith("@snu.ac.kr")) {
+      await supabase.auth.signOut();
+      redirect("/");
+      return;
+    }
+
     const userData: UsersInsert = {
       id: user.id,
       email: user.email,
