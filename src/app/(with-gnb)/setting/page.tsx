@@ -43,6 +43,20 @@ export default async function SettingPage() {
       </Link>
       <NotificationSetting hasFcmToken={fcmToken !== null} />
       <LogoutButton />
+      <Link
+        href="/withdraw"
+        style={{ textDecoration: "none", color: "#424242" }}
+      >
+        <div className={itemContainer}>
+          <Image
+            src="/icon/circle_x.svg"
+            alt="탈퇴하기"
+            width={14}
+            height={14}
+          />
+          <span>탈퇴하기</span>
+        </div>
+      </Link>
     </div>
   );
 }

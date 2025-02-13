@@ -55,6 +55,8 @@ export async function GET(request: Request) {
     let redirectUrl = `${origin}/signup/nickname`;
     if (data?.length && data[0].is_profile_complete)
       redirectUrl = `${origin}/home`;
+    if (data?.length && data[0].has_custody)
+      redirectUrl = `${origin}/withdraw/login`;
     if (user.user_metadata.is_super_admin) redirectUrl = `${origin}/admin`;
 
     const response = NextResponse.redirect(redirectUrl);
