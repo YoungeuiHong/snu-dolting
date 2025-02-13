@@ -17,6 +17,7 @@ import {
 import { ImageWithFallback } from "@/components/image";
 import { formatChatDate } from "@/utils/date";
 import { getUserChatRoomsWithMessages } from "@/app/(with-gnb)/chat/action";
+import { ChatNotification } from "@/app/(with-gnb)/chat/component/ChatNotification";
 
 interface ChatRoom {
   id: string;
@@ -51,6 +52,7 @@ export default function ChatRoomsClient({ initialChatRooms }: Props) {
 
   return (
     <div className={chatContainer}>
+      <ChatNotification />
       {chatRooms.length === 0 ? (
         <div className={noResultContainer}>
           <p className={noResultMessage}>채팅방이 없습니다</p>
