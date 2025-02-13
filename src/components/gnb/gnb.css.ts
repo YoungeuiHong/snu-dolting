@@ -24,4 +24,25 @@ export const gnbButton = style({
   justifyContent: "center",
   alignItems: "center",
   height: "52px",
+  position: "relative",
+});
+
+export const badgeContainer = style({
+  position: "relative",
+  width: 20,
+  height: 20,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
+export const gnbBadge = style({
+  position: "absolute",
+  top: -5,
+  right: -5,
+  width: 10,
+  height: 10,
+  backgroundColor: "red",
+  borderRadius: "50%",
+  border: "2px solid white",
 });
