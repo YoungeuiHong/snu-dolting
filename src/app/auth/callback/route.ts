@@ -37,6 +37,20 @@ export async function GET(request: Request) {
       return;
     }
 
+    // 이미 회원가입을 완료한 사용자라면 바로 리다이렉트
+    if (user.user_metadata.complete) {
+      const response = NextResponse.redirect(`${origin}/home`);
+
+      response.cookies.set("userId", user.id, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+      });
+
+      return response;
+    }
+
     const userData: UsersInsert = {
       id: user.id,
       email: user.email,
