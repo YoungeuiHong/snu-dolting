@@ -224,7 +224,11 @@ export default function ChatRoomClientPage({
             alt="프로필 이미지"
             width={30}
             height={30}
-            style={{ borderRadius: "50%" }}
+            style={{
+              borderRadius: "50%",
+              objectFit: "cover",
+              backgroundPosition: "center center",
+            }}
           />
           <span className={nickname}>{otherNickname}</span>
         </Link>

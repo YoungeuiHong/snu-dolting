@@ -73,7 +73,11 @@ export default function ChatRoomsClient({ initialChatRooms }: Props) {
                     alt="프로필"
                     width={40}
                     height={40}
-                    style={{ borderRadius: "4px" }}
+                    style={{
+                      borderRadius: "4px",
+                      objectFit: "cover",
+                      backgroundPosition: "center center",
+                    }}
                   />
                   <div className={textContainer}>
                     <div className={textTopContainer}>
