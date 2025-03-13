@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 💜 스누돌팅
+> 💡 서울대학교 동문 돌싱들을 위한 소개팅 앱입니다.
 
-## Getting Started
+### ⚒️ 기술 스택
+- __Frontend__: Next.js, TypeScript, React Query, vanilla-extract
+- __Backend__: Supabase
+- __Etc__: Vercel, Firebase Cloud Messaging, GitHub Actions, PWA
 
-First, run the development server:
+## 🔗 사이트 링크
+__[🚀 실제 서비스 사이트](https://www.snu-dolting.com)__
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+__[🔎 데모 사이트 (로그인 없이 살펴보실 수 있습니다.)](https://www.snu-dolting-demo.store)__
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 주요 기능
+### 1️⃣ 회원가입
+![회원가입](public/readme/signup.webp)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2️⃣ 사용자 목록 조회
+![사용자 목록 조회](public/readme/user_list.webp)
 
-## Learn More
+### 3️⃣ 프로필 조회
+![프로필 조회](public/readme/profile.webp)
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4️⃣ 채팅
+![채팅](public/readme/chatting.webp)
